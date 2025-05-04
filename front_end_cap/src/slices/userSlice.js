@@ -1,15 +1,15 @@
 import api from "../store/api";
 import { createSlice } from "@reduxjs/toolkit";
 
-const usersAPI = api.injectEndpoints({ 
+const usersAPI = api.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation({
-      query: ({ firstName, lastName, email, password }) => ({
+      query: ({ firstname, lastname, username, email, password }) => ({
         url: `/user/register`,
         method: "POST",
         body: {
-          firstName,
-          lastName,
+          firstname,
+          lastname,
           email,
           username,
           password,
@@ -18,36 +18,36 @@ const usersAPI = api.injectEndpoints({
       invalidatesTags: ["Users"],
     }),
 
-    getProfile: builder.query({
-      query: () => ({
-        url: "/users/me",
-        method: "GET",
-      }),
-      providesTags: ["Users"],
-    }),
+    // getProfile: builder.query({
+    //   query: () => ({
+    //     url: "/user/me",
+    //     method: "GET",
+    //   }),
+    //   providesTags: ["Users"],
+    // }),
 
-    getReservations: builder.query({
-      query: () => ({
-        url: "/reservations",
-        method: "GET",
-      }),
-      providesTags: ["Users"],
-    }),
+    // getReservations: builder.query({
+    //   query: () => ({
+    //     url: "/reservations",
+    //     method: "GET",
+    //   }),
+    //   providesTags: ["Users"],
+    // }),
 
-    getReservations: builder.query({
-      query: () => ({
-        url: "/reservations",
-        method: "GET",
-      }),
-      providesTags: ["Res"],
-    }),
+    // getReservations: builder.query({
+    //   query: () => ({
+    //     url: "/reservations",
+    //     method: "GET",
+    //   }),
+    //   providesTags: ["Res"],
+    // }),
 
     getLogin: builder.mutation({
-      query: ({ email, password }) => ({
-        url: `/users/login`,
+      query: ({ username, password }) => ({
+        url: `/user/login`,
         method: "POST",
         body: {
-          email,
+          username,
           password,
         },
       }),
@@ -69,5 +69,5 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { useRegisterMutation, useGetProfileQuery, useGetLoginMutation, useGetReservationsQuery } =
+export const { useRegisterMutation, useGetLoginMutation } =
   usersAPI;
