@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useRegisterMutation } from "./userSlice";
+import { useRegisterMutation } from "../slices/userSlice";
 
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,7 @@ export default function Register() {
   const [registerUser] = useRegisterMutation();
   // states to manage user inputs
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
@@ -20,9 +21,12 @@ export default function Register() {
   const navigate = useNavigate(); // hook to navigate
 
   //form validation function to validate user input for username and pass to meet min reqs
-  const validateValues = (email, password, firstname, lastname) => {
+  const validateValues = (email, username, password, firstname, lastname) => {
     const errors = {};
     if (!email || email.length < 6) {
+      errors.email = "email should be at least 6 characters long";
+    }
+    if (!username || username.length < 5) {
       errors.email = "Username should be at least 6 characters long";
     }
     if (!password || password.length < 5) {
@@ -42,18 +46,25 @@ export default function Register() {
     event.preventDefault();
 
     // run vals and update state error
-    const validationErrors = validateValues(email, password, firstname, lastname);
+    const validationErrors = validateValues(
+      email,
+      username,
+      password,
+      firstname,
+      lastname
+    );
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors || {}).length > 0) return;
     setSubmitting(true); // set submitting flag to true
 
-    // try to register user using RTK mutation
+    // try to register user using RTQ mutation
     try {
       const result = await registerUser({
         firstname,
         lastname,
         email,
+        username,
         password,
       }).unwrap();
 
@@ -77,77 +88,91 @@ export default function Register() {
       {error && error.api && <p className="text-danger">{error.api}</p>}
 
       <div className="registerContainer">
-      {/* Registration Form */}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label"></label>
-          Email:{" "}
-          <input
-            type="email"
-            className="form-control"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)} // Update email state on input change
-          />
-          {error && error.email && (
-            <div className="text-danger">{error.email}</div>
-          )}
-        </div>
-        <div className="mb-3">
-          <label>
-            Password:{" "}
+        {/* Registration Form */}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label"></label>
+            Email:{" "}
             <input
-              type="password"
+              type="email"
               className="form-control"
-              name="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)} // Update email state on input change
             />
-            {error && error.password && (
-              <div className="text-danger">{error.password}</div>
+            {error && error.email && (
+              <div className="text-danger">{error.email}</div>
             )}
-          </label>
-        </div>
-        <div className="mb-3">
-          <label>
-            First Name:{" "}
+          </div>
+          <div className="mb-3">
+            <label className="form-label"></label>
+            Username:{" "}
             <input
               type="text"
               className="form-control"
-              name="firstname"
-              value={firstname}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-              }}
+              name="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)} // Update username state on input change
             />
-            {error && error.firstname && (
-              <div className="text-danger">{error.firstname}</div>
+            {error && error.username && (
+              <div className="text-danger">{error.username}</div>
             )}
-          </label>
-        </div>
-        <div className="mb-3">
-          <label>
-            Last Name:{" "}
-            <input
-              type="text"
-              className="form-control"
-              name="lastname"
-              value={lastname}
-              onChange={(e) => {
-                setLastName(e.target.value);
-              }}
-            />
-            {error && error.lastname && (
-              <div className="text-danger">{error.lastname}</div>
-            )}
-          </label>
-        </div>
-        <button type="submit" className="btn btn-outline-dark">
-          submit
-        </button>
-      </form>
+          </div>
+          <div className="mb-3">
+            <label>
+              Password:{" "}
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+              {error && error.password && (
+                <div className="text-danger">{error.password}</div>
+              )}
+            </label>
+          </div>
+          <div className="mb-3">
+            <label>
+              First Name:{" "}
+              <input
+                type="text"
+                className="form-control"
+                name="firstname"
+                value={firstname}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
+              />
+              {error && error.firstname && (
+                <div className="text-danger">{error.firstname}</div>
+              )}
+            </label>
+          </div>
+          <div className="mb-3">
+            <label>
+              Last Name:{" "}
+              <input
+                type="text"
+                className="form-control"
+                name="lastname"
+                value={lastname}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
+              />
+              {error && error.lastname && (
+                <div className="text-danger">{error.lastname}</div>
+              )}
+            </label>
+          </div>
+          <button type="submit" className="btn btn-outline-dark">
+            submit
+          </button>
+        </form>
       </div>
       {/* Show confirmation if no validation errors and form is being submitted */}
       {error && Object.keys(error).length === 0 && submitting && (
