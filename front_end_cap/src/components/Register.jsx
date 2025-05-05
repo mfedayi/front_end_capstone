@@ -27,7 +27,7 @@ export default function Register() {
       errors.email = "email should be at least 6 characters long";
     }
     if (!username || username.length < 5) {
-      errors.email = "Username should be at least 6 characters long";
+      errors.username = "Username should be at least 6 characters long";
     }
     if (!password || password.length < 5) {
       errors.password = "password should be at least 5 characters long";
@@ -36,7 +36,7 @@ export default function Register() {
       errors.firstname = "field cannot be empty";
     }
     if (!lastname) {
-      errors.email = "field cannot be empty";
+      errors.lastname = "field cannot be empty";
     }
     return errors;
   };

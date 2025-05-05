@@ -50,7 +50,7 @@ const usersAPI = api.injectEndpoints({
     }),
 
     updateUser: builder.mutation({
-      query: ({ userId, ...userData }) => ({
+      query: ({ id, ...userData }) => ({
         url: "/user/${userId}",
         method: "PUT",
         body: userData,

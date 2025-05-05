@@ -39,7 +39,9 @@ const Home = () => {
     }
   };
 
-  const handleUpdate = (userId) => {};
+  const handleUpdate = (userId) => {
+    navigate(`/update-user/${userId}`);
+  };
 
   return (
     <div className="container mt-4">
@@ -71,7 +73,7 @@ const Home = () => {
                 <td>
                   <button
                     className="btn btn-sm btn-primary me-2"
-                    onClick={() => handleSubmit(user.id)}
+                    onClick={() => handleUpdate(user.id)}
                   >
                     Update
                   </button>

@@ -9,6 +9,7 @@ import UpdateUser from "./components/UpdateUser";
 //import Account from "./components/Account";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+
 function App() {
   const [token, setToken] = useState(() => {
     return localStorage.getItem("token"); // retrieve token from local storage
@@ -18,7 +19,7 @@ function App() {
     <>
       <header className="app-header">
         <h1 className="app-title">
-          {/* <img id="logo-image" src={bookLogo} /> */}
+          {}
           Welcome Home
         </h1>
       </header>
@@ -30,6 +31,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/update-user/:userId" element={<UpdateUser />} />
           {/* <Route path="/account" element={<Account />} /> */}
           {/* <Route path="/books/:id" element={<SingleBook />} /> */}
           <Route path="*" element={<div>404 - Page Not Found</div>} />
