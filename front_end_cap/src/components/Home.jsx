@@ -1,66 +1,100 @@
-import { useGetHomeQuery } from "../slices/tempSlice";
+import {
+  useGetAllUsersQuery,
+  useDeleteUserMutation,
+} from "../slices/userSlice";
 import { useNavigate } from "react-router-dom";
-//import { useState } from "react"; //track user input into filter bar
+import { useSelector } from "react-redux";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { data, isLoading, isError, error } = useGetHomeQuery(); //fetch all books
-  //const [searchTerm, setSearchTerm] = useState(""); //state to track filtered books
+  const { data: users, isLoading, isError, error } = useGetAllUsersQuery();
+
+  const loggedInUserId = useSelector((state) => state.userAuth.profile?.id);
+  const [deleteUser, { isLoading: isDeleting, error: deleteError }] =
+    useDeleteUserMutation();
 
   if (isLoading) {
     return <h1>is loading...</h1>;
   }
 
   if (isError) {
-    return <h1>Error: {error?.status || "Unknown error"}</h1>;
+    return (
+      <h1>Error: {error?.data?.message || error?.status || "Unknown error"}</h1>
+    );
   }
 
-  // const filteredBooks = data?.filter((book) => 
-  //   book.title.toLowerCase().includes(searchTerm.toLowerCase()) //filter books by title
-  // );
+  const handleDelete = async (userId) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        await deleteUser(userId).unwrap();
+      } catch (err) {
+        console.error("Failed to delete user:", err);
+        alert(
+          `Failed to delete user: ${
+            err.data?.message || err.error || "Server error"
+          }`
+        );
+      }
+    }
+  };
+
+  const handleUpdate = (userId) => {};
 
   return (
-    <article>
-      <h2 className="book-titles">Our Library Catalog</h2>
-        {/* <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Search books by title"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)} //update search term
-            className="search-input"
-           />
-        </div>
-
-      <div className="books-grid">
-        {filteredBooks.length > 0 ? (
-        filteredBooks.map((book) => (
-            <div
-              key={book.id} 
-              className="book-card"
-              onClick={() => navigate(`/books/${book.id}`)}
-            >
-              <img
-                src={book.coverimage && book.coverimage.startsWith("http") 
-                  ? book.coverimage
-                  : "https://placehold.co/150x250?text=No+Cover"}
-                alt={book.title}
-                className="book-cover"
-                onError={(e) => {
-                  e.target.onerror = null; // prevents looping
-                  e.target.src = "https://placehold.co/150x250?text=No+Cover";
-                }}
-              />
-              <h3 className="book-title">{book.title}</h3>
-              <p className="book-author">{book.author}</p>
-            </div>
-         ))
-        ) : (
-          <h3> No books found matching your search</h3>
-        )}
-      </div>
-      );*/}
-    </article>
-  )
-}; 
+    <div className="container mt-4">
+      <h2>User Management</h2>
+      {deleteError && (
+        <p className="text-danger">
+          Error deleting user: {deleteError.data?.message || deleteError.error}
+        </p>
+      )}
+      <table className="table table-striped table-hover">
+        <thead>
+          <tr>
+            {}
+            <th>Username</th>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users && users.length > 0 ? (
+            users.map((user) => (
+              <tr key={user.id}>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>{user.firstname}</td>
+                <td>{user.lastname}</td>
+                <td>
+                  <button
+                    className="btn btn-sm btn-primary me-2"
+                    onClick={() => handleSubmit(user.id)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => handleDelete(user.id)}
+                    disabled={isDeleting}
+                  >
+                    {isDeleting ? "Deleting..." : "Delete"}
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" className="text-center">
+                No users found.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 export default Home;

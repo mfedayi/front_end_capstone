@@ -18,30 +18,6 @@ const usersAPI = api.injectEndpoints({
       invalidatesTags: ["Users"],
     }),
 
-    // getProfile: builder.query({
-    //   query: () => ({
-    //     url: "/user/me",
-    //     method: "GET",
-    //   }),
-    //   providesTags: ["Users"],
-    // }),
-
-    // getReservations: builder.query({
-    //   query: () => ({
-    //     url: "/reservations",
-    //     method: "GET",
-    //   }),
-    //   providesTags: ["Users"],
-    // }),
-
-    // getReservations: builder.query({
-    //   query: () => ({
-    //     url: "/reservations",
-    //     method: "GET",
-    //   }),
-    //   providesTags: ["Res"],
-    // }),
-
     getLogin: builder.mutation({
       query: ({ username, password }) => ({
         url: `/user/login`,
@@ -51,23 +27,60 @@ const usersAPI = api.injectEndpoints({
           password,
         },
       }),
+    }),
+
+    getAllUsers: builder.query({
+      query: () => "/user",
+      url: "/user",
+      method: "GET",
       providesTags: ["Users"],
+    }),
+
+    deleteUser: builder.mutation({
+      query: (userId) => ({
+        url: `/user/${userId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Users"],
+    }),
+
+    getSingleUser: builder.query({
+      query: (userId) => `/user/${userId}`,
+      providesTags: ["Users"],
+    }),
+
+    updateUser: builder.mutation({
+      query: ({ userId, ...userData }) => ({
+        url: "/user/${userId}",
+        method: "PUT",
+        body: userData,
+      }),
+      invalidatesTags: ["Users"],
     }),
   }),
 });
+
 const storeToken = (state, { payload }) => {
   localStorage.setItem("token", payload.token);
 };
+
 const userSlice = createSlice({
-  name: "register",
+  name: "userAuth",
   initialState: {},
   reducers: {},
   extraReducers: (builder) => {
-    builder.addMatcher(api.endpoints.register.matchFulfilled, storeToken);
-    builder.addMatcher(api.endpoints.getLogin.matchFulfilled, storeToken);
+    builder.addMatcher(usersAPI.endpoints.register.matchFulfilled, storeToken);
+    builder.addMatcher(usersAPI.endpoints.getLogin.matchFulfilled, storeToken);
   },
 });
 
 export default userSlice.reducer;
-export const { useRegisterMutation, useGetLoginMutation } =
-  usersAPI;
+
+export const {
+  useRegisterMutation,
+  useGetLoginMutation,
+  useGetAllUsersQuery,
+  useDeleteUserMutation,
+  useUpdateUserMutation,
+  useGetSingleUserQuery,
+} = usersAPI;

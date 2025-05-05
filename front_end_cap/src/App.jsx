@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import Navigations from "./components/Navigations";
 import Register from "./components/Register";
+import UpdateUser from "./components/UpdateUser";
 //import Account from "./components/Account";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
