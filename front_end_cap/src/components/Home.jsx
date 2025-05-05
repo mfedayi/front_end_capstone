@@ -8,9 +8,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { data: users, isLoading, isError, error } = useGetAllUsersQuery();
+  const { data: usersData, isLoading, isError, error } = useGetAllUsersQuery();
+  const users = usersData;
 
   const loggedInUserId = useSelector((state) => state.userAuth.profile?.id);
+
   const [deleteUser, { isLoading: isDeleting, error: deleteError }] =
     useDeleteUserMutation();
 
@@ -25,6 +27,12 @@ const Home = () => {
   }
 
   const handleDelete = async (userId) => {
+    // Added check to prevent deleting self, although button should be disabled
+    if (userId === loggedInUserId) {
+      alert("You cannot delete yourself!");
+      return;
+    }
+
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
         await deleteUser(userId).unwrap();
@@ -54,7 +62,6 @@ const Home = () => {
       <table className="table table-striped table-hover">
         <thead>
           <tr>
-            {}
             <th>Username</th>
             <th>Email</th>
             <th>First Name</th>
@@ -63,30 +70,37 @@ const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {users && users.length > 0 ? (
-            users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{user.firstname}</td>
-                <td>{user.lastname}</td>
-                <td>
-                  <button
-                    className="btn btn-sm btn-primary me-2"
-                    onClick={() => handleUpdate(user.id)}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="btn btn-sm btn-danger"
-                    onClick={() => handleDelete(user.id)}
-                    disabled={isDeleting}
-                  >
-                    {isDeleting ? "Deleting..." : "Delete"}
-                  </button>
-                </td>
-              </tr>
-            ))
+          {Array.isArray(users) && users.length > 0 ? (
+            users.map((user) => {
+              const showUpdate = user.id === loggedInUserId;
+
+              return (
+                <tr key={user.id}>
+                  <td>{user.username}</td>
+                  <td>{user.email}</td>
+                  <td>{user.firstname}</td>
+                  <td>{user.lastname}</td>
+                  <td>
+                    {showUpdate && (
+                      <button
+                        className="btn btn-sm btn-primary me-2"
+                        onClick={() => handleUpdate(user.id)}
+                      >
+                        Update
+                      </button>
+                    )}
+
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={() => handleDelete(user.id)}
+                      disabled={isDeleting || user.id === loggedInUserId}
+                    >
+                      {isDeleting ? "Deleting..." : "Delete"}
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
           ) : (
             <tr>
               <td colSpan="5" className="text-center">

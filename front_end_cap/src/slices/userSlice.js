@@ -15,7 +15,7 @@ const usersAPI = api.injectEndpoints({
           password,
         },
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: ["Users", "Me"],
     }),
 
     getLogin: builder.mutation({
@@ -27,12 +27,11 @@ const usersAPI = api.injectEndpoints({
           password,
         },
       }),
+      invalidatesTags: ["Me"],
     }),
 
     getAllUsers: builder.query({
       query: () => "/user",
-      url: "/user",
-      method: "GET",
       providesTags: ["Users"],
     }),
 
@@ -50,12 +49,17 @@ const usersAPI = api.injectEndpoints({
     }),
 
     updateUser: builder.mutation({
-      query: ({ id, ...userData }) => ({
-        url: "/user/${userId}",
-        method: "PUT",
+      query: ({ userId, ...userData }) => ({
+        url: `/user/${userId}`,
+        method: "PATCH",
         body: userData,
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: ["Users", "Me"],
+    }),
+
+    getMe: builder.query({
+      query: () => "/user/me",
+      providesTags: ["Me"],
     }),
   }),
 });
@@ -64,16 +68,31 @@ const storeToken = (state, { payload }) => {
   localStorage.setItem("token", payload.token);
 };
 
+const storeProfile = (state, { payload }) => {
+  state.profile = payload;
+};
+
+const clearProfileAndToken = (state) => {
+  state.profile = null;
+  localStorage.removeItem("token");
+};
+
 const userSlice = createSlice({
   name: "userAuth",
-  initialState: {},
-  reducers: {},
+  initialState: { profile: null },
+  reducers: {
+    logout: (state) => {
+      clearProfileAndToken(state);
+    },
+  },
   extraReducers: (builder) => {
     builder.addMatcher(usersAPI.endpoints.register.matchFulfilled, storeToken);
     builder.addMatcher(usersAPI.endpoints.getLogin.matchFulfilled, storeToken);
+    builder.addMatcher(usersAPI.endpoints.getMe.matchFulfilled, storeProfile);
   },
 });
 
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;
 
 export const {
@@ -83,4 +102,5 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useGetSingleUserQuery,
+  useGetMeQuery,
 } = usersAPI;

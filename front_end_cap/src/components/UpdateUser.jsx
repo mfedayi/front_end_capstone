@@ -23,6 +23,7 @@ const UpdateUser = () => {
     email: "",
     username: "",
   });
+  const [submitError, setSubmitError] = useState(null);
   useEffect(() => {
     if (user) {
       setFormData({
@@ -62,9 +63,7 @@ const UpdateUser = () => {
     <div className="container mt-4">
       <h2>Update User: {user?.username || userId}</h2>
       <form onSubmit={handleSubmit}>
-        {/* Empty comment removed */}
         <div className="mb-3">
-          {/* Corrected tag and attribute */}
           <label className="form-label">First Name</label>
           <input
             type="text"
@@ -76,7 +75,6 @@ const UpdateUser = () => {
           />
         </div>
         <div className="mb-3">
-          {/* Corrected tag and attribute */}
           <label className="form-label">Last Name</label>
           <input
             type="text"
@@ -88,7 +86,6 @@ const UpdateUser = () => {
           />
         </div>
         <div className="mb-3">
-          {/* Corrected tag and attribute */}
           <label className="form-label">Email</label>
           <input
             type="email"
@@ -99,12 +96,9 @@ const UpdateUser = () => {
             required
           />
         </div>
-        {/* Empty comment removed */}
-        {/* Corrected typo in button text */}
         <button type="submit" className="btn btn-primary" disabled={isUpdating}>
           {isUpdating ? "Updating..." : "Update User"}
         </button>
-        {/* Corrected attribute */}
         {updateError && (
           <p className="text-danger mt-2">
             Error updating user: {updateError.data?.message || "Server error"}
