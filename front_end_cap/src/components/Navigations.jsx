@@ -1,15 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../slices/userSlice";
 
-export default function Navigations({ token, setToken }) {
-  const location = useLocation(); // Get the current location object
+export default function Navigations() {
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { profile } = useSelector((state) => state.userAuth);
 
   const isActive = (path) => {
-    return location.pathname === path; // Check if the current path matches the given path
+    return location.pathname === path;
   };
 
   const handleLogout = () => {
-    setToken(null); // Clear the token
-    localStorage.removeItem("token"); // Remove the token from local storage
+    dispatch(logout());
   };
 
   return (
@@ -28,7 +31,7 @@ export default function Navigations({ token, setToken }) {
           </Link>
         </li>
 
-        {!localStorage.getItem("token") && (
+        {!profile && (
           <>
             <li className="nav-item">
               <Link
@@ -53,7 +56,7 @@ export default function Navigations({ token, setToken }) {
           </>
         )}
 
-        {localStorage.getItem("token") && (
+        {profile && (
           <>
             {/* <li className="nav-item">
               <Link className={`nav-link ${isActive("/account") ? "active text-primary" : "text-dark"}`}

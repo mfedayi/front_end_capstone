@@ -1,36 +1,34 @@
-import "./slices/tempSlice"; // force endpoint registration
-import { useEffect, useState } from "react";
-import bookLogo from "./assets/books.png";
+import { useEffect } from "react";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import Navigations from "./components/Navigations";
 import Register from "./components/Register";
-//import Account from "./components/Account";
+import UpdateUser from "./components/UpdateUser";
+import { useGetMeQuery } from "./slices/userSlice";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  const [token, setToken] = useState(() => {
-    return localStorage.getItem("token"); // retrieve token from local storage
+  const tokenExists = !!localStorage.getItem("token");
+  useGetMeQuery(undefined, {
+    skip: !tokenExists,
   });
 
   return (
     <>
       <header className="app-header">
         <h1 className="app-title">
-          {/* <img id="logo-image" src={bookLogo} /> */}
           Welcome Home
         </h1>
       </header>
 
       <BrowserRouter>
-        <Navigations token={token} setToken={setToken} />
+        <Navigations />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/* <Route path="/account" element={<Account />} /> */}
-          {/* <Route path="/books/:id" element={<SingleBook />} /> */}
+          <Route path="/update-user/:userId" element={<UpdateUser />} />
           <Route path="*" element={<div>404 - Page Not Found</div>} />
         </Routes>
       </BrowserRouter>
