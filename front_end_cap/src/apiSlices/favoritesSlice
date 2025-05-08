@@ -1,0 +1,23 @@
+import api from "../api/api";
+
+const favoritesAPI = api.injectEndpoints({
+  endpoints: (builder) => ({
+    addFavorites: builder.mutation({
+      query: ({ teamId, teamName, teamBadge }) => ({
+        url: '/favorites/${teamId}',
+        method: "POST",
+        body: {
+          teamId,
+          teamName,
+          teamBadge,
+        },
+      }),
+      invalidatesTags: ["Favorites"],
+    }),
+    getFavorites: builder.query({
+      query: () => "/favorites",
+      providesTags: ["Favorites"],
+    }),
+  }),
+});
+cosnt  = {useAddFavoritesMutation, useGetFavoritesQuery} = favoritesAPI
