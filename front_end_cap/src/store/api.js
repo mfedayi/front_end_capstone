@@ -12,7 +12,7 @@ const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Temp", "Users", "Me"],
+  tagTypes: ["Temp", "Users", "Me", "Favorites, "],
   endpoints: () => ({}),
 });
 
