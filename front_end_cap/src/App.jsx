@@ -7,9 +7,11 @@ import Navigations from "./components/Navigations";
 import Register from "./components/Register";
 import UpdateUser from "./components/UpdateUser";
 import ChatPage from "./components/ChatPage";
+import TeamDetailsPage from "./components/TeamDetailsPage";
 //import Account from "./components/Account";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
