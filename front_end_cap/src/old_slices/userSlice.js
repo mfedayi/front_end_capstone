@@ -5,7 +5,7 @@ const usersAPI = api.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation({
       query: ({ firstname, lastname, username, email, password }) => ({
-        url: `/user/register`,
+        url: `/api/user/register`,
         method: "POST",
         body: {
           firstname,
@@ -103,4 +103,5 @@ export const {
   useUpdateUserMutation,
   useGetSingleUserQuery,
   useGetMeQuery,
+  useLazyGetMeQuery,
 } = usersAPI;

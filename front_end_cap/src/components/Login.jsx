@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetLoginMutation } from "../slices/userSlice";
+import { useGetLoginMutation } from "../apiSlices/userSlice";
 
 export default function Login() {
   const [loginUser] = useGetLoginMutation();

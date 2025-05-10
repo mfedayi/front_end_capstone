@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   useGetSingleUserQuery,
   useUpdateUserMutation,
-} from "../slices/userSlice";
+} from "../apiSlices/userSlice";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const UpdateUser = () => {

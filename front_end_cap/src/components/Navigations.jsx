@@ -1,11 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../slices/userSlice";
+import { logout } from "../apiSlices/userSlice";
 
 export default function Navigations() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.userAuth);
+  const isLoggedIn = !!profile;
 
   const isActive = (path) => {
     return location.pathname === path;
@@ -30,8 +31,18 @@ export default function Navigations() {
             Home Page
           </Link>
         </li>
+        <li className="nav-item">
+          <Link
+            className={`nav-link ${
+              isActive("/chat") ? "active text-primary" : "text-dark"
+            }`}
+            to="/chat"
+          >
+            Talk Sports
+          </Link>
+        </li>
 
-        {!profile && (
+        {!isLoggedIn && (
           <>
             <li className="nav-item">
               <Link
@@ -56,7 +67,7 @@ export default function Navigations() {
           </>
         )}
 
-        {profile && (
+        {isLoggedIn && (
           <>
             {/* <li className="nav-item">
               <Link className={`nav-link ${isActive("/account") ? "active text-primary" : "text-dark"}`}

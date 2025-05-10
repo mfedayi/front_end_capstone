@@ -1,8 +1,8 @@
-import { useGetUserQuery } from "../api/usersAPI";
-import { useGetFavoritesQuery } from "../api/favoritesAPI";
+import { useGetMeQuery } from "../apiSlices/userSlice";
+import { useGetFavoritesQuery } from "../apiSlices/favoritesSlice";
 
 const UserProfile = () => {
-  const { data: user, isLoading: userLoading } = useGetUserQuery();
+  const { data: user, isLoading: userLoading } = useGetMeQuery();
   const { data: favorites, isLoading: favLoading } = useGetFavoritesQuery();
 
   if (userLoading || favLoading) return <p>Loading...</p>;

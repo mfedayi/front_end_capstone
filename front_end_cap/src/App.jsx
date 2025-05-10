@@ -1,4 +1,4 @@
-import "./apiSlices/teamSlice"; // force endpoint registration
+import "./apiSlices/userSlice"; // force endpoint registration
 import { useEffect, useState } from "react";
 import bookLogo from "./assets/books.png";
 import Login from "./components/Login";
@@ -8,21 +8,31 @@ import Register from "./components/Register";
 import UpdateUser from "./components/UpdateUser";
 import ChatPage from "./components/ChatPage";
 import TeamDetailsPage from "./components/TeamDetailsPage";
-//import Account from "./components/Account";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import { useDispatch, useSelector } from "react-redux";
+import UserProfile from "./components/UserProfile";
+import { useLazyGetMeQuery } from "./apiSlices/userSlice";
+import { logout, storeUserProfile } from "./apiSlices/userSlice";
 
 function App() {
+  const [fetchGetMe, { data }] = useLazyGetMeQuery();
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.userAuth.isLoggedIn);
+  const { profile } = useSelector((state) => state.userAuth);
+  const isLoggedIn = !!profile;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      dispatch(setLoggedIn());
+      fetchGetMe();
     }
-  }, [dispatch]);
+  }, [fetchGetMe]);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(storeUserProfile(data));
+    }
+  }, [data, dispatch]); // store user info globally
 
   return (
     <>
@@ -46,7 +56,7 @@ function App() {
             path="/account"
             element={
               <PrivateRoute>
-                <Account />
+                <UserProfile />
               </PrivateRoute>
             }
           />

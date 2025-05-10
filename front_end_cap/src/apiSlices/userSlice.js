@@ -15,7 +15,7 @@ const usersAPI = api.injectEndpoints({
           password,
         },
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: ["Users", "Me"],
     }),
 
     getLogin: builder.mutation({
@@ -27,6 +27,7 @@ const usersAPI = api.injectEndpoints({
           password,
         },
       }),
+      invalidatesTags: ["Me"],
     }),
 
     getAllUsers: builder.query({
@@ -50,39 +51,52 @@ const usersAPI = api.injectEndpoints({
     updateUser: builder.mutation({
       query: ({ userId, ...userData }) => ({
         url: `/user/${userId}`,
-        method: "PUT",
+        method: "PATCH",
         body: userData,
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: ["Users", "Me"],
+    }),
+
+    getMe: builder.query({
+      query: () => "/user/me",
+      providesTags: ["Me"],
     }),
   }),
 });
 
 const storeToken = (state, { payload }) => {
   localStorage.setItem("token", payload.token);
+};
+
+const storeProfile = (state, { payload }) => {
+  state.profile = payload;
   state.isLoggedIn = true;
+};
+
+const clearProfileAndToken = (state) => {
+  state.profile = null;
+  localStorage.removeItem("token");
 };
 
 const userSlice = createSlice({
   name: "userAuth",
-  initialState: {
-    isLoggedIn: false,
-  },
+  initialState: { profile: null },
   reducers: {
-    setLoggedIn(state) {
-      state.isLoggedIn = true;
+    storeUserProfile: (state, { payload }) => {
+      storeProfile(state, { payload });
     },
-    logout(state) {
-      localStorage.removeItem("token");
-      state.isLoggedIn = false;
+    logout: (state) => {
+      clearProfileAndToken(state);
     },
   },
   extraReducers: (builder) => {
     builder.addMatcher(usersAPI.endpoints.register.matchFulfilled, storeToken);
     builder.addMatcher(usersAPI.endpoints.getLogin.matchFulfilled, storeToken);
+    builder.addMatcher(usersAPI.endpoints.getMe.matchFulfilled, storeProfile);
   },
 });
-const { setLoggedIn, logout } = userSlice.actions;
+
+export const { logout, storeUserProfile } = userSlice.actions;
 export default userSlice.reducer;
 
 export const {
@@ -92,4 +106,6 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useGetSingleUserQuery,
+  useGetMeQuery,
+  useLazyGetMeQuery,
 } = usersAPI;
