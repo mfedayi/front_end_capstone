@@ -3,13 +3,13 @@ import api from "../api/api";
 const favoritesAPI = api.injectEndpoints({
   endpoints: (builder) => ({
     addFavorites: builder.mutation({
-      query: ({ teamId, teamName, teamBadge }) => ({
-        url: '/favorites/${teamId}',
+      query: ({ teamId, teamName, teamLogo }) => ({
+        url: "/favorites/${teamId}",
         method: "POST",
         body: {
           teamId,
           teamName,
-          teamBadge,
+          teamLogo,
         },
       }),
       invalidatesTags: ["Favorites"],
@@ -20,4 +20,4 @@ const favoritesAPI = api.injectEndpoints({
     }),
   }),
 });
-cosnt  = {useAddFavoritesMutation, useGetFavoritesQuery} = favoritesAPI
+export const {useAddFavoritesMutation, useGetFavoritesQuery} = favoritesAPI

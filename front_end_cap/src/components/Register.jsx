@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useRegisterMutation } from "../slices/userSlice";
+import { useRegisterMutation } from "../apiSlices/userSlice";
 
 import { useNavigate } from "react-router-dom";
 
