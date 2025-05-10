@@ -12,7 +12,7 @@ const TeamDetailsPage = () => {
   return (
     <div>
       <h1>{teamName}</h1>
-      <img src={team.logo} alt={team.name} />
+      <img src={team.teamLogo} alt={team.teamName} />
     </div>
   );
 };

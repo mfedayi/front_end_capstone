@@ -34,7 +34,7 @@ const Home = () => {
           className="book-card"
           role="button"
           tabIndex={0}
-          onClick={() => navigate(`/teams/${team.teamId}`)}
+          onClick={() => navigate(`/teams/${team.teamName}`)}
         >
           <img
             src={team.teamLogo}
