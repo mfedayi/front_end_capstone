@@ -1,15 +1,13 @@
-import {
-  useRegisterMutation,
-  useGetLoginMutation,
-} from "../apiSlices/userSlice";
+import { useState } from "react";
 import { useGetAllTeamsQuery, useGetTeamDetailsQuery } from "../api/nbaAPI";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../App.css";
 
 const Home = () => {
   const navigate = useNavigate();
   const { data: teams, isLoading, isError, error } = useGetAllTeamsQuery();
+  const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
   // const loggedInUserId = useSelector((state) => state.userAuth.profile?.id);
   // const [deleteUser, { isLoading: isDeleting, error: deleteError }] =
@@ -25,13 +23,27 @@ const Home = () => {
     );
   }
 
+  const filteredTeams = teams?.filter((team) =>
+    team.teamName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container mt-4">
-      <h2>Welcome Home</h2>
-      {teams?.map((team) => (
+      <h2 className="nba-heading">NBA Teams</h2> {/* Title */}
+      <div className = "search-bar-container">
+        <input
+          type="text"
+          placeholder="Search for a team..."
+          className="search-input"
+          value={searchTerm}
+          onChange={ (e) => setSearchTerm(e.target.value)} // Update search term
+        />
+      </div>
+      <div className="team-grid"> {/* Grid container */}
+      {filteredTeams?.map((team) => (
         <div
           key={team.teamId}
-          className="book-card"
+          className="team-card"
           role="button"
           tabIndex={0}
           onClick={() => navigate(`/teams/${team.teamName}`)}
@@ -39,15 +51,17 @@ const Home = () => {
           <img
             src={team.teamLogo}
             alt={team.teamName}
-            className="book-cover"
+            className="team-logo"
             onError={(e) => {
               e.target.onerror = null; // prevents looping
+              e.target.src =
+                "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"; // fallback image
             }}
           />
-          <h3 className="book-title">{team.teamLogo}</h3>
-          <p className="book-author">{team.teamName}</p>
+          <h5 className="mt-2">{team.teamName}</h5>
         </div>
       ))}
+      </div>
     </div>
   );
 };
