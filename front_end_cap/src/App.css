@@ -1,8 +1,7 @@
 body {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
-  background-image: url("https://cdn.promptalot.com/prompts/images/quadrants/1693196291_It0RIMXhjA_u3.jpg"),
-    url("https://wallpapers.com/background/black-solid-background-2560-x-1600-db48y1vipwl38mh1.html");
+  background-image: url("data:image/jpeg;base64,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");
   margin: 0;
   padding: 0;
 }
@@ -23,17 +22,18 @@ body {
   color: #333; /* Set text color */
 }
 
-#logo-image {
-  width: 30px;
-  height: auto; /* Set the logo image size */
-  margin-right: 10px;
-}
-
 .nav-link.active {
   font-weight: bold; /* Make the active link bold */
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
   border-bottom: 2px solid navy; /* Add a bottom border to the active link */
+}
+
+.search-bar-container {
+  display: flex; /* Use flexbox for layout */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  margin: 1rem; /* Add margin to the search bar container */
 }
 
 .search-bar {
@@ -52,115 +52,6 @@ body {
   border: 1px solid rgba(238, 238, 238, 0.793); /* Add a border to the input */
   margin-left: 20px !important;
   margin-right: 20px !important;
-}
-
-.book-titles {
-  margin: 3rem 1rem; /* Add margin to the book titles */
-  margin-bottom: 1rem; /* Add margin to the bottom */
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif; /* Set font family */
-  font-size: 1.5rem; /* Set font size */
-  font-weight: 600; /* Set font weight */
-  color: #333; /* Set text color */
-}
-
-.books-title {
-  text-align: center; /* Center the title */
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  margin: 2 rem 0; /* Add margin to the title */
-}
-
-.books-grid {
-  display: grid; /* Use CSS Grid for layout */
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(200px, 1fr)
-  ); /* Create a responsive grid */
-  gap: 1.5rem; /* Add space between grid items */
-  padding: 1rem; /* Add padding to the grid */
-  margin-left: 20px !important;
-  margin-right: 20px !important;
-}
-
-.book-card {
-  border: 1px solid #ccc; /* Add a border to the book card */
-  border-radius: 8px; /* Round the corners of the card */
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  padding: 1rem; /* Add padding inside the card */
-  text-align: center; /* Center the text inside the card */
-  background-color: rgba(250, 244, 231, 0.793) !important;
-  cursor: pointer; /* Change cursor to pointer on hover */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-}
-
-.book-card:hover {
-  transform: scale(1.05); /* Scale up the card on hover */
-  transition: transform 0.2s; /* Smooth transition for scaling */
-}
-
-.book-cover {
-  width: 100%; /* Make the cover image responsive */
-  height: 250px; /* Set a fixed height for the cover image */
-  object-fit: cover; /* Cover the entire area of the image */
-  border-radius: 4px; /* Round the corners of the image */
-}
-
-.book-title {
-  margin-top: 0.5rem; /* Add margin to the title */
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-}
-
-.book-author {
-  color: #555; /* Set a gray color for the author */
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  font-size: 0.9rem; /* Set a smaller font size for the author */
-}
-
-.single-book {
-  max-width: 600px; /* Set a max width for the book details */
-  margin: 1rem auto; /* Center the book details */
-  margin-top: 50px;
-  padding: 50px; /* Add padding */
-  background-color: rgba(250, 244, 231, 0.793); /* Set a white background */
-  border-radius: 4%; /* Round the corners */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  text-align: center; /* Center the text */
-}
-
-.single-book h2 {
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  font-size: 2rem; /* Set a larger font size for the title */
-  margin-bottom: 1rem; /* Add margin below the title */
-}
-
-.single-book h3 {
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  font-size: 1.5rem; /* Set a larger font size for the author */
-  color: gray; /* Set a gray color for the author */
-  margin-bottom: 1rem; /* Add margin below the author */
-}
-
-.books-cover {
-  width: 200px; /* Make the cover image responsive */
-  height: auto; /* Set a fixed height for the cover image */
-  border-radius: 4px; /* Round the corners of the image */
-  margin-bottom: 1rem; /* Add margin below the image */
-}
-
-.single-book p {
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
-  font-size: 1rem; /* Set a font size for the description */
-  line-height: 1.5; /* Set line height for readability */
-  margin-bottom: 1rem; /* Add margin below the description */
 }
 
 .signInContainer {
@@ -244,4 +135,57 @@ button {
     "Lucida Sans", Arial, sans-serif;
   margin-top: 10px;
   cursor: pointer;
+}
+
+h2.nba-heading {
+  text-align: center; /* Center the heading */
+  font-size: 2.5rem; /* Set font size */
+  font-weight: bold; /* Set font weight */
+  color: #003366; /* Set text color */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+  margin-top: 2rem; /* Space above the heading */
+  margin-bottom: 1rem; /* Space below the heading */
+}
+
+.team-grid {
+  display: grid; /* Use CSS Grid for layout */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+  gap: 1.5rem; /* Space between grid items */
+  padding: 1.5rem; /* Padding around the grid */
+  margin: 0 auto; /* Center the grid */
+}
+
+.team-card {
+  background: transparent; /* Transparent background */
+  padding: 1rem; /* Padding inside the card */
+  text-align: center; /* Center text */
+  box-shadow: none; /* No shadow */
+  transition: transform 0.3s ease-in-out; /* Animation on hover */
+  cursor: pointer; /* Pointer cursor */
+}
+
+.team-logo {
+  width: 100px; /* Set width for logo */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Contain the logo within the box */
+  margin-bottom: 0.75rem; /* Space below the logo */
+}
+
+.team-card:hover {
+  transform: scale(1.05); /* Scale effect on hover */
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.6); /* Blue shadow on hover */
+}
+
+.team-card img {
+  max-width: 100px; /* Set max width for image */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Block display */
+  margin: 0 auto 0.75rem auto; /* Center image with margin */
+}
+
+.team-card h5 {
+  font-size: 1.25rem; /* Font size for name */
+  margin: 0.5rem 0; /* Margin around name */
+  font-family: "Trebuchet MS", sans-serif; /* Font family */
+  color: #333; /* Text color */
 }

@@ -1,8 +1,7 @@
 body {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
-  background-image: url("https://cdn.promptalot.com/prompts/images/quadrants/1693196291_It0RIMXhjA_u3.jpg"),
-    url("https://wallpapers.com/background/black-solid-background-2560-x-1600-db48y1vipwl38mh1.html");
+  background: linear-gradient(to right, #a1c4fd, #c2e9fb); /* Gradient background */
   margin: 0;
   padding: 0;
 }
