@@ -44,7 +44,7 @@ const UpdateUser = () => {
     try {
       await updateUser({ userId, ...formData }).unwrap();
       alert("User updated successfully!");
-      navigate("/");
+      navigate("/me");
     } catch (err) {
       console.error("Failed to update user:", err);
     }

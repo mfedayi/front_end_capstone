@@ -39,7 +39,7 @@ function App() {
       <header className="app-header">
         <h1 className="app-title">
           {}
-          Welcome Home
+          Your NBA Hub
         </h1>
       </header>
 
@@ -53,7 +53,7 @@ function App() {
           <Route path="/teams/:teamName" element={<TeamDetailsPage />} />
           <Route path="/update-user/:userId" element={<UpdateUser />} />
           <Route
-            path="/account"
+            path="/me"
             element={
               <PrivateRoute>
                 <UserProfile />
