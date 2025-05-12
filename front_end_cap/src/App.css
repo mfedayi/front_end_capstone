@@ -189,3 +189,61 @@ h2.nba-heading {
   font-family: "Trebuchet MS", sans-serif; /* Font family */
   color: #333; /* Text color */
 }
+
+.team-details-container {
+  padding: 1rem; /* Padding around the details container */
+  margin: 4rem; /* Add margin to the details container */
+  margin-top: 1rem; /* Remove top margin */
+  background-color: papayawhip;
+  border-radius: 10px; /* Round the corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+.team-header {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+  margin-bottom: 1rem; /* Space below the header */
+}
+
+.team-details-name {
+  font-size: 3rem; /* Font size for name */
+  font-weight: bold; /* Bold text */
+  color: #003366; /* Text color */
+  text-align: center; /* Center the name */
+  margin-top: 0.5rem; /* Space above the name */
+}
+
+.team-details-logo {
+  width: 100px; /* Set width for logo */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Contain the logo within the box */
+}
+
+.team-info {
+  background-color: #fffff0; /* Light background color */
+  font-size: 1.2rem; /* Font size for info */
+  color: #555; /* Text color */
+  margin-bottom: 0.5rem; /* Space below the info */
+  border-radius: 10px; /* Round the corners */
+  text-align: center; /* Center the text */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+.team-info strong {
+  font-weight: bold; /* Bold text for strong elements */
+}
+
+.team-info h3 {
+  font-size: 1.5rem; /* Font size for h3 */
+  margin-bottom: 0.5rem; /* Space below the h3 */
+  color: #003366; /* Text color */
+}
+
+.team-info p {
+  font-size: 1rem; /* Font size for paragraphs */
+  margin: 0.5rem 0; /* Margin around paragraphs */
+  color: #555; /* Text color */
+}
+
