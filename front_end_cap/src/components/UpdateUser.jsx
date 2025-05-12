@@ -1,22 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
+  useGetMeQuery,
   useGetSingleUserQuery,
   useUpdateUserMutation,
+  useUpdateMeMutation,
 } from "../apiSlices/userSlice";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const UpdateUser = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
+
   const {
     data: user,
     isLoading: isLoadingUser,
     isError: isFetchError,
     error: fetchError,
   } = useGetSingleUserQuery(userId);
+
+  const {
+    data: currentUser,
+    isLoading,
+    isError,
+    error,
+  } = useGetMeQuery();
+
   const [updateUser, { isLoading: isUpdating, error: updateError }] =
-    useUpdateUserMutation();
+    useUpdateMeMutation();
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -25,15 +37,15 @@ const UpdateUser = () => {
   });
   const [submitError, setSubmitError] = useState(null);
   useEffect(() => {
-    if (user) {
+    if (currentUser) {
       setFormData({
-        firstname: user.firstname || "",
-        lastname: user.lastname || "",
-        email: user.email || "",
-        username: user.username || "",
+        firstname: currentUser.firstname || "",
+        lastname: currentUser.lastname || "",
+        email: currentUser.email || "",
+        username: currentUser.username || "",
       });
     }
-  }, [user]);
+  }, [currentUser]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
