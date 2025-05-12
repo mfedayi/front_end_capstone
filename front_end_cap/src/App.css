@@ -237,13 +237,15 @@ h2.nba-heading {
 
 .team-info h3 {
   font-size: 1.5rem; /* Font size for h3 */
-  margin-bottom: 0.5rem; /* Space below the h3 */
+  padding: 1rem; /* Space above the h3 */
+  margin-bottom: 0.2rem; /* Space below the h3 */
   color: #003366; /* Text color */
 }
 
 .team-info p {
   font-size: 1rem; /* Font size for paragraphs */
-  margin: 0.5rem 0; /* Margin around paragraphs */
+  padding: 0.4rem 2rem; /* Padding around paragraphs */
+  margin: 0; /* Margin around paragraphs */
   color: #555; /* Text color */
 }
 

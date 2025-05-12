@@ -25,12 +25,17 @@ const TeamDetailsPage = () => {
         <p><strong>Founded:</strong> {team?.formedYear}</p>
         <p><strong>Stadium:</strong> {team?.stadium}</p>
         <p><strong>Location:</strong> {team?.city}</p>
-        <p><strong>Website:</strong> <a href={team?.website} target="_blank" rel="noopener noreferrer">{team?.website}</a></p>
+        <p><a href={team?.website?.startsWith('http') ? team?.website : `https://${team?.website}`} 
+        target="_blank" 
+        rel="noopener noreferrer" // to prevent security issues
+        >
+          {team?.website}
+          </a>
+          </p>
         <p>{team?.description}</p>
       </div>
     </div>
   </div>
   );
 };
-
 export default TeamDetailsPage;
