@@ -69,12 +69,12 @@ export default function Navigations() {
 
         {isLoggedIn && (
           <>
-            {/* <li className="nav-item">
-              <Link className={`nav-link ${isActive("/account") ? "active text-primary" : "text-dark"}`}
-          to="/account">
-                Account
+            <li className="nav-item">
+              <Link className={`nav-link ${isActive("/me") ? "active text-primary" : "text-dark"}`}
+          to="/me">
+                Account Profile
               </Link>
-            </li> */}
+            </li>
             <li className="nav-item">
               <Link
                 to="/"
