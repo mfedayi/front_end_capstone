@@ -1,6 +1,5 @@
 import "./apiSlices/userSlice"; // force endpoint registration
 import { useEffect, useState } from "react";
-import bookLogo from "./assets/books.png";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import Navigations from "./components/Navigations";
@@ -13,13 +12,11 @@ import PrivateRoute from "./components/PrivateRoute";
 import { useDispatch, useSelector } from "react-redux";
 import UserProfile from "./components/UserProfile";
 import { useLazyGetMeQuery } from "./apiSlices/userSlice";
-import { logout, storeUserProfile } from "./apiSlices/userSlice";
 
 function App() {
-  const [fetchGetMe, { data }] = useLazyGetMeQuery();
+  const [fetchGetMe, { data: userData }] = useLazyGetMeQuery();
   const dispatch = useDispatch();
-  const { profile } = useSelector((state) => state.userAuth);
-  const isLoggedIn = !!profile;
+  const { isLoggedIn } = useSelector((state) => state.userAuth);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -29,18 +26,14 @@ function App() {
   }, [fetchGetMe]);
 
   useEffect(() => {
-    if (data) {
-      dispatch(storeUserProfile(data));
+    if (userData) {
     }
-  }, [data, dispatch]); // store user info globally
+  }, [userData, dispatch]); // store user info globally
 
   return (
     <>
       <header className="app-header">
-        <h1 className="app-title">
-          {}
-          Welcome Home
-        </h1>
+        <h1 className="app-title">Welcome Home</h1>
       </header>
 
       <BrowserRouter>

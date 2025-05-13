@@ -64,8 +64,9 @@ const usersAPI = api.injectEndpoints({
   }),
 });
 
-const storeToken = (state, { payload }) => {
+const storeTokenAndSetAuthStatus = (state, { payload }) => {
   localStorage.setItem("token", payload.token);
+  state.isLoggedIn = true;
 };
 
 const storeProfile = (state, { payload }) => {
@@ -75,28 +76,35 @@ const storeProfile = (state, { payload }) => {
 
 const clearProfileAndToken = (state) => {
   state.profile = null;
+  state.isLoggedIn = false;
   localStorage.removeItem("token");
 };
 
 const userSlice = createSlice({
   name: "userAuth",
-  initialState: { profile: null },
+  initialState: {
+    profile: null,
+    isLoggedIn: !!localStorage.getItem("token"),
+  },
   reducers: {
-    storeUserProfile: (state, { payload }) => {
-      storeProfile(state, { payload });
-    },
     logout: (state) => {
       clearProfileAndToken(state);
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(usersAPI.endpoints.register.matchFulfilled, storeToken);
-    builder.addMatcher(usersAPI.endpoints.getLogin.matchFulfilled, storeToken);
+    builder.addMatcher(
+      usersAPI.endpoints.register.matchFulfilled,
+      storeTokenAndSetAuthStatus
+    );
+    builder.addMatcher(
+      usersAPI.endpoints.getLogin.matchFulfilled,
+      storeTokenAndSetAuthStatus
+    );
     builder.addMatcher(usersAPI.endpoints.getMe.matchFulfilled, storeProfile);
   },
 });
 
-export const { logout, storeUserProfile } = userSlice.actions;
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;
 
 export const {

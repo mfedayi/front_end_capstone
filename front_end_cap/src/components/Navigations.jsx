@@ -5,9 +5,8 @@ import { logout } from "../apiSlices/userSlice";
 export default function Navigations() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { profile } = useSelector((state) => state.userAuth);
-  const isLoggedIn = !!profile;
-
+  const { isLoggedIn } = useSelector((state) => state.userAuth);
+  
   const isActive = (path) => {
     return location.pathname === path;
   };
