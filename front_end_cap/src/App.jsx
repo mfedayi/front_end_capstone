@@ -33,7 +33,10 @@ function App() {
   return (
     <>
       <header className="app-header">
-        <h1 className="app-title">Welcome Home</h1>
+        <h1 className="app-title">
+          {}
+          Sixth Man Club
+        </h1>
       </header>
 
       <BrowserRouter>
