@@ -194,8 +194,9 @@ h2.nba-heading {
   padding: 1rem; /* Padding around the details container */
   margin: 4rem; /* Add margin to the details container */
   margin-top: 1rem; /* Remove top margin */
-  background-color: papayawhip;
+  background-color: rgba(226, 221, 209, 0.823);
   border-radius: 10px; /* Round the corners */
+  border: 2px solid darkgrey; /* Add a border */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
 }
 
@@ -208,7 +209,7 @@ h2.nba-heading {
 }
 
 .team-details-name {
-  font-size: 3rem; /* Font size for name */
+  font-size: 2.5rem; /* Font size for name */
   font-weight: bold; /* Bold text */
   color: #003366; /* Text color */
   text-align: center; /* Center the name */
@@ -222,13 +223,12 @@ h2.nba-heading {
 }
 
 .team-info {
-  background-color: #fffff0; /* Light background color */
-  font-size: 1.2rem; /* Font size for info */
+  background-color: rgba(233, 230, 221, 0.919); /* Light background color */
+  padding: 0.2rem; /* Padding inside the info box */
   color: #555; /* Text color */
-  margin-bottom: 0.5rem; /* Space below the info */
-  border-radius: 10px; /* Round the corners */
-  text-align: center; /* Center the text */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow */
+  margin-top: 0.2rem; /* Space below the info */
+  border-radius: 5px; /* Round the corners */
+  padding: 0.2rem; /* Padding inside the info box */
 }
 
 .team-info strong {
@@ -236,16 +236,51 @@ h2.nba-heading {
 }
 
 .team-info h3 {
+  padding: 0.5rem; /* Padding around h3 */
   font-size: 1.5rem; /* Font size for h3 */
-  padding: 1rem; /* Space above the h3 */
-  margin-bottom: 0.2rem; /* Space below the h3 */
   color: #003366; /* Text color */
+  font-weight: bold; /* Bold text */
+  text-align: center; /* Center the text */
 }
 
 .team-info p {
   font-size: 1rem; /* Font size for paragraphs */
-  padding: 0.4rem 2rem; /* Padding around paragraphs */
-  margin: 0; /* Margin around paragraphs */
+  padding: 0.2rem; /* Padding around paragraphs */
   color: #555; /* Text color */
+  text-align: center; /* Center the text */
 }
 
+.team-info-details {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space between items */
+  font-size: 1rem; /* Font size for details */
+  text-align: center; /* Center the text */
+}
+
+.team-info-details div {
+  flex: 1; /* Flex-grow for equal spacing */
+  padding: 0.2rem; /* Padding inside the details */
+  text-align: center; /* Center the text */
+}
+
+.team-info-details strong { 
+  display: block; /* Block display for strong elements */
+  font-weight: bold; /* Bold text for strong elements */
+}
+
+.team-info a {
+  color: #007bff; /* Link color */
+  text-decoration: none; /* Remove underline */
+  font-weight: bold; /* Bold text */
+}
+
+.team-info a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+.team-description {
+  font-size: 0.9rem; /* Font size for description */
+  color: #555; /* Text color */
+  margin: 1.2rem; /* Space above the description */
+  text-align: center; /* Center the text */
+}
