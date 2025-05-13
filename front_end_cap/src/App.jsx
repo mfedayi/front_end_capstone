@@ -39,7 +39,7 @@ function App() {
       <header className="app-header">
         <h1 className="app-title">
           {}
-          Welcome Home
+          Sixth Man Club
         </h1>
       </header>
 
