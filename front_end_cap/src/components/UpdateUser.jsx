@@ -54,7 +54,7 @@ const UpdateUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateUser({ userId, ...formData }).unwrap();
+      await updateUser({ ...formData }).unwrap();
       alert("User updated successfully!");
       navigate("/me");
     } catch (err) {
