@@ -5,9 +5,8 @@ import { logout } from "../apiSlices/userSlice";
 export default function Navigations() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { profile } = useSelector((state) => state.userAuth);
-  const isLoggedIn = !!profile;
-
+  const { isLoggedIn } = useSelector((state) => state.userAuth);
+  
   const isActive = (path) => {
     return location.pathname === path;
   };
@@ -69,12 +68,12 @@ export default function Navigations() {
 
         {isLoggedIn && (
           <>
-            {/* <li className="nav-item">
-              <Link className={`nav-link ${isActive("/account") ? "active text-primary" : "text-dark"}`}
-          to="/account">
-                Account
+            <li className="nav-item">
+              <Link className={`nav-link ${isActive("/me") ? "active text-primary" : "text-dark"}`}
+          to="/me">
+                Account Profile
               </Link>
-            </li> */}
+            </li>
             <li className="nav-item">
               <Link
                 to="/"
