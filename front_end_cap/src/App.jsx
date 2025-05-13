@@ -46,7 +46,7 @@ function App() {
           <Route path="/teams/:teamName" element={<TeamDetailsPage />} />
           <Route path="/update-user/:userId" element={<UpdateUser />} />
           <Route
-            path="/account"
+            path="/me"
             element={
               <PrivateRoute>
                 <UserProfile />

@@ -57,6 +57,15 @@ const usersAPI = api.injectEndpoints({
       invalidatesTags: ["Users", "Me"],
     }),
 
+    updateMe: builder.mutation({
+      query: ({ ...userData }) => ({
+        url: `/user/me`,
+        method: "PATCH",
+        body: userData,
+      }),
+      invalidatesTags: ["Users", "Me"],
+    }),
+
     getMe: builder.query({
       query: () => "/user/me",
       providesTags: ["Me"],
@@ -116,4 +125,5 @@ export const {
   useGetSingleUserQuery,
   useGetMeQuery,
   useLazyGetMeQuery,
+  useUpdateMeMutation,
 } = usersAPI;
