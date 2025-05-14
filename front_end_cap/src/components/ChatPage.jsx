@@ -5,7 +5,11 @@ import {
   useGetPostsQuery,
   useCreatePostMutation,
   useCreateReplyMutation,
-} from "../apiSlices/postsSlice";
+  useSoftDeleteOwnPostMutation, // For user to delete their post
+  useAdminDeletePostMutation, // For admin to delete any post
+  useSoftDeleteOwnReplyMutation, // For user to soft-delete their reply
+  useAdminDeleteReplyMutation, // For admin to delete any reply
+} from "../apiSlices/postsSlice"; // Make sure this path is correct
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
@@ -21,15 +25,34 @@ const ChatPage = () => {
     useCreatePostMutation();
   const [createReply, { isLoading: isCreatingReply, error: createReplyError }] =
     useCreateReplyMutation();
+  const [
+    softDeleteOwnPost,
+    { isLoading: isSoftDeletingPost, error: softDeletePostError },
+  ] = useSoftDeleteOwnPostMutation();
+  const [
+    adminDeletePost,
+    { isLoading: isAdminDeletingPost, error: adminDeletePostError },
+  ] = useAdminDeletePostMutation();
+  const [
+    softDeleteOwnReply,
+    { isLoading: isSoftDeletingOwnReply, error: softDeleteOwnReplyError },
+  ] = useSoftDeleteOwnReplyMutation();
+  const [
+    adminDeleteReply,
+    { isLoading: isAdminDeletingReply, error: adminDeleteReplyError },
+  ] = useAdminDeleteReplyMutation();
 
   const isLoggedIn = useSelector((state) => state.userAuth.isLoggedIn);
+  // Get the full profile to check for userId and isAdmin status
+  const loggedInUser = useSelector((state) => state.userAuth.profile);
+  const loggedInUserId = loggedInUser?.id;
+  const isAdmin = loggedInUser?.isAdmin;
 
   const posts = postsData || [];
 
   const [newPostContent, setNewPostContent] = useState("");
   const [replyContents, setReplyContents] = useState({});
   const [expandedReplies, setExpandedReplies] = useState({});
-
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
@@ -73,6 +96,78 @@ const ChatPage = () => {
     }
   };
 
+  const handleSoftDeletePostClick = async (postId) => {
+    if (!isLoggedIn) return;
+    if (
+      window.confirm(
+        "Are you sure you want to delete this post? The content will be marked as [deleted]."
+      )
+    ) {
+      try {
+        await softDeleteOwnPost(postId).unwrap();
+      } catch (err) {
+        console.error("Failed to soft delete post:", err?.data?.error || err);
+        alert(
+          `Failed to delete post: ${err.data?.error || "Please try again."}`
+        );
+      }
+    }
+  };
+
+  const handleAdminHardDeletePostClick = async (postId) => {
+    if (!isAdmin) return;
+    if (
+      window.confirm(
+        "ADMIN: Are you sure you want to permanently delete this post and all its replies?"
+      )
+    ) {
+      try {
+        await adminDeletePost(postId).unwrap();
+      } catch (err) {
+        console.error("Failed to admin delete post:", err?.data?.error || err);
+        alert(
+          `Failed to admin delete post: ${
+            err.data?.error || "Please try again."
+          }`
+        );
+      }
+    }
+  };
+
+  const handleSoftDeleteOwnReplyClick = async (replyId) => {
+    if (!isLoggedIn) return;
+    if (window.confirm("Are you sure you want to delete this reply?")) {
+      try {
+        await softDeleteOwnReply(replyId).unwrap();
+      } catch (err) {
+        console.error("Failed to delete own reply:", err?.data?.error || err);
+        alert(
+          `Failed to delete reply: ${err.data?.error || "Please try again."}`
+        );
+      }
+    }
+  };
+
+  const handleAdminDeleteReplyClick = async (replyId) => {
+    if (!isAdmin) return;
+    if (
+      window.confirm(
+        "ADMIN: Are you sure you want to permanently delete this reply?"
+      )
+    ) {
+      try {
+        await adminDeleteReply(replyId).unwrap();
+      } catch (err) {
+        console.error("Failed to admin delete reply:", err?.data?.error || err);
+        alert(
+          `Failed to admin delete reply: ${
+            err.data?.error || "Please try again."
+          }`
+        );
+      }
+    }
+  };
+
   const toggleReplies = (postId) => {
     setExpandedReplies((prev) => ({ ...prev, [postId]: !prev[postId] }));
   };
@@ -99,7 +194,7 @@ const ChatPage = () => {
           onSubmit={handlePostSubmit}
           className="mb-5 p-3 border rounded bg-light"
         >
-          <h4>Create a New Post</h4>
+          <h4>Have something to say?</h4>
           <div className="form-group">
             <textarea
               id="newPostContent"
@@ -137,11 +232,37 @@ const ChatPage = () => {
       <div className="posts-list">
         {posts.map((post) => (
           <div key={post.id} className="card mb-3">
-            <div className="card-header bg-white">
-              <strong>{post.user?.username || "Anonymous"}</strong> -{" "}
-              <small className="text-muted">
-                {new Date(post.createdAt).toLocaleString()}
-              </small>
+            <div className="card-header bg-white d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{post.user?.username || "Anonymous"}</strong> -{" "}
+                <small className="text-muted">
+                  {new Date(post.createdAt).toLocaleString()}
+                </small>
+              </div>
+              <div>
+                {/* User's own post soft delete button */}
+                {isLoggedIn &&
+                  loggedInUserId === post.userId &&
+                  post.content !== "[deleted by user]" && (
+                    <button
+                      className="btn btn-outline-warning btn-sm py-0 px-1 me-2"
+                      onClick={() => handleSoftDeletePostClick(post.id)}
+                      disabled={isSoftDeletingPost}
+                    >
+                      Delete Post
+                    </button>
+                  )}
+                {/* Admin's post hard delete button */}
+                {isLoggedIn && isAdmin && (
+                  <button
+                    className="btn btn-danger btn-sm py-0 px-1"
+                    onClick={() => handleAdminHardDeletePostClick(post.id)}
+                    disabled={isAdminDeletingPost}
+                  >
+                    Admin Delete Post
+                  </button>
+                )}
+              </div>
             </div>
             <div className="card-body">
               <p className="card-text" style={{ whiteSpace: "pre-wrap" }}>
@@ -164,8 +285,38 @@ const ChatPage = () => {
                       key={reply.id}
                       className="reply mb-2 p-2 bg-light rounded"
                     >
-                      <strong>{reply.user?.username || "Anonymous"}:</strong>
-                      <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <strong>{reply.user?.username || "Anonymous"}:</strong>
+                        <div>
+                          {/* User's own reply delete button */}
+                          {isLoggedIn && loggedInUserId === reply.userId && (
+                            <button
+                              className="btn btn-outline-warning btn-sm py-0 px-1 me-2"
+                              onClick={() =>
+                                handleSoftDeleteOwnReplyClick(reply.id)
+                              }
+                              disabled={isSoftDeletingOwnReply}
+                            >
+                              Delete This Reply
+                            </button>
+                          )}
+                          {/* Admin's reply delete button */}
+                          {isLoggedIn && isAdmin && (
+                            <button
+                              className="btn btn-danger btn-sm py-0 px-1"
+                              onClick={() =>
+                                handleAdminDeleteReplyClick(reply.id)
+                              }
+                              disabled={isAdminDeletingReply}
+                            >
+                              Admin Delete Reply
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                      <p
+                        style={{ whiteSpace: "pre-wrap", margin: "5px 0 0 0" }}
+                      >
                         {reply.content}
                       </p>
                       <small className="text-muted">
@@ -215,6 +366,30 @@ const ChatPage = () => {
           <p className="text-center">No posts yet. Be the first to share!</p>
         )}
       </div>
+      {/* Display global errors for delete operations if needed */}
+      {softDeletePostError && (
+        <p className="text-danger mt-1 small">
+          Error: {softDeletePostError.data?.error || "Could not delete post."}
+        </p>
+      )}
+      {adminDeletePostError && (
+        <p className="text-danger mt-1 small">
+          Error (Admin):{" "}
+          {adminDeletePostError.data?.error || "Could not delete post."}
+        </p>
+      )}
+      {softDeleteOwnReplyError && (
+        <p className="text-danger mt-1 small">
+          Error:{" "}
+          {softDeleteOwnReplyError.data?.error || "Could not delete reply."}
+        </p>
+      )}
+      {adminDeleteReplyError && (
+        <p className="text-danger mt-1 small">
+          Error (Admin):{" "}
+          {adminDeleteReplyError.data?.error || "Could not delete reply."}
+        </p>
+      )}
     </div>
   );
 };
