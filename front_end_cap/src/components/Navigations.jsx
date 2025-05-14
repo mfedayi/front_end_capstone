@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../apiSlices/userSlice";
 
@@ -6,13 +6,14 @@ export default function Navigations() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { isLoggedIn, profile } = useSelector((state) => state.userAuth);
+  const userId = profile?.id;
   console.log(
     "Nav check → isLoggedIn:",
     isLoggedIn,
     "isAdmin:",
     profile?.isAdmin
   );
- 
+
   const isAdmin = profile?.isAdmin;
 
   const isActive = (path) => {
@@ -87,14 +88,16 @@ export default function Navigations() {
           </li>
         )}
 
-        {isLoggedIn && (
+        {isLoggedIn && userId && (
           <>
             <li className="nav-item">
               <Link
                 className={`nav-link ${
-                  isActive("/me") ? "active text-primary" : "text-dark"
+                  isActive(`/user/${userId}`)
+                    ? "active text-primary"
+                    : "text-dark"
                 }`}
-                to="/me"
+                to={`/user/${userId}`}
               >
                 Account Profile
               </Link>
