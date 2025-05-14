@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const UpdateUser = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
-
+  console.log("user ID:", userId);
   const {
     data: user,
     isLoading: isLoadingUser,
@@ -19,12 +19,7 @@ const UpdateUser = () => {
     error: fetchError,
   } = useGetSingleUserQuery(userId);
 
-  const {
-    data: currentUser,
-    isLoading,
-    isError,
-    error,
-  } = useGetMeQuery();
+  const { data: currentUser, isLoading, isError, error } = useGetMeQuery();
 
   const [updateUser, { isLoading: isUpdating, error: updateError }] =
     useUpdateMeMutation();
@@ -37,15 +32,15 @@ const UpdateUser = () => {
   });
   const [submitError, setSubmitError] = useState(null);
   useEffect(() => {
-    if (currentUser) {
+    if (user) {
       setFormData({
-        firstname: currentUser.firstname || "",
-        lastname: currentUser.lastname || "",
-        email: currentUser.email || "",
-        username: currentUser.username || "",
+        firstname: user.firstname || "",
+        lastname: user.lastname || "",
+        email: user.email || "",
+        username: user.username || "",
       });
     }
-  }, [currentUser]);
+  }, [user]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

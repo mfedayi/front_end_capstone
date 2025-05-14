@@ -5,8 +5,16 @@ import { logout } from "../apiSlices/userSlice";
 export default function Navigations() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.userAuth);
-  
+  const { isLoggedIn, profile } = useSelector((state) => state.userAuth);
+  console.log(
+    "Nav check → isLoggedIn:",
+    isLoggedIn,
+    "isAdmin:",
+    profile?.isAdmin
+  );
+ 
+  const isAdmin = profile?.isAdmin;
+
   const isActive = (path) => {
     return location.pathname === path;
   };
@@ -66,11 +74,28 @@ export default function Navigations() {
           </>
         )}
 
+        {isLoggedIn && isAdmin && (
+          <li className="nav-item">
+            <Link
+              className={`nav-link ${
+                isActive("/admin") ? "active text-primary" : "text-dark"
+              }`}
+              to="/admin"
+            >
+              Admin Account
+            </Link>
+          </li>
+        )}
+
         {isLoggedIn && (
           <>
             <li className="nav-item">
-              <Link className={`nav-link ${isActive("/me") ? "active text-primary" : "text-dark"}`}
-          to="/me">
+              <Link
+                className={`nav-link ${
+                  isActive("/me") ? "active text-primary" : "text-dark"
+                }`}
+                to="/me"
+              >
                 Account Profile
               </Link>
             </li>
