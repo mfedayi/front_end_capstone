@@ -1,14 +1,17 @@
-import { useGetMeQuery } from "../apiSlices/userSlice";
+import { useGetMeQuery, useGetSingleUserQuery } from "../apiSlices/userSlice";
 import { useGetFavoritesQuery } from "../apiSlices/favoritesSlice";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const UserProfile = () => {
-  const { data: user, isLoading: userLoading } = useGetMeQuery();
+    const { userId } = useParams();
+  const { data: user, isLoading: userLoading } = useGetSingleUserQuery(userId);
   const { data: favorites, isLoading: favLoading } = useGetFavoritesQuery();
+    
   const navigate = useNavigate();
 
-  
   if (userLoading || favLoading) return <p>Loading...</p>;
+  if(!user) return <p> User Not Found</p>;
 
   return (
     <div>
@@ -26,7 +29,9 @@ const UserProfile = () => {
                   {" "}
                   Name: {user.firstname} {user.lastname}
                 </p>
-                <p>Member since: {new Date(user.createdAt).toLocaleDateString()}</p>
+                <p>
+                  Member since: {new Date(user.createdAt).toLocaleDateString()}
+                </p>
                 <button
                   className="btn btn-primary mt-2"
                   onClick={() => navigate(`/update-user/${user.id}`)}

@@ -6,12 +6,14 @@ import {
   useUpdateUserMutation,
   useUpdateMeMutation,
 } from "../apiSlices/userSlice";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useSelector } from "react-redux";
 
 const UpdateUser = () => {
   const { userId } = useParams();
+  const {  profile } = useSelector((state) => state.userAuth);
   const navigate = useNavigate();
-
+  console.log("user ID:", userId);
+  
   const {
     data: user,
     isLoading: isLoadingUser,
@@ -19,15 +21,10 @@ const UpdateUser = () => {
     error: fetchError,
   } = useGetSingleUserQuery(userId);
 
-  const {
-    data: currentUser,
-    isLoading,
-    isError,
-    error,
-  } = useGetMeQuery();
-
-  const [updateUser, { isLoading: isUpdating, error: updateError }] =
+  const [updateMe, { isLoading: isUpdating, error: updateError }] =
     useUpdateMeMutation();
+
+  const [updateUser, { isLoading }] = useUpdateUserMutation(userId);
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -37,26 +34,31 @@ const UpdateUser = () => {
   });
   const [submitError, setSubmitError] = useState(null);
   useEffect(() => {
-    if (currentUser) {
+    if (user) {
       setFormData({
-        firstname: currentUser.firstname || "",
-        lastname: currentUser.lastname || "",
-        email: currentUser.email || "",
-        username: currentUser.username || "",
+        firstname: user.firstname || "",
+        lastname: user.lastname || "",
+        email: user.email || "",
+        username: user.username || "",
       });
     }
-  }, [currentUser]);
+  }, [user]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  const isSelfUpdate = profile?.id === userId;
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateUser({ ...formData }).unwrap();
+      if (isSelfUpdate) {
+        await updateMe(formData).unwrap();
+      } else {
+        await updateUser({ userId, ...formData }).unwrap();
+      }
+
       alert("User updated successfully!");
-      navigate("/me");
+      navigate(`/user/${user.id}`);
     } catch (err) {
       console.error("Failed to update user:", err);
     }
