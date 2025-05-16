@@ -13,6 +13,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { useDispatch, useSelector } from "react-redux";
 import UserProfile from "./components/UserProfile";
 import { useGetMeQuery } from "./apiSlices/userSlice";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function App() {
   const { isLoading } = useGetMeQuery();
