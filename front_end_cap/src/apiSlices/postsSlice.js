@@ -19,10 +19,10 @@ const postsAPI = api.injectEndpoints({
       invalidatesTags: ["Posts"],
     }),
     createReply: builder.mutation({
-      query: ({ postId, content }) => ({
+      query: ({ postId, content, parentId }) => ({
         url: `/replies/posts/${postId}/replies`,
         method: "POST",
-        body: { content },
+        body: { content, parentId },
       }),
       invalidatesTags: ["Posts", "Replies"],
     }),

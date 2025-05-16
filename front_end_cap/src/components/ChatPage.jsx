@@ -9,9 +9,10 @@ import {
   useAdminDeletePostMutation, // For admin to delete any post
   useSoftDeleteOwnReplyMutation, // For user to soft-delete their reply
   useAdminDeleteReplyMutation, // For admin to delete any reply
-} from "../apiSlices/postsSlice"; // Make sure this path is correct
+} from "../apiSlices/postsSlice"; 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
+import ReplyItem from "./ReplyItem";
 
 const ChatPage = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const ChatPage = () => {
   const [
     softDeleteOwnPost,
     { isLoading: isSoftDeletingPost, error: softDeletePostError },
-  ] = useSoftDeleteOwnPostMutation();
+  ] = useSoftDeleteOwnPostMutation(); 
   const [
     adminDeletePost,
     { isLoading: isAdminDeletingPost, error: adminDeletePostError },
@@ -36,14 +37,13 @@ const ChatPage = () => {
   const [
     softDeleteOwnReply,
     { isLoading: isSoftDeletingOwnReply, error: softDeleteOwnReplyError },
-  ] = useSoftDeleteOwnReplyMutation();
+  ] = useSoftDeleteOwnReplyMutation(); 
   const [
     adminDeleteReply,
     { isLoading: isAdminDeletingReply, error: adminDeleteReplyError },
-  ] = useAdminDeleteReplyMutation();
+  ] = useAdminDeleteReplyMutation(); 
 
   const isLoggedIn = useSelector((state) => state.userAuth.isLoggedIn);
-  // Get the full profile to check for userId and isAdmin status
   const loggedInUser = useSelector((state) => state.userAuth.profile);
   const loggedInUserId = loggedInUser?.id;
   const isAdmin = loggedInUser?.isAdmin;
@@ -183,7 +183,7 @@ const ChatPage = () => {
         Error loading posts:{" "}
         {fetchError?.data?.error || fetchError?.message || fetchError?.status}
       </p>
-    ); // Improved error message
+    );
 
   return (
     <div className="container mt-4">
@@ -240,7 +240,6 @@ const ChatPage = () => {
                 </small>
               </div>
               <div>
-                {/* User's own post soft delete button */}
                 {isLoggedIn &&
                   loggedInUserId === post.userId &&
                   post.content !== "[deleted by user]" && (
@@ -252,7 +251,6 @@ const ChatPage = () => {
                       Delete Post
                     </button>
                   )}
-                {/* Admin's post hard delete button */}
                 {isLoggedIn && isAdmin && (
                   <button
                     className="btn btn-danger btn-sm py-0 px-1"
@@ -281,48 +279,12 @@ const ChatPage = () => {
               {expandedReplies[post.id] && post.replies && (
                 <div className="replies-section ml-4 pl-3 border-left">
                   {post.replies.map((reply) => (
-                    <div
+                    <ReplyItem
                       key={reply.id}
-                      className="reply mb-2 p-2 bg-light rounded"
-                    >
-                      <div className="d-flex justify-content-between align-items-center">
-                        <strong>{reply.user?.username || "Anonymous"}:</strong>
-                        <div>
-                          {/* User's own reply delete button */}
-                          {isLoggedIn && loggedInUserId === reply.userId && (
-                            <button
-                              className="btn btn-outline-warning btn-sm py-0 px-1 me-2"
-                              onClick={() =>
-                                handleSoftDeleteOwnReplyClick(reply.id)
-                              }
-                              disabled={isSoftDeletingOwnReply}
-                            >
-                              Delete This Reply
-                            </button>
-                          )}
-                          {/* Admin's reply delete button */}
-                          {isLoggedIn && isAdmin && (
-                            <button
-                              className="btn btn-danger btn-sm py-0 px-1"
-                              onClick={() =>
-                                handleAdminDeleteReplyClick(reply.id)
-                              }
-                              disabled={isAdminDeletingReply}
-                            >
-                              Admin Delete Reply
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      <p
-                        style={{ whiteSpace: "pre-wrap", margin: "5px 0 0 0" }}
-                      >
-                        {reply.content}
-                      </p>
-                      <small className="text-muted">
-                        {new Date(reply.createdAt).toLocaleString()}
-                      </small>
-                    </div>
+                      reply={reply}
+                      postId={post.id}
+                      level={0}
+                    />
                   ))}
                 </div>
               )}
@@ -336,7 +298,7 @@ const ChatPage = () => {
                     <input
                       type="text"
                       className="form-control form-control-sm"
-                      placeholder="Write a reply..."
+                      placeholder="Reply to this post..."
                       value={replyContents[post.id] || ""}
                       onChange={(e) =>
                         handleReplyChange(post.id, e.target.value)
@@ -349,7 +311,7 @@ const ChatPage = () => {
                     className="btn btn-info btn-sm mt-1"
                     disabled={isCreatingReply}
                   >
-                    {isCreatingReply ? "Replying..." : "Reply"}
+                    {isCreatingReply ? "Replying..." : "Reply to post"}
                   </button>
                   {createReplyError && replyContents[post.id] && (
                     <p className="text-danger mt-1 small">
@@ -366,7 +328,6 @@ const ChatPage = () => {
           <p className="text-center">No posts yet. Be the first to share!</p>
         )}
       </div>
-      {/* Display global errors for delete operations if needed */}
       {softDeletePostError && (
         <p className="text-danger mt-1 small">
           Error: {softDeletePostError.data?.error || "Could not delete post."}
