@@ -2,16 +2,20 @@ import { useGetMeQuery, useGetSingleUserQuery } from "../apiSlices/userSlice";
 import { useGetFavoritesQuery } from "../apiSlices/favoritesSlice";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const UserProfile = () => {
-    const { userId } = useParams();
+  const { userId } = useParams();
+  const { profile } = useSelector((state) => state.userAuth);
   const { data: user, isLoading: userLoading } = useGetSingleUserQuery(userId);
-  const { data: favorites, isLoading: favLoading } = useGetFavoritesQuery();
-    
+  const { data: favorites, isLoading: favLoading } = useGetFavoritesQuery(profile?.id);
+
+  const isSelf = profile?.id === userId;
+
   const navigate = useNavigate();
 
   if (userLoading || favLoading) return <p>Loading...</p>;
-  if(!user) return <p> User Not Found</p>;
+  if (!user) return <p> User Not Found</p>;
 
   return (
     <div>
@@ -43,21 +47,23 @@ const UserProfile = () => {
           </ul>
         )}
       </section>
-      <section>
-        <h2>Your Favorite Teams:</h2>
-        {favorites.length === 0 ? (
-          <p>No favorite teams yet.</p>
-        ) : (
-          <ul>
-            {favorites.map((team) => (
-              <li key={team.teamId}>
-                <img src={team.teamLogo} alt={team.teamName} />
-                <p>{team.teamName}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+      {isSelf && (
+        <section>
+          <h2>Your Favorite Teams:</h2>
+          {favorites?.length === 0 ? (
+            <p>No favorite teams yet.</p>
+          ) : (
+            <ul>
+              {favorites?.map((team) => (
+                <li key={team.teamId}>
+                  <img src={team.teamLogo} alt={team.teamName} />
+                  <p>{team.teamName}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      )}
     </div>
   );
 };

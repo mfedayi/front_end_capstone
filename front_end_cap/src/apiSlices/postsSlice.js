@@ -35,7 +35,7 @@ const postsAPI = api.injectEndpoints({
     }),
     adminDeletePost: builder.mutation({
       query: (postId) => ({
-        url: `/posts/admin/${postId}`,
+        url: `/posts/${postId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Posts"],

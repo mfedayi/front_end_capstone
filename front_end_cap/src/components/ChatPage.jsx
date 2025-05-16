@@ -12,6 +12,7 @@ import {
 } from "../apiSlices/postsSlice"; // Make sure this path is correct
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const ChatPage = () => {
   const navigate = useNavigate();
@@ -21,32 +22,42 @@ const ChatPage = () => {
     isError,
     error: fetchError,
   } = useGetPostsQuery();
+
   const [createPost, { isLoading: isCreatingPost, error: createPostError }] =
     useCreatePostMutation();
+
   const [createReply, { isLoading: isCreatingReply, error: createReplyError }] =
     useCreateReplyMutation();
+
   const [
     softDeleteOwnPost,
     { isLoading: isSoftDeletingPost, error: softDeletePostError },
   ] = useSoftDeleteOwnPostMutation();
+
   const [
     adminDeletePost,
     { isLoading: isAdminDeletingPost, error: adminDeletePostError },
   ] = useAdminDeletePostMutation();
+
   const [
     softDeleteOwnReply,
     { isLoading: isSoftDeletingOwnReply, error: softDeleteOwnReplyError },
   ] = useSoftDeleteOwnReplyMutation();
+
   const [
     adminDeleteReply,
     { isLoading: isAdminDeletingReply, error: adminDeleteReplyError },
   ] = useAdminDeleteReplyMutation();
 
+
   const isLoggedIn = useSelector((state) => state.userAuth.isLoggedIn);
   // Get the full profile to check for userId and isAdmin status
   const loggedInUser = useSelector((state) => state.userAuth.profile);
+  console.log(`LOGGED IN USER: ${loggedInUser}`);
   const loggedInUserId = loggedInUser?.id;
+   console.log(`LOGGED IN USERID: ${loggedInUserId}`);
   const isAdmin = loggedInUser?.isAdmin;
+  console.log(`isADMIN??: ${isAdmin}`);
 
   const posts = postsData || [];
 
@@ -115,7 +126,7 @@ const ChatPage = () => {
   };
 
   const handleAdminHardDeletePostClick = async (postId) => {
-    if (!isAdmin) return;
+    if (!isAdmin) {console.log("You ARE NOT ADMIN!!!")}  ;
     if (
       window.confirm(
         "ADMIN: Are you sure you want to permanently delete this post and all its replies?"
