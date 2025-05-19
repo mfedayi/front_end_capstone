@@ -5,18 +5,21 @@ import {
   useCreateReplyMutation,
   useSoftDeleteOwnReplyMutation,
   useAdminDeleteReplyMutation,
+  useUpdateReplyMutation, // For user to update their reply
 } from "../apiSlices/postsSlice";
 import { Link } from "react-router-dom";
 
-const ReplyItem = ({ reply, postId, level = 0 }) => {
+const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLoggedIn, navigate }) => { // Added navigate prop
   if (!reply || !reply.user) {
     return null;
   }
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate(); // navigate is now passed as a prop
   const [isReplying, setIsReplying] = useState(false);
   const [newReplyContent, setNewReplyContent] = useState("");
   const [areChildrenExpanded, setAreChildrenExpanded] = useState(false); // State for child replies visibility
+  const [editingReplyId, setEditingReplyId] = useState(null);
+  const [editingReplyContent, setEditingReplyContent] = useState("");
 
   const [
     createReply,
@@ -26,11 +29,8 @@ const ReplyItem = ({ reply, postId, level = 0 }) => {
     useSoftDeleteOwnReplyMutation();
   const [adminDeleteReply, { isLoading: isAdminDeletingReply }] =
     useAdminDeleteReplyMutation();
-
-  const isLoggedIn = useSelector((state) => state.userAuth.isLoggedIn);
-  const loggedInUser = useSelector((state) => state.userAuth.profile);
-  const loggedInUserId = loggedInUser?.id;
-  const isAdmin = loggedInUser?.isAdmin;
+  const [updateReply, { isLoading: isUpdatingReply, error: updateReplyError }] =
+    useUpdateReplyMutation();
 
   const handleNestedReplySubmit = async (e) => {
     e.preventDefault();
@@ -96,11 +96,39 @@ const ReplyItem = ({ reply, postId, level = 0 }) => {
     }
   };
 
+  const handleEditReplyClick = (currentReply) => {
+    if (currentReply.content === "[reply has been deleted by the user]") return;
+    setEditingReplyId(currentReply.id);
+    setEditingReplyContent(currentReply.content);
+  };
+
+  const handleCancelEditReply = () => {
+    setEditingReplyId(null);
+    setEditingReplyContent("");
+  };
+
+  const handleSaveReplyUpdate = async (currentReplyId) => {
+    if (!editingReplyContent.trim()) {
+      alert("Reply content cannot be empty.");
+      return;
+    }
+    try {
+      await updateReply({ replyId: currentReplyId, content: editingReplyContent }).unwrap();
+      setEditingReplyId(null);
+      setEditingReplyContent("");
+    } catch (err) {
+      console.error("Failed to update reply:", err);
+      alert(
+        `Failed to update reply: ${err.data?.error || "Please try again."}`
+      );
+    }
+  };
+  const softDeletedReplyContent = "[reply has been deleted by the user]"; // Matches backend
   const displayContent =
-    reply.content === "[Reply deleted by User]"
-      ? "[Reply deleted by User]"
+    reply.content === softDeletedReplyContent
+      ? softDeletedReplyContent
       : reply.content;
-  const isSoftDeleted = reply.content === "[Reply deleted by User]";
+  const isSoftDeleted = reply.content === softDeletedReplyContent;
 
   return (
     <div
@@ -113,17 +141,46 @@ const ReplyItem = ({ reply, postId, level = 0 }) => {
     >
       <div className="d-flex justify-content-between align-items-start">
         <div>
-          <strong>{reply.user?.username || "Anonymous"}:</strong>
-          <p
-            style={{
-              whiteSpace: "pre-wrap",
-              margin: "5px 0 0 0",
-              fontStyle: isSoftDeleted ? "italic" : "normal",
-              color: isSoftDeleted ? "#6c757d" : "inherit",
-            }}
-          >
-            {displayContent}
-          </p>
+          <strong>{reply.user?.username || "Anonymous"}:</strong>{" "}
+          {editingReplyId === reply.id ? (
+            <div className="mt-1">
+              <textarea
+                className="form-control form-control-sm mb-1"
+                rows="2"
+                value={editingReplyContent}
+                onChange={(e) => setEditingReplyContent(e.target.value)}
+                disabled={isUpdatingReply}
+              />
+              <button
+                className="btn btn-success btn-sm me-1 py-0 px-1"
+                onClick={() => handleSaveReplyUpdate(reply.id)}
+                disabled={isUpdatingReply}
+              >
+                {isUpdatingReply ? "Saving..." : "Save"}
+              </button>
+              <button
+                className="btn btn-secondary btn-sm py-0 px-1"
+                onClick={handleCancelEditReply}
+                disabled={isUpdatingReply}
+              >
+                Cancel
+              </button>
+              {updateReplyError && editingReplyId === reply.id && (
+                <p className="text-danger mt-1 small">Error: {updateReplyError.data?.error || "Could not update."}</p>
+              )}
+            </div>
+          ) : (
+            <p
+              style={{
+                whiteSpace: "pre-wrap",
+                margin: "5px 0 0 0",
+                fontStyle: isSoftDeleted ? "italic" : "normal",
+                color: isSoftDeleted ? "#6c757d" : "inherit",
+              }}
+            >
+              {displayContent}
+            </p>
+          )}
           <small className="text-muted">
             {new Date(reply.createdAt).toLocaleString()}
           </small>
@@ -134,6 +191,15 @@ const ReplyItem = ({ reply, postId, level = 0 }) => {
               style={{ textDecoration: "none" }}
             >
               {isReplying ? "Cancel" : "Reply"}
+            </button>
+          )}
+          {isLoggedIn && loggedInUserId === reply.userId && !isSoftDeleted && editingReplyId !== reply.id && (
+            <button
+              className="btn btn-link btn-sm p-0 ms-2"
+              onClick={() => handleEditReplyClick(reply)}
+              style={{ textDecoration: "none" }}
+            >
+              Edit
             </button>
           )}
           {/* Button to toggle visibility of child replies */}
@@ -209,8 +275,16 @@ const ReplyItem = ({ reply, postId, level = 0 }) => {
               reply={childReply}
               postId={postId}
               level={level + 1}
+              loggedInUserId={loggedInUserId} // Pass down
+              isAdmin={isAdmin}             // Pass down
+              isLoggedIn={isLoggedIn}         // Pass down
+              navigate={navigate}           // Pass down
             />
           ))}
+           {updateReplyError && !editingReplyId && ( // General update error if not specific to an editing reply
+            <p className="text-danger mt-1 small">Error updating reply: {updateReplyError.data?.error || "Please try again."}</p>
+          )}
+
         </div>
       )}
     </div>
