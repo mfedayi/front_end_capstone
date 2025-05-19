@@ -2,7 +2,7 @@ import { useGetMeQuery, useGetSingleUserQuery } from "../apiSlices/userSlice";
 import { useGetFavoritesQuery } from "../apiSlices/favoritesSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "../styles/profile-theme.css"; // ✅ Import CSS
+import "../styles/profile-theme.css";
 
 const UserProfile = () => {
   const { userId } = useParams();

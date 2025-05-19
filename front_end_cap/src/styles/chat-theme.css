@@ -3,7 +3,7 @@
   border-radius: 12px;
   padding: 2rem;
   color: white;
-  backdrop-filter: blur(4px); /* optional: makes it look glassy */
+  backdrop-filter: blur(4px); /* makes it look glassy */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
 
