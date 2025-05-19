@@ -77,107 +77,110 @@ export default function Register() {
   }
 
   return (
-    <div className="registerBackground">
-      <h2>Register</h2>
-      {/* Success and API error messages */}
-      {successMessage && (
-        <p className="text-success">
-          {successMessage} Welcome {email}!
-        </p>
-      )}
-      {error && error.api && <p className="text-danger">{error.api}</p>}
+    <div className="page-wrapper update-user-bg">
+      <div className="update-form-card"></div>
+      <div className="registerBackground">
+        <h2>Register</h2>
+        {/* Success and API error messages */}
+        {successMessage && (
+          <p className="text-success">
+            {successMessage} Welcome {email}!
+          </p>
+        )}
+        {error && error.api && <p className="text-danger">{error.api}</p>}
 
-      <div className="registerContainer">
-        {/* Registration Form */}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label"></label>
-            Email:{" "}
-            <input
-              type="email"
-              className="form-control"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)} // Update email state on input change
-            />
-            {error && error.email && (
-              <div className="text-danger">{error.email}</div>
-            )}
-          </div>
-          <div className="mb-3">
-            <label className="form-label"></label>
-            Username:{" "}
-            <input
-              type="text"
-              className="form-control"
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)} // Update username state on input change
-            />
-            {error && error.username && (
-              <div className="text-danger">{error.username}</div>
-            )}
-          </div>
-          <div className="mb-3">
-            <label>
-              Password:{" "}
+        <div className="registerContainer">
+          {/* Registration Form */}
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label"></label>
+              Email:{" "}
               <input
-                type="password"
+                type="email"
                 className="form-control"
-                name="password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)} // Update email state on input change
               />
-              {error && error.password && (
-                <div className="text-danger">{error.password}</div>
+              {error && error.email && (
+                <div className="text-danger">{error.email}</div>
               )}
-            </label>
-          </div>
-          <div className="mb-3">
-            <label>
-              First Name:{" "}
+            </div>
+            <div className="mb-3">
+              <label className="form-label"></label>
+              Username:{" "}
               <input
                 type="text"
                 className="form-control"
-                name="firstname"
-                value={firstname}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                }}
+                name="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)} // Update username state on input change
               />
-              {error && error.firstname && (
-                <div className="text-danger">{error.firstname}</div>
+              {error && error.username && (
+                <div className="text-danger">{error.username}</div>
               )}
-            </label>
-          </div>
-          <div className="mb-3">
-            <label>
-              Last Name:{" "}
-              <input
-                type="text"
-                className="form-control"
-                name="lastname"
-                value={lastname}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                }}
-              />
-              {error && error.lastname && (
-                <div className="text-danger">{error.lastname}</div>
-              )}
-            </label>
-          </div>
-          <button type="submit" className="btn btn-outline-dark">
-            submit
-          </button>
-        </form>
+            </div>
+            <div className="mb-3">
+              <label>
+                Password:{" "}
+                <input
+                  type="password"
+                  className="form-control"
+                  name="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                {error && error.password && (
+                  <div className="text-danger">{error.password}</div>
+                )}
+              </label>
+            </div>
+            <div className="mb-3">
+              <label>
+                First Name:{" "}
+                <input
+                  type="text"
+                  className="form-control"
+                  name="firstname"
+                  value={firstname}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                  }}
+                />
+                {error && error.firstname && (
+                  <div className="text-danger">{error.firstname}</div>
+                )}
+              </label>
+            </div>
+            <div className="mb-3">
+              <label>
+                Last Name:{" "}
+                <input
+                  type="text"
+                  className="form-control"
+                  name="lastname"
+                  value={lastname}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                  }}
+                />
+                {error && error.lastname && (
+                  <div className="text-danger">{error.lastname}</div>
+                )}
+              </label>
+            </div>
+            <button type="submit" className="btn btn-outline-dark">
+              submit
+            </button>
+          </form>
+        </div>
+        {/* Show confirmation if no validation errors and form is being submitted */}
+        {error && Object.keys(error).length === 0 && submitting && (
+          <span className="text-success">Successfully submitted ✓</span>
+        )}
       </div>
-      {/* Show confirmation if no validation errors and form is being submitted */}
-      {error && Object.keys(error).length === 0 && submitting && (
-        <span className="text-success">Successfully submitted ✓</span>
-      )}
     </div>
   );
 }

@@ -1,0 +1,100 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Open+Sans&display=swap');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Page-specific backgrounds */
+.home-bg {
+  background: url('../assets/bg-court.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.chat-bg {
+  background: url('../assets/bg-hoop.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.profile-bg {
+  background: url('../assets/bg-locker.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(145deg, #FF4500, #FF8C00);
+  border: none;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn-primary:hover {
+  background: #ff6514;
+  color: white;
+}
+
+/* NavBar */
+.navbar {
+  background: rgba(0, 0, 0, 0.85);
+  border-bottom: 3px solid orange;
+}
+
+.nav-link {
+  color: white !important;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: orange !important;
+}
+.app-header {
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.8);
+  border-bottom: 3px solid orange;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.app-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 2.5rem;
+  color: white;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 5px rgba(255, 165, 0, 0.7);
+}
+
+.club-name {
+  color: orange;
+}
+.custom-navbar {
+  background-color: rgba(0, 0, 0, 0.95);
+  border-bottom: 3px solid orange;
+  padding: 1rem 2rem;
+  font-family: 'Anton', sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-link {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white !important;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.nav-link:hover {
+  color: orange !important;
+  text-shadow: 0 0 6px orange;
+}
+
+.nav-link.active {
+  text-shadow: 0 0 10px orange;
+}
+
+

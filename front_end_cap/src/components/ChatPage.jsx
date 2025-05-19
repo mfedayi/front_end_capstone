@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   useGetPostsQuery,
   useCreatePostMutation,
   useCreateReplyMutation,
-  useSoftDeleteOwnPostMutation, // For user to delete their post
-  useAdminDeletePostMutation, // For admin to delete any post
-  useSoftDeleteOwnReplyMutation, // For user to soft-delete their reply
-  useAdminDeleteReplyMutation, // For admin to delete any reply
-} from "../apiSlices/postsSlice"; // Make sure this path is correct
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+  useSoftDeleteOwnPostMutation,
+  useAdminDeletePostMutation,
+  useSoftDeleteOwnReplyMutation,
+  useAdminDeleteReplyMutation,
+} from "../apiSlices/postsSlice";
+import "../styles/chat-theme.css";
 
 const ChatPage = () => {
   const navigate = useNavigate();
+
   const {
     data: postsData,
     isLoading,
@@ -25,45 +24,28 @@ const ChatPage = () => {
 
   const [createPost, { isLoading: isCreatingPost, error: createPostError }] =
     useCreatePostMutation();
-
   const [createReply, { isLoading: isCreatingReply, error: createReplyError }] =
     useCreateReplyMutation();
-
-  const [
-    softDeleteOwnPost,
-    { isLoading: isSoftDeletingPost, error: softDeletePostError },
-  ] = useSoftDeleteOwnPostMutation();
-
-  const [
-    adminDeletePost,
-    { isLoading: isAdminDeletingPost, error: adminDeletePostError },
-  ] = useAdminDeletePostMutation();
-
-  const [
-    softDeleteOwnReply,
-    { isLoading: isSoftDeletingOwnReply, error: softDeleteOwnReplyError },
-  ] = useSoftDeleteOwnReplyMutation();
-
-  const [
-    adminDeleteReply,
-    { isLoading: isAdminDeletingReply, error: adminDeleteReplyError },
-  ] = useAdminDeleteReplyMutation();
-
+  const [softDeleteOwnPost, { error: softDeletePostError }] =
+    useSoftDeleteOwnPostMutation();
+  const [adminDeletePost, { error: adminDeletePostError }] =
+    useAdminDeletePostMutation();
+  const [softDeleteOwnReply, { error: softDeleteOwnReplyError }] =
+    useSoftDeleteOwnReplyMutation();
+  const [adminDeleteReply, { error: adminDeleteReplyError }] =
+    useAdminDeleteReplyMutation();
 
   const isLoggedIn = useSelector((state) => state.userAuth.isLoggedIn);
-  // Get the full profile to check for userId and isAdmin status
   const loggedInUser = useSelector((state) => state.userAuth.profile);
-  console.log(`LOGGED IN USER: ${loggedInUser}`);
   const loggedInUserId = loggedInUser?.id;
-   console.log(`LOGGED IN USERID: ${loggedInUserId}`);
   const isAdmin = loggedInUser?.isAdmin;
-  console.log(`isADMIN??: ${isAdmin}`);
 
   const posts = postsData || [];
 
   const [newPostContent, setNewPostContent] = useState("");
   const [replyContents, setReplyContents] = useState({});
   const [expandedReplies, setExpandedReplies] = useState({});
+
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
@@ -72,7 +54,6 @@ const ChatPage = () => {
       return;
     }
     if (!newPostContent.trim()) return;
-
     try {
       await createPost(newPostContent).unwrap();
       setNewPostContent("");
@@ -95,7 +76,6 @@ const ChatPage = () => {
     }
     const content = replyContents[postId]?.trim();
     if (!content) return;
-
     try {
       await createReply({ postId, content }).unwrap();
       setReplyContents((prev) => ({ ...prev, [postId]: "" }));
@@ -109,11 +89,7 @@ const ChatPage = () => {
 
   const handleSoftDeletePostClick = async (postId) => {
     if (!isLoggedIn) return;
-    if (
-      window.confirm(
-        "Are you sure you want to delete this post? The content will be marked as [deleted]."
-      )
-    ) {
+    if (window.confirm("Delete this post? It will be marked as [deleted].")) {
       try {
         await softDeleteOwnPost(postId).unwrap();
       } catch (err) {
@@ -126,11 +102,9 @@ const ChatPage = () => {
   };
 
   const handleAdminHardDeletePostClick = async (postId) => {
-    if (!isAdmin) {console.log("You ARE NOT ADMIN!!!")}  ;
+    if (!isAdmin) return;
     if (
-      window.confirm(
-        "ADMIN: Are you sure you want to permanently delete this post and all its replies?"
-      )
+      window.confirm("ADMIN: Permanently delete this post and its replies?")
     ) {
       try {
         await adminDeletePost(postId).unwrap();
@@ -147,11 +121,11 @@ const ChatPage = () => {
 
   const handleSoftDeleteOwnReplyClick = async (replyId) => {
     if (!isLoggedIn) return;
-    if (window.confirm("Are you sure you want to delete this reply?")) {
+    if (window.confirm("Delete this reply?")) {
       try {
         await softDeleteOwnReply(replyId).unwrap();
       } catch (err) {
-        console.error("Failed to delete own reply:", err?.data?.error || err);
+        console.error("Failed to delete reply:", err?.data?.error || err);
         alert(
           `Failed to delete reply: ${err.data?.error || "Please try again."}`
         );
@@ -161,11 +135,7 @@ const ChatPage = () => {
 
   const handleAdminDeleteReplyClick = async (replyId) => {
     if (!isAdmin) return;
-    if (
-      window.confirm(
-        "ADMIN: Are you sure you want to permanently delete this reply?"
-      )
-    ) {
+    if (window.confirm("ADMIN: Permanently delete this reply?")) {
       try {
         await adminDeleteReply(replyId).unwrap();
       } catch (err) {
@@ -194,32 +164,26 @@ const ChatPage = () => {
         Error loading posts:{" "}
         {fetchError?.data?.error || fetchError?.message || fetchError?.status}
       </p>
-    ); // Improved error message
+    );
 
   return (
-    <div className="container mt-4">
-      <h1 className="text-center mb-4">Talk Sports</h1>
+    <div className="container mt-4 chat-container">
+      <h1 className="chat-title text-center mb-4">Talk Sports</h1>
 
       {isLoggedIn ? (
-        <form
-          onSubmit={handlePostSubmit}
-          className="mb-5 p-3 border rounded bg-light"
-        >
-          <h4>Have something to say?</h4>
-          <div className="form-group">
-            <textarea
-              id="newPostContent"
-              className="form-control"
-              rows="4"
-              value={newPostContent}
-              onChange={(e) => setNewPostContent(e.target.value)}
-              placeholder="Share your thoughts..."
-              disabled={isCreatingPost}
-            ></textarea>
-          </div>
+        <form onSubmit={handlePostSubmit} className="chat-post-form">
+          <h4 className="text-dark">Have something to say?</h4>
+          <textarea
+            className="form-control chat-textarea"
+            rows="4"
+            value={newPostContent}
+            onChange={(e) => setNewPostContent(e.target.value)}
+            placeholder="Share your thoughts..."
+            disabled={isCreatingPost}
+          ></textarea>
           <button
             type="submit"
-            className="btn btn-primary mt-2"
+            className="btn btn-primary mt-2 chat-post-button"
             disabled={isCreatingPost}
           >
             {isCreatingPost ? "Posting..." : "Post"}
@@ -242,45 +206,40 @@ const ChatPage = () => {
 
       <div className="posts-list">
         {posts.map((post) => (
-          <div key={post.id} className="card mb-3">
-            <div className="card-header bg-white d-flex justify-content-between align-items-center">
+          <div key={post.id} className="card chat-post-card mb-4">
+            <div className="card-header d-flex justify-content-between">
               <div>
-                <strong>{post.user?.username || "Anonymous"}</strong> -{" "}
+                <strong>{post.user?.username || "Anonymous"}</strong>{" "}
                 <small className="text-muted">
                   {new Date(post.createdAt).toLocaleString()}
                 </small>
               </div>
-              <div>
-                {/* User's own post soft delete button */}
+              <div className="d-flex gap-2">
                 {isLoggedIn &&
                   loggedInUserId === post.userId &&
                   post.content !== "[deleted by user]" && (
                     <button
-                      className="btn btn-outline-warning btn-sm py-0 px-1 me-2"
+                      className="btn btn-outline-warning btn-sm"
                       onClick={() => handleSoftDeletePostClick(post.id)}
-                      disabled={isSoftDeletingPost}
                     >
-                      Delete Post
+                      Delete
                     </button>
                   )}
-                {/* Admin's post hard delete button */}
                 {isLoggedIn && isAdmin && (
                   <button
-                    className="btn btn-danger btn-sm py-0 px-1"
+                    className="btn btn-danger btn-sm"
                     onClick={() => handleAdminHardDeletePostClick(post.id)}
-                    disabled={isAdminDeletingPost}
                   >
-                    Admin Delete Post
+                    Admin Delete
                   </button>
                 )}
               </div>
             </div>
-            <div className="card-body">
-              <p className="card-text" style={{ whiteSpace: "pre-wrap" }}>
-                {post.content}
-              </p>
 
-              {post.replies && post.replies.length > 0 && (
+            <div className="card-body">
+              <p className="chat-post-content">{post.content}</p>
+
+              {post.replies?.length > 0 && (
                 <button
                   className="btn btn-sm btn-outline-secondary mb-2"
                   onClick={() => toggleReplies(post.id)}
@@ -289,47 +248,37 @@ const ChatPage = () => {
                   {post.replies.length} Replies
                 </button>
               )}
+
               {expandedReplies[post.id] && post.replies && (
-                <div className="replies-section ml-4 pl-3 border-left">
+                <div className="replies-section">
                   {post.replies.map((reply) => (
-                    <div
-                      key={reply.id}
-                      className="reply mb-2 p-2 bg-light rounded"
-                    >
-                      <div className="d-flex justify-content-between align-items-center">
-                        <strong>{reply.user?.username || "Anonymous"}:</strong>
-                        <div>
-                          {/* User's own reply delete button */}
+                    <div key={reply.id} className="chat-reply-box">
+                      <div className="d-flex justify-content-between">
+                        <strong>{reply.user?.username || "Anonymous"}</strong>
+                        <div className="d-flex gap-2">
                           {isLoggedIn && loggedInUserId === reply.userId && (
                             <button
-                              className="btn btn-outline-warning btn-sm py-0 px-1 me-2"
+                              className="btn btn-outline-warning btn-sm"
                               onClick={() =>
                                 handleSoftDeleteOwnReplyClick(reply.id)
                               }
-                              disabled={isSoftDeletingOwnReply}
                             >
-                              Delete This Reply
+                              Delete
                             </button>
                           )}
-                          {/* Admin's reply delete button */}
                           {isLoggedIn && isAdmin && (
                             <button
-                              className="btn btn-danger btn-sm py-0 px-1"
+                              className="btn btn-danger btn-sm"
                               onClick={() =>
                                 handleAdminDeleteReplyClick(reply.id)
                               }
-                              disabled={isAdminDeletingReply}
                             >
-                              Admin Delete Reply
+                              Admin Delete
                             </button>
                           )}
                         </div>
                       </div>
-                      <p
-                        style={{ whiteSpace: "pre-wrap", margin: "5px 0 0 0" }}
-                      >
-                        {reply.content}
-                      </p>
+                      <p className="chat-reply-content">{reply.content}</p>
                       <small className="text-muted">
                         {new Date(reply.createdAt).toLocaleString()}
                       </small>
@@ -343,18 +292,14 @@ const ChatPage = () => {
                   onSubmit={(e) => handleReplySubmit(e, post.id)}
                   className="mt-3"
                 >
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                      placeholder="Write a reply..."
-                      value={replyContents[post.id] || ""}
-                      onChange={(e) =>
-                        handleReplyChange(post.id, e.target.value)
-                      }
-                      disabled={isCreatingReply}
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    className="form-control form-control-sm chat-reply-input"
+                    placeholder="Write a reply..."
+                    value={replyContents[post.id] || ""}
+                    onChange={(e) => handleReplyChange(post.id, e.target.value)}
+                    disabled={isCreatingReply}
+                  />
                   <button
                     type="submit"
                     className="btn btn-info btn-sm mt-1"
@@ -373,11 +318,13 @@ const ChatPage = () => {
             </div>
           </div>
         ))}
+
         {posts.length === 0 && !isLoading && (
           <p className="text-center">No posts yet. Be the first to share!</p>
         )}
       </div>
-      {/* Display global errors for delete operations if needed */}
+
+      {/* 🔽 Global error messages preserved here */}
       {softDeletePostError && (
         <p className="text-danger mt-1 small">
           Error: {softDeletePostError.data?.error || "Could not delete post."}
