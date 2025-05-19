@@ -54,6 +54,22 @@ const postsAPI = api.injectEndpoints({
       }),
       invalidatesTags: ["Posts", "Replies"],
     }),
+    updatePost: builder.mutation({
+      query: ({ postId, content }) => ({
+        url: `/posts/${postId}`,
+        method: "PATCH",
+        body: { content },
+      }),
+      invalidatesTags: (result, error, { postId }) => [{ type: "Posts", id: postId }, "Posts"],
+    }),
+    updateReply: builder.mutation({
+      query: ({ replyId, content }) => ({
+        url: `/replies/${replyId}`,
+        method: "PATCH",
+        body: { content },
+      }),
+      invalidatesTags: (result, error, { replyId }) => [{ type: "Replies", id: replyId }, "Posts", "Replies"], // Invalidate Posts as well, as replies are nested
+    }),
   }),
 });
 
@@ -65,4 +81,6 @@ export const {
   useAdminDeletePostMutation,
   useSoftDeleteOwnReplyMutation,
   useAdminDeleteReplyMutation,
+  useUpdatePostMutation,
+  useUpdateReplyMutation,
 } = postsAPI;
