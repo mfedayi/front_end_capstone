@@ -7,11 +7,14 @@ import { StrictMode } from "react";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <StrictMode>
-      <App />
-    </StrictMode>
+    <BrowserRouter>
+      <StrictMode>
+        <App />
+      </StrictMode>
+    </BrowserRouter>
   </Provider>
 );
