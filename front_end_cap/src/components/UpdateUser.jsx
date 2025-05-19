@@ -74,51 +74,57 @@ const UpdateUser = () => {
     );
 
   return (
-    <div className="container mt-4">
-      <h2>Update User: {user?.username || userId}</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">First Name</label>
-          <input
-            type="text"
-            className="form-control"
-            name="firstname"
-            value={formData.firstname}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Last Name</label>
-          <input
-            type="text"
-            className="form-control"
-            name="lastname"
-            value={formData.lastname}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary" disabled={isUpdating}>
-          {isUpdating ? "Updating..." : "Update User"}
-        </button>
-        {updateError && (
-          <p className="text-danger mt-2">
-            Error updating user: {updateError.data?.message || "Server error"}
-          </p>
-        )}
-      </form>
+    <div className="page-wrapper update-user-bg">
+      <div className="update-form-card">
+        <h2>Update User: {user?.username || userId}</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">First Name</label>
+            <input
+              type="text"
+              className="form-control"
+              name="firstname"
+              value={formData.firstname}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Last Name</label>
+            <input
+              type="text"
+              className="form-control"
+              name="lastname"
+              value={formData.lastname}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={isUpdating}
+          >
+            {isUpdating ? "Updating..." : "Update User"}
+          </button>
+          {updateError && (
+            <p className="text-danger mt-2">
+              Error updating user: {updateError.data?.message || "Server error"}
+            </p>
+          )}
+        </form>
+      </div>
     </div>
   );
 };

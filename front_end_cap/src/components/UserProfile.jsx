@@ -1,8 +1,8 @@
 import { useGetMeQuery, useGetSingleUserQuery } from "../apiSlices/userSlice";
 import { useGetFavoritesQuery } from "../apiSlices/favoritesSlice";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "../styles/profile-theme.css";
 
 const UserProfile = () => {
   const { userId } = useParams();
@@ -12,9 +12,8 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   const isSelf = profile?.id === userId;
-
   if (userLoading || favLoading) return <p>Loading...</p>;
-  if (!user) return <p> User Not Found</p>;
+  if (!user) return <p>User Not Found</p>;
 
   return (
     <div>
@@ -53,6 +52,7 @@ const UserProfile = () => {
           </> 
         )}
       </section>
+
       {isSelf && (
         <section>
           <h2 className="favorites-header">Your Favorite Teams</h2>
