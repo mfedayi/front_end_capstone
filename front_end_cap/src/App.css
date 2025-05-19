@@ -191,6 +191,7 @@ h2.nba-heading {
 }
 
 .team-details-container {
+  position: relative; /* Position relative for absolute children */
   padding: 1rem; /* Padding around the details container */
   margin: 4rem; /* Add margin to the details container */
   margin-top: 1rem; /* Remove top margin */
@@ -198,6 +199,52 @@ h2.nba-heading {
   border-radius: 10px; /* Round the corners */
   border: 2px solid darkgrey; /* Add a border */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+.basketball-button {
+  position: absolute; /* Position the button */
+  top: 1.5rem; /* Space from the top */
+  left: 1.5rem; /* Space from the left */
+  background-color: white; /* Background color */
+  font-weight: 600; /* Font weight of 550 makes it semi-bold */
+  border: 0.5px solid;  
+  border-radius: 8px; /* Round the corners */
+  padding: 0.6rem 1.2rem; /* Padding inside the button */
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+  gap: 0.5rem; /* Space between items */
+  box-shadow: 0 3px 6px rgba(184, 122, 63, 0.4); /* Add shadow */
+  cursor: pointer; /* Pointer cursor */
+  font-size: 1.1rem; /* Font size */
+  color: rgba(245, 139, 63, 0.919); /* Text color (basketball) */
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, color 0.25 ease, border-color 0.25s ease; /* Animation on hover */
+}
+
+.basketball-button.liked {
+  color: #716d6d85;
+  font-weight: 400;
+}
+
+.basketball-button:hover {
+  background-color: #f8f9fa; /* Change background color on hover */
+  box-shadow: 0 4px 8px rgba(198, 96, 23, 0.891); /* Darker shadow on hover */
+  color: #e97a13; /* Change text color on hover */
+}
+
+.basketball-button.liked:hover {
+  box-shadow: 0 4px 8px rgba(113, 109, 109, 0.5); /* light gray shadow */
+  color: #716d6d85; /* keep muted text color */
+}
+
+.basketball-button i {
+  font-size: 1.5rem; /* Font size for icon */
+  transition: color 0.25s ease, text-shadow 0.25s ease; /* Animation on hover */
+}
+
+.basketball-button.liked i {
+  color: rgba(0, 0, 0, 0.696); /* filled “look” */
+  text-shadow: 0 0 5px rgb(255, 106, 0);
 }
 
 .team-header {
