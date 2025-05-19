@@ -9,7 +9,7 @@ import {
   useAdminDeletePostMutation, // For admin to delete any post
   useSoftDeleteOwnReplyMutation, // For user to soft-delete their reply
   useAdminDeleteReplyMutation, // For admin to delete any reply
-} from "../apiSlices/postsSlice"; 
+} from "../apiSlices/postsSlice"; // Make sure this path is correct
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import ReplyItem from "./ReplyItem";
@@ -26,10 +26,8 @@ const ChatPage = () => {
     useCreatePostMutation();
   const [createReply, { isLoading: isCreatingReply, error: createReplyError }] =
     useCreateReplyMutation();
-  const [
-    softDeleteOwnPost,
-    { isLoading: isSoftDeletingPost, error: softDeletePostError },
-  ] = useSoftDeleteOwnPostMutation(); 
+  const [softDeleteOwnPost, { isLoading: isSoftDeletingPost, error: softDeletePostError }] = 
+    useSoftDeleteOwnPostMutation(); // Correctly destructure isLoading and error
   const [
     adminDeletePost,
     { isLoading: isAdminDeletingPost, error: adminDeletePostError },
@@ -37,13 +35,12 @@ const ChatPage = () => {
   const [
     softDeleteOwnReply,
     { isLoading: isSoftDeletingOwnReply, error: softDeleteOwnReplyError },
-  ] = useSoftDeleteOwnReplyMutation(); 
-  const [
-    adminDeleteReply,
-    { isLoading: isAdminDeletingReply, error: adminDeleteReplyError },
-  ] = useAdminDeleteReplyMutation(); 
+  ] = useSoftDeleteOwnReplyMutation(); // Correct hook for soft deleting own reply
+  const [adminDeleteReply, { isLoading: isAdminDeletingReply, error: adminDeleteReplyError }] = 
+    useAdminDeleteReplyMutation(); // Correct hook for admin deleting reply
 
   const isLoggedIn = useSelector((state) => state.userAuth.isLoggedIn);
+  // Get the full profile to check for userId and isAdmin status
   const loggedInUser = useSelector((state) => state.userAuth.profile);
   const loggedInUserId = loggedInUser?.id;
   const isAdmin = loggedInUser?.isAdmin;

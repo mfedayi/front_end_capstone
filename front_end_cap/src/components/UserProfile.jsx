@@ -1,5 +1,5 @@
 import { useGetMeQuery, useGetSingleUserQuery } from "../apiSlices/userSlice";
-import { useGetFavoritesQuery } from "../apiSlices/favoritesSlice";
+import { useGetFavoritesQuery } from "../apiSlices/favoritesSlice.js";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
