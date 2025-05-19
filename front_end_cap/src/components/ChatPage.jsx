@@ -9,6 +9,7 @@ import {
   useAdminDeletePostMutation, // For admin to delete any post
   useSoftDeleteOwnReplyMutation, // For user to soft-delete their reply
   useAdminDeleteReplyMutation, // For admin to delete any reply
+  useUpdatePostMutation, // For user to update their post
 } from "../apiSlices/postsSlice"; // Make sure this path is correct
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
@@ -37,7 +38,9 @@ const ChatPage = () => {
     { isLoading: isSoftDeletingOwnReply, error: softDeleteOwnReplyError },
   ] = useSoftDeleteOwnReplyMutation(); // Correct hook for soft deleting own reply
   const [adminDeleteReply, { isLoading: isAdminDeletingReply, error: adminDeleteReplyError }] = 
-    useAdminDeleteReplyMutation(); // Correct hook for admin deleting reply
+    useAdminDeleteReplyMutation(); 
+  const [updatePost, { isLoading: isUpdatingPost, error: updatePostError }] = 
+    useUpdatePostMutation();
 
   const isLoggedIn = useSelector((state) => state.userAuth.isLoggedIn);
   // Get the full profile to check for userId and isAdmin status
@@ -50,6 +53,9 @@ const ChatPage = () => {
   const [newPostContent, setNewPostContent] = useState("");
   const [replyContents, setReplyContents] = useState({});
   const [expandedReplies, setExpandedReplies] = useState({});
+  const [editingPostId, setEditingPostId] = useState(null); // ID of the post being edited
+  const [editingPostContent, setEditingPostContent] = useState(""); // Content of the post being edited
+
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
@@ -173,6 +179,35 @@ const ChatPage = () => {
     setReplyContents((prev) => ({ ...prev, [postId]: value }));
   };
 
+  const handleEditPostClick = (post) => {
+    if (post.content === "[deleted by user]") return; // Don't edit soft-deleted posts
+    setEditingPostId(post.id);
+    setEditingPostContent(post.content);
+  };
+
+  const handleCancelEditPost = () => {
+    setEditingPostId(null);
+    setEditingPostContent("");
+  };
+
+  const handleSavePostUpdate = async (postId) => {
+    if (!editingPostContent.trim()) {
+      alert("Post content cannot be empty.");
+      return;
+    }
+    try {
+      await updatePost({ postId, content: editingPostContent }).unwrap();
+      setEditingPostId(null);
+      setEditingPostContent("");
+    } catch (err) {
+      console.error("Failed to update post:", err);
+      alert(
+        `Failed to update post: ${err.data?.error || "Please try again."}`
+      );
+    }
+  };
+
+
   if (isLoading) return <p className="text-center mt-5">Loading posts...</p>;
   if (isError)
     return (
@@ -239,6 +274,18 @@ const ChatPage = () => {
               <div>
                 {isLoggedIn &&
                   loggedInUserId === post.userId &&
+                  post.content !== "[deleted by user]" && 
+                  editingPostId !== post.id && ( 
+                    <button
+                      className="btn btn-outline-secondary btn-sm py-0 px-1 me-2"
+                      onClick={() => handleEditPostClick(post)}
+                      disabled={isUpdatingPost} 
+                    >
+                      Edit Post
+                    </button>
+                  )}
+                {isLoggedIn &&
+                  loggedInUserId === post.userId &&
                   post.content !== "[deleted by user]" && (
                     <button
                       className="btn btn-outline-warning btn-sm py-0 px-1 me-2"
@@ -260,29 +307,65 @@ const ChatPage = () => {
               </div>
             </div>
             <div className="card-body">
-              <p className="card-text" style={{ whiteSpace: "pre-wrap" }}>
-                {post.content}
-              </p>
+              {editingPostId === post.id ? (
+                <div>
+                  <textarea
+                    className="form-control mb-2"
+                    rows="3"
+                    value={editingPostContent}
+                    onChange={(e) => setEditingPostContent(e.target.value)}
+                    disabled={isUpdatingPost}
+                  />
+                  <button
+                    className="btn btn-success btn-sm me-2"
+                    onClick={() => handleSavePostUpdate(post.id)}
+                    disabled={isUpdatingPost}
+                  >
+                    {isUpdatingPost ? "Saving..." : "Save"}
+                  </button>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    onClick={handleCancelEditPost}
+                    disabled={isUpdatingPost}
+                  >
+                    Cancel
+                  </button>
+                  {updatePostError && editingPostId === post.id && (
+                     <p className="text-danger mt-1 small">
+                       Error: {updatePostError.data?.error || "Could not update post."}
+                     </p>
+                  )}
+                </div>
+              ) : (
+                <p className="card-text" style={{ whiteSpace: "pre-wrap" }}>
+                  {post.content}
+                </p>
+              )}
 
               {post.replies && post.replies.length > 0 && (
                 <button
                   className="btn btn-sm btn-outline-secondary mb-2"
                   onClick={() => toggleReplies(post.id)}
                 >
-                  {expandedReplies[post.id] ? "Hide" : "View"}{" "}
+                  {expandedReplies[post.id] ? "Hide" : "View"}
                   {post.replies.length} Replies
                 </button>
               )}
               {expandedReplies[post.id] && post.replies && (
                 <div className="replies-section ml-4 pl-3 border-left">
-                  {post.replies.map((reply) => (
-                    <ReplyItem
-                      key={reply.id}
-                      reply={reply}
-                      postId={post.id}
-                      level={0}
+                  {post.replies.map((reply) => ( // Pass loggedInUserId and isAdmin to ReplyItem
+                    <ReplyItem 
+                        key={reply.id} 
+                        reply={reply} 
+                        postId={post.id} 
+                        level={0}
+                        loggedInUserId={loggedInUserId}
+                        isAdmin={isAdmin}
+                        isLoggedIn={isLoggedIn}
+                        navigate={navigate}
                     />
-                  ))}
+                        
+                        ))}
                 </div>
               )}
 
@@ -325,6 +408,11 @@ const ChatPage = () => {
           <p className="text-center">No posts yet. Be the first to share!</p>
         )}
       </div>
+      {updatePostError && !editingPostId && ( // General update error if not specific to an editing post
+        <p className="text-danger mt-1 small">
+          Error updating post: {updatePostError.data?.error || "Please try again."}
+        </p>
+      )}
       {softDeletePostError && (
         <p className="text-danger mt-1 small">
           Error: {softDeletePostError.data?.error || "Could not delete post."}
