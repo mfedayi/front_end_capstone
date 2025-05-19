@@ -9,58 +9,68 @@ const UserProfile = () => {
   const { profile } = useSelector((state) => state.userAuth);
   const { data: user, isLoading: userLoading } = useGetSingleUserQuery(userId);
   const { data: favorites, isLoading: favLoading } = useGetFavoritesQuery(profile?.id);
+  const navigate = useNavigate();
 
   const isSelf = profile?.id === userId;
-
-  const navigate = useNavigate();
 
   if (userLoading || favLoading) return <p>Loading...</p>;
   if (!user) return <p> User Not Found</p>;
 
   return (
     <div>
-      <h2>Your Personal Man Cave</h2>
-      <section className="mb-5 p-3 border rounded bg-light">
+      <h2 className="profile-summary-header">Profile Summary</h2>
+      <section className="user-info">
         {user.length === 0 ? (
           <p>No personal data yet.</p>
         ) : (
-          <ul>
-            {
-              <li key={user.id}>
-                <p>Email: {user.email}</p>
-                <p>Username: {user.username}</p>
-                <p>
-                  {" "}
-                  Name: {user.firstname} {user.lastname}
-                </p>
-                <p>
-                  Member since: {new Date(user.createdAt).toLocaleDateString()}
-                </p>
+          <>
+          <div className="user-info-row">
+            <div className="user-info-item">
+                <p className="label">Email</p>
+                <p className="value">{user.email}</p>
+              </div>
+              <div className="user-info-item">
+                <p className="label">Username</p>
+                <p className="value">{user.username}</p>
+              </div>
+              <div className="user-info-item">
+                <p className="label">Name</p>
+                <p className="value">{user.firstname} {user.lastname}</p>
+              </div>
+              <div className="user-info-item">
+                <p className="label">Member Since</p>
+                <p className="value">{new Date(user.createdAt).toLocaleDateString()}</p>
+              </div>
+            </div>
+            <div className="update-button-wrapper">
                 <button
-                  className="btn btn-primary mt-2"
+                  className="btn-update"
                   onClick={() => navigate(`/update-user/${user.id}`)}
                 >
                   Update User
                 </button>
-              </li>
-            }
-          </ul>
+              </div>
+          </> 
         )}
       </section>
       {isSelf && (
         <section>
-          <h2>Your Favorite Teams:</h2>
+          <h2 className="favorites-header">Your Favorite Teams</h2>
           {favorites?.length === 0 ? (
             <p>No favorite teams yet.</p>
           ) : (
-            <ul>
+            <div className="favorites-container">
               {favorites?.map((team) => (
-                <li key={team.teamId}>
+                <div key={team.teamId} className="favorite-team-card"
+                  role="button"
+                  tabIndex={0} 
+                  onClick={() => navigate(`/teams/${team.teamName}`)}
+                >
                   <img src={team.teamLogo} alt={team.teamName} />
                   <p>{team.teamName}</p>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </section>
       )}

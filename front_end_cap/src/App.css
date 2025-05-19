@@ -284,3 +284,136 @@ h2.nba-heading {
   margin: 1.2rem; /* Space above the description */
   text-align: center; /* Center the text */
 }
+
+/* Favorites Page Styles on Account Profile Page */
+
+.favorites-container {
+  display: flex; /* Use flexbox for layout */
+  flex-wrap: wrap; /* Allow items to wrap */
+  gap: 2rem; /* Space between items */
+  justify-content: center; /* Center items horizontally */
+  padding: 0; /* Padding around the container */
+  max-width: 80%; /* Max width for the container */
+  margin: 0 auto; /* Center the container */
+  margin-bottom: 1rem; /* Space below the container */
+}
+
+.favorite-team-card {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items */
+  width: 10rem; /* Set width for card */
+  background: transparent; /* Transparent background */
+  border-radius: 10px; /* Round the corners */
+  padding: 0.5rem; /* Padding inside the card */
+  text-align: center; /* Center text */
+  box-shadow: none; /* No shadow */
+  transition: transform 0.3s ease-in-out; /* Animation on hover */
+  cursor: pointer; /* Pointer cursor */
+  margin: 1rem; /* Space around the card */
+}
+
+.favorite-team-card:hover {
+  transform: scale(1.05); /* Scale effect on hover */
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.6); /* Blue shadow on hover */
+}
+
+.favorite-team-card img {
+  max-width: 100%; /* Set max width for image */
+  height: auto; /* Maintain aspect ratio */
+  margin: 0 auto 0.25rem auto; /* Center image with margin */
+}
+
+.favorite-team-card p {
+  font-weight: 600; /* Font weight for paragraph */
+  font-size: 1rem; /* Font size for name */
+  margin: 0.5rem 0; /* Margin around name */
+  font-family: "Trebuchet MS", sans-serif; /* Font family */
+  color: #333; /* Text color */
+}
+
+/* Profile Summary Styles on Account Profile Page */
+
+.user-info {
+  background: rgba(233, 230, 221, 0.919); /* Light background color */
+  padding: 1.5rem; /* Padding inside the user info */
+  border: 2px solid darkgrey; /* Border color */
+  border-radius: 12px; /* Round the corners */
+  max-width: 80%; /* Max width for the user info */
+  margin: 1.5rem auto 2rem auto; /* Center the user info */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Add shadow */
+  font-family: "Trebuchet MS", sans-serif; /* Font family */
+}
+
+.user-info-row {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space between items */
+  text-align: center; /* Center the text */
+  margin-bottom: 0; /* Space below the row */
+  flex-wrap: wrap; /* Allow items to wrap so they fit on smaller screens */
+  gap: 1rem; /* Space between items */
+}
+
+.user-info-item {
+  flex: 1 1 160px; /* Flex-grow for equal spacing so they fit on smaller screens */
+  display: flex; /* Use flexbox for layout so we can center items */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items */
+}
+
+.label {
+  font-weight: bold; /* Bold text for labels */
+  font-size: 1rem; /* Font size for labels */
+  color: #333; /* Text color */
+  margin-bottom: 0.5rem; /* Space below the label */
+  text-transform: uppercase; /* Uppercase text */
+  letter-spacing: 1px; /* Space between letters */
+}
+
+.value {
+  font-size: 1rem; /* Font size for values */
+  color: #454444; /* Text color */
+  text-align: center; /* Center the text */
+}
+
+.update-button-wrapper {
+  display: flex; /* Use flexbox for layout */
+  justify-content: center; /* Center items horizontally */
+  margin-top: 0.5rem; /* Space above the button */
+}
+
+.btn-update {
+  background-color: #0069d9; /* Blue background color */
+  color: rgba(0, 0, 0, 0.726); /* White text color */
+  padding: 0.5rem 5rem; /* Padding inside the button */
+  border: 2px solid rgba(0, 0, 0, 0.41); /* Border color */
+  border-radius: 5px; /* Round the corners */
+  cursor: pointer; /* Pointer cursor */
+  font-size: 1rem; /* Font size for button */
+  font-weight: bold; /* Font weight */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Animation on hover */
+}
+
+.btn-update:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
+
+.profile-summary-header {
+  font-size: 2rem; /* Font size for header */
+  font-weight: bold; /* Bold text */
+  color: #003366; /* Text color */
+  text-align: center; /* Center the text */
+  margin-top: 1.5rem; /* Space above the header */
+  margin-bottom: 1rem; /* Space below the header */
+}
+
+.favorites-header {
+  font-size: 2rem; /* Font size for header */
+  font-weight: bold; /* Bold text */
+  color: #003366; /* Text color */
+  text-align: center; /* Center the text */
+  margin-top: 1.5rem; /* Space above the header */
+  margin-bottom: 0.5rem; /* Space below the header */
+}
