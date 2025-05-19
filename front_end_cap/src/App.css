@@ -206,7 +206,7 @@ h2.nba-heading {
   top: 1.5rem; /* Space from the top */
   left: 1.5rem; /* Space from the left */
   background-color: white; /* Background color */
-  font-weight: 600; /* Font weight of 550 makes it semi-bold */
+  font-weight: bold; /* Font weight of 550 makes it semi-bold */
   border: 0.5px solid;  
   border-radius: 8px; /* Round the corners */
   padding: 0.6rem 1.2rem; /* Padding inside the button */
@@ -216,14 +216,15 @@ h2.nba-heading {
   gap: 0.5rem; /* Space between items */
   box-shadow: 0 3px 6px rgba(184, 122, 63, 0.4); /* Add shadow */
   cursor: pointer; /* Pointer cursor */
-  font-size: 1.1rem; /* Font size */
-  color: rgba(245, 139, 63, 0.919); /* Text color (basketball) */
+  font-size: 1rem; /* Font size */
+  color: rgba(236, 160, 106, 0.931); /* Text color (basketball) */
   transition: background-color 0.25s ease, box-shadow 0.25s ease, color 0.25 ease, border-color 0.25s ease; /* Animation on hover */
 }
 
 .basketball-button.liked {
-  color: #716d6d85;
-  font-weight: 400;
+  color: #ee7a0e;  
+  font-weight: bold;
+  border: 1.8px solid;  
 }
 
 .basketball-button:hover {
@@ -234,16 +235,16 @@ h2.nba-heading {
 
 .basketball-button.liked:hover {
   box-shadow: 0 4px 8px rgba(113, 109, 109, 0.5); /* light gray shadow */
-  color: #716d6d85; /* keep muted text color */
+  color: #eeb076; /* keep muted text color */
 }
 
 .basketball-button i {
-  font-size: 1.5rem; /* Font size for icon */
+  font-size: 1.4rem; /* Font size for icon */
   transition: color 0.25s ease, text-shadow 0.25s ease; /* Animation on hover */
 }
 
 .basketball-button.liked i {
-  color: rgba(0, 0, 0, 0.696); /* filled “look” */
+  color: rgba(34, 28, 28, 0.696); /* filled “look” */
   text-shadow: 0 0 5px rgb(255, 106, 0);
 }
 

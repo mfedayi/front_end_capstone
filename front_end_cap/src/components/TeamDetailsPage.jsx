@@ -61,7 +61,7 @@ const TeamDetailsPage = () => {
         className={`basketball-button ${isFavorite ? "liked" : "not-liked"}`} 
         onClick={handleFavoriteClick}>  
                   <i className="bi bi-dribbble"></i>
-          {isFavorite ? "Remove from Favorites" : "Add to Favorites!"}
+          {isFavorite ? "Liked" : "Click to Like!"}
         </button>
       )}
 
