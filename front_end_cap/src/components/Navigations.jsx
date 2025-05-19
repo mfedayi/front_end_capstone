@@ -1,48 +1,41 @@
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../apiSlices/userSlice";
+import "../styles/ball-theme.css";
 
 export default function Navigations() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { isLoggedIn, profile } = useSelector((state) => state.userAuth);
   const userId = profile?.id;
-  console.log(
-    "Nav check → isLoggedIn:",
-    isLoggedIn,
-    "isAdmin:",
-    profile?.isAdmin
-  );
-
   const isAdmin = profile?.isAdmin;
 
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
+  const isActive = (path) => location.pathname === path;
 
   const handleLogout = () => {
     dispatch(logout());
   };
 
   return (
-    <nav className="navbar bg-light justify-content-center">
+    <nav className="navbar custom-navbar justify-content-center">
       <ul className="nav d-flex align-items-center gap-4">
         <li className="nav-item">
           <Link
             className={`nav-link ${
               isActive("/home") || isActive("/")
-                ? "active text-primary"
-                : "text-dark"
+                ? "active text-warning"
+                : "text-white"
             }`}
             to="/"
           >
             Home Page
           </Link>
         </li>
+
         <li className="nav-item">
           <Link
             className={`nav-link ${
-              isActive("/chat") ? "active text-primary" : "text-dark"
+              isActive("/chat") ? "active text-warning" : "text-white"
             }`}
             to="/chat"
           >
@@ -55,7 +48,7 @@ export default function Navigations() {
             <li className="nav-item">
               <Link
                 className={`nav-link ${
-                  isActive("/login") ? "active text-primary" : "text-dark"
+                  isActive("/login") ? "active text-warning" : "text-white"
                 }`}
                 to="/login"
               >
@@ -65,7 +58,7 @@ export default function Navigations() {
             <li className="nav-item">
               <Link
                 className={`nav-link ${
-                  isActive("/register") ? "active text-primary" : "text-dark"
+                  isActive("/register") ? "active text-warning" : "text-white"
                 }`}
                 to="/register"
               >
@@ -79,7 +72,7 @@ export default function Navigations() {
           <li className="nav-item">
             <Link
               className={`nav-link ${
-                isActive("/admin") ? "active text-primary" : "text-dark"
+                isActive("/admin") ? "active text-warning" : "text-white"
               }`}
               to="/admin"
             >
@@ -94,8 +87,8 @@ export default function Navigations() {
               <Link
                 className={`nav-link ${
                   isActive(`/user/${userId}`)
-                    ? "active text-primary"
-                    : "text-dark"
+                    ? "active text-warning"
+                    : "text-white"
                 }`}
                 to={`/user/${userId}`}
               >
@@ -105,7 +98,7 @@ export default function Navigations() {
             <li className="nav-item">
               <Link
                 to="/"
-                className="nav-link text-dark"
+                className="nav-link text-white"
                 onClick={handleLogout}
               >
                 Logout

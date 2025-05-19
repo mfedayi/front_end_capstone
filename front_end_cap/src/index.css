@@ -1,7 +1,9 @@
 body {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
-  background: linear-gradient(to right, #a1c4fd, #c2e9fb); /* Gradient background */
+  background: none;
+  height: 100%;
+  margin: 0;
   margin: 0;
   padding: 0;
 }
@@ -243,4 +245,16 @@ button {
     "Lucida Sans", Arial, sans-serif;
   margin-top: 10px;
   cursor: pointer;
+}
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1rem;
+}
+
+.update-user-bg {
+  background: url("../assets/bg-locker.jpg") no-repeat center center fixed;
+  background-size: cover;
 }

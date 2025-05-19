@@ -14,65 +14,63 @@ import { useDispatch, useSelector } from "react-redux";
 import UserProfile from "./components/UserProfile";
 import { useGetMeQuery } from "./apiSlices/userSlice";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { useLocation } from "react-router-dom";
+import "./styles/ball-theme.css";
+
 
 function App() {
   const { isLoading } = useGetMeQuery();
+  const location = useLocation();
   const dispatch = useDispatch();
   const { isLoggedIn, profile } = useSelector((state) => state.userAuth);
+
   if (!profile && isLoading) return null;
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     fetchGetMe();
-  //   }
-  // }, [fetchGetMe]);
+  const getBackgroundClass = () => {
+    if (location.pathname.includes("/chat")) return "chat-bg";
+    if (location.pathname.includes("/user")) return "profile-bg";
+    return "home-bg";
+  };
 
-  // useEffect(() => {
-  //   if (userData) {
-  //dispatch(storeUserProfile(userData)); // manual update
-  //   }
-  // }, [userData, dispatch]); . No need to manually dispatch as RTK Query + matcher is already doing it in the userSlice
+
+
 
   return (
-    <>
-      <header className="app-header">
+    <div className={getBackgroundClass()}>
+      <header className="app-header shadow-lg">
         <h1 className="app-title">
-          {}
-          Sixth Man Club
+          🏀 <span className="club-name">Sixth Man Club</span>
         </h1>
       </header>
 
-      <BrowserRouter>
-        <Navigations isLoggedIn={isLoggedIn} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/teams/:teamName" element={<TeamDetailsPage />} />
-          <Route path="/update-user/:userId" element={<UpdateUser />} />
-          <Route
-            path="/user/:userId"
-            element={
-              <PrivateRoute>
-                <UserProfile />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <PrivateRoute requireAdmin>
-                <AdminAccount />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/chat" element={<ChatPage />} />
-          <Route path="*" element={<div>404 - Page Not Found</div>} />
-        </Routes>
-      </BrowserRouter>
-    </>
+      <Navigations isLoggedIn={isLoggedIn} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/teams/:teamName" element={<TeamDetailsPage />} />
+        <Route path="/update-user/:userId" element={<UpdateUser />} />
+        <Route
+          path="/user/:userId"
+          element={
+            <PrivateRoute>
+              <UserProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute requireAdmin>
+              <AdminAccount />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/chat" element={<ChatPage />} />
+        <Route path="*" element={<div>404 - Page Not Found</div>} />
+      </Routes>
+    </div>
   );
 }
 

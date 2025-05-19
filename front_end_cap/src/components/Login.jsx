@@ -47,38 +47,42 @@ export default function Login() {
     }
   }
   return (
-    <div className="signInContainer">
-      <h4 className="signIn">Please sign in</h4>
-      {successMessage && (
-        <p className="text-success">{successMessage} Welcome!</p>
-      )}
-      {error && error.api && <p className="text-danger">{error.api}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className="fw-light">username</label>
-          <input
-            type="text"
-            value={username}
-            className="form-control"
-            aria-describedby="emailHelp"
-            placeholder="Enter username"
-            onChange={(e) => setUsername(e.target.value)}
-          />
+    <div className="page-wrapper update-user-bg">
+      <div className="update-form-card">
+        <div className="signInContainer">
+          <h4 className="signIn">Please sign in</h4>
+          {successMessage && (
+            <p className="text-success">{successMessage} Welcome!</p>
+          )}
+          {error && error.api && <p className="text-danger">{error.api}</p>}
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label className="fw-light">username</label>
+              <input
+                type="text"
+                value={username}
+                className="form-control"
+                aria-describedby="emailHelp"
+                placeholder="Enter username"
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                value={password}
+                className="form-control"
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button type="submit" className="btn btn-outline-dark">
+              Submit
+            </button>
+          </form>
         </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            className="form-control"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit" className="btn btn-outline-dark">
-          Submit
-        </button>
-      </form>
+      </div>
     </div>
   );
 }
