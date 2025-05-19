@@ -70,7 +70,6 @@ const TeamDetailsPage = () => {
       className="team-details-logo" />
       <h2 className="team-details-name">{team?.teamName}</h2>
     </div>
-
     {/* Display team details */}
       <div className="team-info">
         <h3>Team Information</h3>
@@ -97,7 +96,6 @@ const TeamDetailsPage = () => {
           </a>
         </p>
       </div>
-
       <div className="team-description">
         <p>{team?.description}</p>
       </div>

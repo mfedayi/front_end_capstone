@@ -32,7 +32,6 @@ builder.addMatcher(login.matchFulfilled, storeTokenAndSetAuthStatus);
 
 // Let me know if you'd like this adapted into a GitHub README, blog post, or tutorial!
 
-````
 
 //old App.jsx
 import "./apiSlices/userSlice"; // force endpoint registration
