@@ -240,7 +240,7 @@ h2 {
 }
 
 button {
-  background-color: rgb(246, 223, 170) !important;
+  background-color: rgb(246, 223, 170);
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
   margin-top: 10px;

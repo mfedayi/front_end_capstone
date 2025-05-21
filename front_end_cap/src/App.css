@@ -195,17 +195,17 @@ h2.nba-heading {
   padding: 1rem; /* Padding around the details container */
   margin: 4rem; /* Add margin to the details container */
   margin-top: 1rem; /* Remove top margin */
-  background-color: rgba(226, 221, 209, 0.823);
+  background-color: rgba(17, 17, 15, 0.823);
   border-radius: 10px; /* Round the corners */
   border: 2px solid darkgrey; /* Add a border */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
 }
 
-.basketball-button {
+ .basketball-button {
   position: absolute; /* Position the button */
   top: 1.5rem; /* Space from the top */
   left: 1.5rem; /* Space from the left */
-  background-color: white; /* Background color */
+  background-color: rgb(49, 47, 47) !important; /* Background color */
   font-weight: bold; /* Font weight of 550 makes it semi-bold */
   border: 0.5px solid;  
   border-radius: 8px; /* Round the corners */
@@ -222,7 +222,7 @@ h2.nba-heading {
 }
 
 .basketball-button.liked {
-  color: #ee7a0e;  
+  color: #cb8a54;  
   font-weight: bold;
   border: 1.8px solid;  
 }
@@ -259,9 +259,12 @@ h2.nba-heading {
 .team-details-name {
   font-size: 2.5rem; /* Font size for name */
   font-weight: bold; /* Bold text */
-  color: #003366; /* Text color */
+  color: #c09a77; /* Text color */
   text-align: center; /* Center the name */
   margin-top: 0.5rem; /* Space above the name */
+  text-shadow: 0 0 5px rgb(252, 110, 10);
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+  box-shadow: 0 1px 8px rgba(65, 28, 28, 0.5);
 }
 
 .team-details-logo {
@@ -328,7 +331,7 @@ h2.nba-heading {
 
 .team-description {
   font-size: 0.9rem; /* Font size for description */
-  color: #555; /* Text color */
+  color: #f3ecec; /* Text color */
   margin: 1.2rem; /* Space above the description */
   text-align: center; /* Center the text */
 }
