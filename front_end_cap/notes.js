@@ -115,5 +115,72 @@ function App() {
   );
 }
 
-export default App;
+//export default App;
+
+
+
+
+//*************************** */
+// Using AJAX and useState and UseEffect instead of RTQ hooks
+
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+
+const TeamDetail = () => {
+  const { teamName } = useParams();
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTeamNews = async () => {
+      try {
+        const res = await axios.get(`/api/news/team/${teamName}`);
+        setArticles(res.data);
+      } catch (err) {
+        console.error("Failed to fetch team news", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeamNews();
+  }, [teamName]);
+
+  if (loading) return <p>Loading {teamName} news...</p>;
+
+  return (
+    <div className="container mt-4">
+      <h2>{teamName} News 🏀</h2>
+      {articles.length === 0 ? (
+        <p>No news found for this team.</p>
+      ) : (
+        <ul className="list-unstyled">
+          {articles.map((article, idx) => (
+            <li key={idx} className="mb-4 border p-3 rounded shadow-sm d-flex gap-3">
+              {article.urlToImage && (
+                <img
+                  src={article.urlToImage}
+                  alt={article.title}
+                  style={{ width: "120px", borderRadius: "8px" }}
+                />
+              )}
+              <div>
+                <a href={article.url} target="_blank" rel="noreferrer" className="text-dark text-decoration-none">
+                  <h5>{article.title}</h5>
+                </a>
+                <p>{article.description}</p>
+                <small className="text-muted">
+                  {article.source.name} | {new Date(article.publishedAt).toLocaleString()}
+                </small>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+//export default TeamDetail;
 
