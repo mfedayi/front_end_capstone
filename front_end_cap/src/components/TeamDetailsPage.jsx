@@ -9,6 +9,8 @@ import {
   useGetFavoritesQuery,
 } from "../apiSlices/favoritesSlice";
 
+import "../styles/TeamDetailsPage.css";
+
 import { useGetTeamNewsQuery } from "../apiSlices/newsSlice";
 
 const TeamDetailsPage = () => {
@@ -69,94 +71,150 @@ const TeamDetailsPage = () => {
 
   return (
     <>
-      <section>
-        <div className="team-details-container">
-          {/* Heart button to add/remove from favorites */}
-          {profile && ( // Only show the button if the user is logged in}
-            <button
-              className={`basketball-button ${
-                isFavorite ? "liked" : "not-liked"
-              }`}
-              onClick={handleFavoriteClick}
-            >
-              <i className="bi bi-dribbble"></i>
-              {isFavorite ? "Liked" : "Click to Like!"}
-            </button>
-          )}
+      <div className="team-social-links">
+        {team?.facebook && (
+          <a
+            href={`https://${team.facebook}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i
+              class="bi bi-facebook"
+              style={{ fontSize: "2rem", color: "#1877F2" }}
+            ></i>
+          </a>
+        )}
+        {team?.instagram && (
+          <a
+            href={`https://${team.instagram}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i
+              class="bi bi-instagram"
+              style={{ fontSize: "2rem", color: "#E1306C" }}
+            ></i>
+          </a>
+        )}
+        {team?.twitter && (
+          <a
+            href={`https://${team.twitter}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i
+              class="bi bi-twitter-x"
+              style={{ fontSize: "2rem", color: "#1DA1F2" }}
+            ></i>
+          </a>
+        )}
+        <a
+          href={`https://www.youtube.com/@${team?.teamName?.replace(
+            /\s+/g,
+            ""
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i
+            class="bi bi-youtube"
+            style={{ fontSize: "2rem", color: "#FF0000" }}
+          ></i>
+        </a>
+      </div>
+      <div className="team-details-page">
+        <div className="team-details-main">
+          <section>
+            <div className="team-details-container">
+              {profile && ( // Only show the button if the user is logged in}
+                <button
+                  className={`basketball-button ${
+                    isFavorite ? "liked" : "not-liked"
+                  }`}
+                  onClick={handleFavoriteClick}
+                >
+                  <i className="bi bi-dribbble"></i>
+                  {isFavorite ? "Liked" : "Click to Like!"}
+                </button>
+              )}
 
-          {/* Display team logo and name */}
-          <div className="team-header">
-            <img
-              src={team?.teamBadge}
-              alt={team?.teamName}
-              className="team-details-logo"
-            />
-            <h2 className="team-details-name">{team?.teamName}</h2>
-          </div>
-          {/* Display team details */}
-          <div className="team-info">
-            <h3>Team Information</h3>
-            <div className="team-info-details">
-              <div>
-                <strong>Founded</strong>
-                <p>{team?.formedYear}</p>
+              {/* Display team logo and name */}
+              <div className="team-header">
+                <img
+                  src={team?.teamBadge}
+                  alt={team?.teamName}
+                  className="team-details-logo"
+                />
+                <h2 className="team-details-name">{team?.teamName}</h2>
               </div>
-              <div>
-                <strong>Stadium</strong>
-                <p>{team?.stadium}</p>
+              {/* Display team details */}
+              <div className="team-info">
+                <h3>Team Information</h3>
+                <div className="team-info-details">
+                  <div>
+                    <strong>Founded</strong>
+                    <p>{team?.formedYear}</p>
+                  </div>
+                  <div>
+                    <strong>Stadium</strong>
+                    <p>{team?.stadium}</p>
+                  </div>
+                  <div>
+                    <strong>Location</strong>
+                    <p>{team?.city}</p>
+                  </div>
+                </div>
+                <p>
+                  <a
+                    href={
+                      team?.website?.startsWith("http")
+                        ? team?.website
+                        : `https://${team?.website}`
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer" // to prevent security issues
+                  >
+                    {team?.website}
+                  </a>
+                </p>
               </div>
-              <div>
-                <strong>Location</strong>
-                <p>{team?.city}</p>
-              </div>
-            </div>
-            <p>
-              <a
-                href={
-                  team?.website?.startsWith("http")
-                    ? team?.website
-                    : `https://${team?.website}`
-                }
-                target="_blank"
-                rel="noopener noreferrer" // to prevent security issues
-              >
-                {team?.website}
-              </a>
-            </p>
-          </div>
-          <div className="team-description">
-            <p>{team?.description}</p>
-          </div>
-        </div>
-      </section>
-      <section>
-        <div className="container mt-4 team-grid favorites-container ">
-          {articles?.slice(0, 5).map((article) => (
-            <div
-              key={article.title}
-              className="team-card"
-              onClick={() => window.open(article.url, "_blank")}
-              style={{ cursor: "pointer" }}
-            >
-              <div>
-                <h4>{article.title}</h4>
-              </div>
-              <div>
-                <h5>{article.author}</h5>
-              </div>
-              <div>
-                <h5>{article.source.name}</h5>
-              </div>
-              <div>
-                <p>{article.description}</p>
-              </div>
-              <div>
-                <img src={article.urlToImage} />
+              <div className="team-description">
+                <article>{team?.description}</article>
               </div>
             </div>
-          ))}
+          </section>
         </div>
-      </section>
+
+        <aside className="team-news-sidebar">
+          <section>
+            <h4>Latest</h4>
+            <ul>
+              {articles?.slice(0, 7).map((article, idx) => (
+                <li
+                  key={idx}
+                  onClick={() => window.open(article.url, "_blank")}
+                >
+                  {article.urlToImage && (
+                    <img src={article.urlToImage} alt={article.title} />
+                  )}
+                  <div>
+                    <h6>
+                      {article.title.length > 60
+                        ? article.title.slice(0, 57) + "..."
+                        : article.title}
+                    </h6>
+                    <small>
+                      {article.author ||
+                        article.source?.name ||
+                        "Unknown Source"}
+                    </small>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </aside>
+      </div>
     </>
   );
 };
