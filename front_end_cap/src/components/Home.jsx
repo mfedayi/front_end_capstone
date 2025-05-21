@@ -7,11 +7,8 @@ import "../App.css";
 const Home = () => {
   const navigate = useNavigate();
   const { data: teams, isLoading, isError, error } = useGetAllTeamsQuery();
-  const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  const [searchTerm, setSearchTerm] = useState(""); 
 
-  // const loggedInUserId = useSelector((state) => state.userAuth.profile?.id);
-  // const [deleteUser, { isLoading: isDeleting, error: deleteError }] =
-  //   useDeleteUserMutation();
 
   if (isLoading) {
     return <h1>is loading...</h1>;
@@ -29,17 +26,17 @@ const Home = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="nba-heading">NBA Teams</h2> {/* Title */}
+      <h2 className="nba-heading">NBA Teams</h2> 
       <div className = "search-bar-container">
         <input
           type="text"
           placeholder="Search for a team..."
           className="search-input"
           value={searchTerm}
-          onChange={ (e) => setSearchTerm(e.target.value)} // Update search term
+          onChange={ (e) => setSearchTerm(e.target.value)} 
         />
       </div>
-      <div className="team-grid"> {/* Grid container */}
+      <div className="team-grid"> 
       {filteredTeams?.map((team) => (
         <div
           key={team.teamId}
@@ -53,9 +50,9 @@ const Home = () => {
             alt={team.teamName}
             className="team-logo"
             onError={(e) => {
-              e.target.onerror = null; // prevents looping
+              e.target.onerror = null; 
               e.target.src =
-                "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"; // fallback image
+                "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"; 
             }}
           />
           <h5 className="mt-2">{team.teamName}</h5>

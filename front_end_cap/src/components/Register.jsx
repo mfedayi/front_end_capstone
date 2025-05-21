@@ -6,21 +6,18 @@ import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [registerUser] = useRegisterMutation();
-  // states to manage user inputs
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
 
-  // State to handle errors,
   const [error, setErrors] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const navigate = useNavigate(); // hook to navigate
+  const navigate = useNavigate(); 
 
-  //form validation function to validate user input for username and pass to meet min reqs
   const validateValues = (email, username, password, firstname, lastname) => {
     const errors = {};
     if (!email || email.length < 6) {
@@ -41,11 +38,9 @@ export default function Register() {
     return errors;
   };
 
-  // handle form submission
   async function handleSubmit(event) {
     event.preventDefault();
 
-    // run vals and update state error
     const validationErrors = validateValues(
       email,
       username,
@@ -56,9 +51,8 @@ export default function Register() {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors || {}).length > 0) return;
-    setSubmitting(true); // set submitting flag to true
+    setSubmitting(true); 
 
-    // try to register user using RTQ mutation
     try {
       const result = await registerUser({
         firstname,
@@ -68,8 +62,8 @@ export default function Register() {
         password,
       }).unwrap();
 
-      setSuccessMessage(`Registration Successfull ${result.message}`); // set success message
-      navigate("/"); // navigate user to home after successfull reg
+      setSuccessMessage(`Registration Successfull ${result.message}`); 
+      navigate("/"); 
     } catch (err) {
       console.error("Failed to register", err);
       setErrors({ api: "Registration failed" });
@@ -81,7 +75,6 @@ export default function Register() {
       <div className="update-form-card"></div>
       <div className="registerBackground">
         <h2>Register</h2>
-        {/* Success and API error messages */}
         {successMessage && (
           <p className="text-success">
             {successMessage} Welcome {email}!
@@ -90,7 +83,6 @@ export default function Register() {
         {error && error.api && <p className="text-danger">{error.api}</p>}
 
         <div className="registerContainer">
-          {/* Registration Form */}
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label className="form-label"></label>
@@ -100,7 +92,7 @@ export default function Register() {
                 className="form-control"
                 name="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)} // Update email state on input change
+                onChange={(e) => setEmail(e.target.value)} 
               />
               {error && error.email && (
                 <div className="text-danger">{error.email}</div>
@@ -114,7 +106,7 @@ export default function Register() {
                 className="form-control"
                 name="username"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)} // Update username state on input change
+                onChange={(e) => setUsername(e.target.value)} 
               />
               {error && error.username && (
                 <div className="text-danger">{error.username}</div>
@@ -176,7 +168,6 @@ export default function Register() {
             </button>
           </form>
         </div>
-        {/* Show confirmation if no validation errors and form is being submitted */}
         {error && Object.keys(error).length === 0 && submitting && (
           <span className="text-success">Successfully submitted ✓</span>
         )}

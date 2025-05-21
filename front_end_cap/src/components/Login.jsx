@@ -31,7 +31,7 @@ export default function Login() {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors || {}).length > 0) return;
-    setSubmitting(true); // set submitting flag to true
+    setSubmitting(true); 
 
     try {
       const result = await loginUser({
@@ -39,8 +39,8 @@ export default function Login() {
         password,
       }).unwrap();
 
-      setSuccessMessage(`Sign in Successfull ${result.message}`); // set success message
-      navigate("/"); // navigate user to home after successfull reg
+      setSuccessMessage(`Sign in Successfull ${result.message}`); 
+      navigate("/"); 
     } catch (err) {
       console.error("Failed to login", err);
       setErrors({ api: "login failed" });

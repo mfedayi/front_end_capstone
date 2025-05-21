@@ -30,9 +30,14 @@ const favoritesAPI = api.injectEndpoints({
       query: () => "/favorites",
       providesTags: ["Favorites"],
     }),
+    // get public favorites for a specific user
+    getUserPublicFavorites: builder.query({
+      query: (userId) => `/favorites/public/${userId}`,
+      providesTags: (result, error, userId) => [{ type: "Favorites", id: `public-${userId}` }], // Unique tag for public favorites
+    }),
   }),
 });
 
-export const {useAddFavoritesMutation, useRemoveFavoritesMutation, useGetFavoritesQuery} = favoritesAPI; // export the hooks for the endpoints
+export const {useAddFavoritesMutation, useRemoveFavoritesMutation, useGetFavoritesQuery, useGetUserPublicFavoritesQuery} = favoritesAPI; // export the hooks for the endpoints
 
 export default favoritesAPI; // export the api slice

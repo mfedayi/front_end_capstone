@@ -68,7 +68,7 @@ const postsAPI = api.injectEndpoints({
         method: "PATCH",
         body: { content },
       }),
-      invalidatesTags: (result, error, { replyId }) => [{ type: "Replies", id: replyId }, "Posts", "Replies"], // Invalidate Posts as well, as replies are nested
+      invalidatesTags: (result, error, { replyId }) => [{ type: "Replies", id: replyId }, "Posts", "Replies"], 
     }),
   }),
 });

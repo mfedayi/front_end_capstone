@@ -5,19 +5,18 @@ import {
   useCreateReplyMutation,
   useSoftDeleteOwnReplyMutation,
   useAdminDeleteReplyMutation,
-  useUpdateReplyMutation, // For user to update their reply
+  useUpdateReplyMutation, 
 } from "../apiSlices/postsSlice";
 import { Link } from "react-router-dom";
 
-const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLoggedIn, navigate }) => { // Added navigate prop
+const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLoggedIn, navigate }) => { 
   if (!reply || !reply.user) {
     return null;
   }
 
-  // const navigate = useNavigate(); // navigate is now passed as a prop
   const [isReplying, setIsReplying] = useState(false);
   const [newReplyContent, setNewReplyContent] = useState("");
-  const [areChildrenExpanded, setAreChildrenExpanded] = useState(false); // State for child replies visibility
+  const [areChildrenExpanded, setAreChildrenExpanded] = useState(false); 
   const [editingReplyId, setEditingReplyId] = useState(null);
   const [editingReplyContent, setEditingReplyContent] = useState("");
 
@@ -49,7 +48,7 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
       }).unwrap();
       setNewReplyContent("");
       setIsReplying(false);
-      setAreChildrenExpanded(true); // Auto-expand to show the new reply
+      setAreChildrenExpanded(true); 
     } catch (err) {
       console.error("Failed to submit nested reply:", err);
       alert(
@@ -123,7 +122,7 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
       );
     }
   };
-  const softDeletedReplyContent = "[reply has been deleted by the user]"; // Matches backend
+  const softDeletedReplyContent = "[reply has been deleted by the user]"; 
   const displayContent =
     reply.content === softDeletedReplyContent
       ? softDeletedReplyContent
@@ -141,7 +140,11 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
     >
       <div className="d-flex justify-content-between align-items-start">
         <div>
-          <strong>{reply.user?.username || "Anonymous"}:</strong>{" "}
+          <strong>
+            {reply.user?.id ? (
+              <Link to={`/profile/${reply.user.id}`} className="text-decoration-none text-dark username-link">{reply.user.username}</Link>
+            ) : (reply.user?.username || "Anonymous")}
+          :</strong>{" "}
           {editingReplyId === reply.id ? (
             <div className="mt-1">
               <textarea
@@ -202,7 +205,6 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
               Edit
             </button>
           )}
-          {/* Button to toggle visibility of child replies */}
           {reply.childReplies && reply.childReplies.length > 0 && (
             <button
               className="btn btn-link btn-sm p-0 ms-2"
@@ -266,7 +268,6 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
         </form>
       )}
 
-      {/* Recursively render child replies, conditionally based on areChildrenExpanded */}
       {areChildrenExpanded && reply.childReplies && reply.childReplies.length > 0 && (
         <div className="nested-replies mt-2">
           {reply.childReplies.map((childReply) => (
@@ -275,13 +276,13 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
               reply={childReply}
               postId={postId}
               level={level + 1}
-              loggedInUserId={loggedInUserId} // Pass down
-              isAdmin={isAdmin}             // Pass down
-              isLoggedIn={isLoggedIn}         // Pass down
-              navigate={navigate}           // Pass down
+              loggedInUserId={loggedInUserId} 
+              isAdmin={isAdmin}             
+              isLoggedIn={isLoggedIn}         
+              navigate={navigate}           
             />
           ))}
-           {updateReplyError && !editingReplyId && ( // General update error if not specific to an editing reply
+           {updateReplyError && !editingReplyId && ( 
             <p className="text-danger mt-1 small">Error updating reply: {updateReplyError.data?.error || "Please try again."}</p>
           )}
 
