@@ -58,9 +58,10 @@ const TeamDetailsPage = () => {
       {/* Heart button to add/remove from favorites */}
       {profile && ( // Only show the button if the user is logged in}
         <button
-        className={`heart-button ${isFavorite ? "Liked" : "Like"}`} 
+        className={`basketball-button ${isFavorite ? "liked" : "not-liked"}`} 
         onClick={handleFavoriteClick}>  
-          <i className={`bi ${isFavorite ? "bi-heart-fill" : "bi-heart"}`}></i>
+                  <i className="bi bi-dribbble"></i>
+          {isFavorite ? "Liked" : "Click to Like!"}
         </button>
       )}
 
