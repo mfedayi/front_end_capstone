@@ -12,7 +12,6 @@ const UpdateUser = () => {
   const { userId } = useParams();
   const {  profile } = useSelector((state) => state.userAuth);
   const navigate = useNavigate();
-  console.log("user ID:", userId);
   
   const {
     data: user,
@@ -24,7 +23,7 @@ const UpdateUser = () => {
   const [updateMe, { isLoading: isUpdating, error: updateError }] =
     useUpdateMeMutation();
 
-  const [updateUser, { isLoading }] = useUpdateUserMutation(userId);
+  const [updateUser] = useUpdateUserMutation(userId); 
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -32,7 +31,7 @@ const UpdateUser = () => {
     email: "",
     username: "",
   });
-  const [submitError, setSubmitError] = useState(null);
+
   useEffect(() => {
     if (user) {
       setFormData({

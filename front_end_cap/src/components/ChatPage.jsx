@@ -10,6 +10,7 @@ import {
   useSoftDeleteOwnReplyMutation, // For user to soft-delete their reply
   useAdminDeleteReplyMutation, // For admin to delete any reply
   useUpdatePostMutation, // For user to update their post
+  useVotePostMutation, // For voting on posts
 } from "../apiSlices/postsSlice"; // Make sure this path is correct
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
@@ -45,6 +46,8 @@ const ChatPage = () => {
   ] = useAdminDeleteReplyMutation();
   const [updatePost, { isLoading: isUpdatingPost, error: updatePostError }] =
     useUpdatePostMutation();
+  const [votePost, { isLoading: isVotingPost, error: votePostError }] =
+    useVotePostMutation();
 
   const isLoggedIn = useSelector((state) => state.userAuth.isLoggedIn);
   const loggedInUser = useSelector((state) => state.userAuth.profile);
@@ -140,40 +143,6 @@ const ChatPage = () => {
     }
   };
 
-  const handleSoftDeleteOwnReplyClick = async (replyId) => {
-    if (!isLoggedIn) return;
-    if (window.confirm("Are you sure you want to delete this reply?")) {
-      try {
-        await softDeleteOwnReply(replyId).unwrap();
-      } catch (err) {
-        console.error("Failed to delete own reply:", err?.data?.error || err);
-        alert(
-          `Failed to delete reply: ${err.data?.error || "Please try again."}`
-        );
-      }
-    }
-  };
-
-  const handleAdminDeleteReplyClick = async (replyId) => {
-    if (!isAdmin) return;
-    if (
-      window.confirm(
-        "ADMIN: Are you sure you want to permanently delete this reply?"
-      )
-    ) {
-      try {
-        await adminDeleteReply(replyId).unwrap();
-      } catch (err) {
-        console.error("Failed to admin delete reply:", err?.data?.error || err);
-        alert(
-          `Failed to admin delete reply: ${
-            err.data?.error || "Please try again."
-          }`
-        );
-      }
-    }
-  };
-
   const toggleReplies = (postId) => {
     setExpandedReplies((prev) => ({ ...prev, [postId]: !prev[postId] }));
   };
@@ -205,6 +174,22 @@ const ChatPage = () => {
     } catch (err) {
       console.error("Failed to update post:", err);
       alert(`Failed to update post: ${err.data?.error || "Please try again."}`);
+    }
+  };
+
+  const handleVotePost = async (postId, voteType) => {
+    if (!isLoggedIn) {
+      alert("Please login to vote.");
+      navigate("/login");
+      return;
+    }
+    try {
+      await votePost({ postId, voteType }).unwrap();
+    } catch (err) {
+      console.error("Failed to vote on post:", err);
+      alert(
+        `Failed to vote: ${err.data?.error || "Please try again."}`
+      );
     }
   };
 
@@ -355,6 +340,32 @@ const ChatPage = () => {
                 </p>
               )}
 
+              {/* Like/Dislike buttons for Post */}
+              {isLoggedIn && post.content !== "[deleted by user]" && (
+                <div className="mt-2">
+                  <button
+                    className={`btn btn-sm me-2 ${post.userVote === 'LIKE' ? 'btn-success' : 'btn-outline-success'}`}
+                    onClick={() => handleVotePost(post.id, "LIKE")}
+                    disabled={isVotingPost}
+                  >
+                    <i className="bi bi-hand-thumbs-up"></i> Like ({post.likeCount || 0})
+                  </button>
+                  <button
+                    className={`btn btn-sm ${post.userVote === 'DISLIKE' ? 'btn-danger' : 'btn-outline-danger'}`}
+                    onClick={() => handleVotePost(post.id, "DISLIKE")}
+                    disabled={isVotingPost}
+                  >
+                    <i className="bi bi-hand-thumbs-down"></i> Dislike ({post.dislikeCount || 0})
+                  </button>
+                </div>
+              )}
+
+              {/* Separator before replies/reply form */}
+              {(post.replies && post.replies.length > 0 || isLoggedIn) && (
+                 <hr className="my-3" />
+              )}
+
+
               {post.replies && post.replies.length > 0 && (
                 <button
                   className="btn btn-sm btn-outline-secondary mb-2"
@@ -424,6 +435,12 @@ const ChatPage = () => {
         <p className="text-danger mt-1 small">
           Error updating post:{" "}
           {updatePostError.data?.error || "Please try again."}
+        </p>
+      )}
+      {votePostError && !editingPostId && ( // General vote error if not specific to an editing post
+        <p className="text-danger mt-1 small">
+          Error voting on post:{" "}
+          {votePostError.data?.error || "Please try again."}
         </p>
       )}
       {softDeletePostError && (

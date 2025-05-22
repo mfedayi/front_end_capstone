@@ -39,11 +39,12 @@ export default function Login() {
         password,
       }).unwrap();
 
-      setSuccessMessage(`Sign in Successfull ${result.message}`); 
+      // Backend returns { token }, not a message. Auth state is handled by Redux.
+      // setSuccessMessage("Sign in Successful!"); 
       navigate("/"); 
     } catch (err) {
       console.error("Failed to login", err);
-      setErrors({ api: "login failed" });
+      setErrors({ api: err.data?.error || "Login failed. Please try again." });
     }
   }
   return (

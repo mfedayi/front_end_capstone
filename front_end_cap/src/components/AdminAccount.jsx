@@ -1,22 +1,19 @@
 import {
   useGetAllUsersQuery,
   useDeleteUserMutation,
-  useUpdateUserMutation,
-  useGetSingleUserQuery,
+  // useUpdateUserMutation, 
+  // useGetSingleUserQuery, 
 } from "../apiSlices/userSlice";
-//import { useReturnBookMutation } from "../slices/tempSlice";
 import { useState} from "react";
 import {  useNavigate } from "react-router-dom";
 
 const AdminAccount = () => {
   const { data: users, error, isLoading } = useGetAllUsersQuery();
-  const [deleteUser] = useDeleteUserMutation();
-  //const [reservations, setReservations] = useState([]);
+  const [deleteUser] = useDeleteUserMutation(); 
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   if (isLoading) return <p>Loading...</p>;
-
   if (error) {
     return <p>Error: {error?.status || "Error loading profiles"}</p>;
   }
@@ -27,7 +24,7 @@ const AdminAccount = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="nba-heading">NBA Teams</h2> {/* Title */}
+      <h2 className="nba-heading">NBA Teams</h2>
       <div className="search-bar-container">
         <input
           type="text"
