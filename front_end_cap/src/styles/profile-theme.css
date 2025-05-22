@@ -62,10 +62,10 @@
 }
 
 .team-logo {
-  width: 60px;
-  height: 60px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
-  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .team-name {

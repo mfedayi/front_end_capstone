@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGetAllTeamsQuery, useGetTeamDetailsQuery } from "../api/nbaAPI";
+import { useGetAllTeamsQuery } from "../api/nbaAPI";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../App.css";
@@ -25,17 +25,19 @@ const Home = () => {
   );
 
   return (
-    <div className="container mt-4">
-      <h2 className="nba-heading">NBA Teams</h2> 
-      <div className = "search-bar-container">
+  <div className="home-bg">
+    <div className="container mt-4" style={{ position: "relative" }}> {/* Background image styling */}
+      <div className="nba-heading">
+        NBA Teams
         <input
           type="text"
-          placeholder="Search for a team..."
+          placeholder="Search by team name..."
           className="search-input"
           value={searchTerm}
           onChange={ (e) => setSearchTerm(e.target.value)} 
         />
       </div>
+
       <div className="team-grid"> 
       {filteredTeams?.map((team) => (
         <div
@@ -55,11 +57,13 @@ const Home = () => {
                 "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"; 
             }}
           />
-          <h5 className="mt-2">{team.teamName}</h5>
+          <h5>{team.teamName}</h5>
         </div>
       ))}
       </div>
     </div>
+  </div>
   );
 };
+
 export default Home;
