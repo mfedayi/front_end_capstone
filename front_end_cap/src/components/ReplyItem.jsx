@@ -5,19 +5,19 @@ import {
   useCreateReplyMutation,
   useSoftDeleteOwnReplyMutation,
   useAdminDeleteReplyMutation,
-  useUpdateReplyMutation, // For user to update their reply
+  useUpdateReplyMutation,
+  useVoteReplyMutation, // For voting on replies
 } from "../apiSlices/postsSlice";
 import { Link } from "react-router-dom";
 
-const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLoggedIn, navigate }) => { // Added navigate prop
+const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLoggedIn, navigate }) => { 
   if (!reply || !reply.user) {
     return null;
   }
 
-  // const navigate = useNavigate(); // navigate is now passed as a prop
   const [isReplying, setIsReplying] = useState(false);
   const [newReplyContent, setNewReplyContent] = useState("");
-  const [areChildrenExpanded, setAreChildrenExpanded] = useState(false); // State for child replies visibility
+  const [areChildrenExpanded, setAreChildrenExpanded] = useState(false); 
   const [editingReplyId, setEditingReplyId] = useState(null);
   const [editingReplyContent, setEditingReplyContent] = useState("");
 
@@ -31,6 +31,8 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
     useAdminDeleteReplyMutation();
   const [updateReply, { isLoading: isUpdatingReply, error: updateReplyError }] =
     useUpdateReplyMutation();
+  const [voteReply, { isLoading: isVotingReply, error: voteReplyError }] =
+    useVoteReplyMutation();
 
   const handleNestedReplySubmit = async (e) => {
     e.preventDefault();
@@ -49,7 +51,7 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
       }).unwrap();
       setNewReplyContent("");
       setIsReplying(false);
-      setAreChildrenExpanded(true); // Auto-expand to show the new reply
+      setAreChildrenExpanded(true); 
     } catch (err) {
       console.error("Failed to submit nested reply:", err);
       alert(
@@ -123,7 +125,23 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
       );
     }
   };
-  const softDeletedReplyContent = "[reply has been deleted by the user]"; // Matches backend
+
+  const handleVoteReply = async (replyId, voteType) => {
+    if (!isLoggedIn) {
+      alert("Please login to vote.");
+      navigate("/login");
+      return;
+    }
+    try {
+      await voteReply({ replyId, voteType }).unwrap();
+    } catch (err) {
+      console.error("Failed to vote on reply:", err);
+      alert(
+        `Failed to vote: ${err.data?.error || "Please try again."}`
+      );
+    }
+  };
+  const softDeletedReplyContent = "[reply has been deleted by the user]"; 
   const displayContent =
     reply.content === softDeletedReplyContent
       ? softDeletedReplyContent
@@ -141,7 +159,11 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
     >
       <div className="d-flex justify-content-between align-items-start">
         <div>
-          <strong>{reply.user?.username || "Anonymous"}:</strong>{" "}
+          <strong>
+            {reply.user?.id ? (
+              <Link to={`/profile/${reply.user.id}`} className="text-decoration-none text-dark username-link">{reply.user.username}</Link>
+            ) : (reply.user?.username || "Anonymous")}
+          :</strong>{" "}
           {editingReplyId === reply.id ? (
             <div className="mt-1">
               <textarea
@@ -184,6 +206,27 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
           <small className="text-muted">
             {new Date(reply.createdAt).toLocaleString()}
           </small>
+          {/* Like/Dislike buttons for Reply */}
+          {isLoggedIn && !isSoftDeleted && editingReplyId !== reply.id && (
+            <div className="mt-1">
+              <button
+                className={`btn btn-link btn-sm p-0 me-2 ${reply.userVote === 'LIKE' ? 'text-success' : 'text-secondary'}`}
+                onClick={() => handleVoteReply(reply.id, "LIKE")}
+                disabled={isVotingReply}
+                style={{ textDecoration: 'none' }}
+              >
+                <i className="bi bi-hand-thumbs-up"></i> ({reply.likeCount || 0})
+              </button>
+              <button
+                className={`btn btn-link btn-sm p-0 ${reply.userVote === 'DISLIKE' ? 'text-danger' : 'text-secondary'}`}
+                onClick={() => handleVoteReply(reply.id, "DISLIKE")}
+                disabled={isVotingReply}
+                style={{ textDecoration: 'none' }}
+              >
+                <i className="bi bi-hand-thumbs-down"></i> ({reply.dislikeCount || 0})
+              </button>
+            </div>
+          )}
           {isLoggedIn && !isSoftDeleted && (
             <button
               className="btn btn-link btn-sm p-0 ms-2"
@@ -202,7 +245,6 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
               Edit
             </button>
           )}
-          {/* Button to toggle visibility of child replies */}
           {reply.childReplies && reply.childReplies.length > 0 && (
             <button
               className="btn btn-link btn-sm p-0 ms-2"
@@ -266,7 +308,6 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
         </form>
       )}
 
-      {/* Recursively render child replies, conditionally based on areChildrenExpanded */}
       {areChildrenExpanded && reply.childReplies && reply.childReplies.length > 0 && (
         <div className="nested-replies mt-2">
           {reply.childReplies.map((childReply) => (
@@ -275,14 +316,19 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
               reply={childReply}
               postId={postId}
               level={level + 1}
-              loggedInUserId={loggedInUserId} // Pass down
-              isAdmin={isAdmin}             // Pass down
-              isLoggedIn={isLoggedIn}         // Pass down
-              navigate={navigate}           // Pass down
+              loggedInUserId={loggedInUserId} 
+              isAdmin={isAdmin}             
+              isLoggedIn={isLoggedIn}         
+              navigate={navigate}           
             />
           ))}
-           {updateReplyError && !editingReplyId && ( // General update error if not specific to an editing reply
+           {updateReplyError && !editingReplyId && ( 
             <p className="text-danger mt-1 small">Error updating reply: {updateReplyError.data?.error || "Please try again."}</p>
+          )}
+          {voteReplyError && (
+            <p className="text-danger mt-1 small">
+              Vote Error: {voteReplyError.data?.error || "Could not process vote."}
+            </p>
           )}
 
         </div>

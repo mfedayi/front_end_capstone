@@ -258,3 +258,8 @@ button {
   background: url("../assets/bg-locker.jpg") no-repeat center center fixed;
   background-size: cover;
 }
+
+.username-link:hover {
+  color: #007bff !important; /* Bootstrap primary blue, or any color you prefer */
+  text-decoration: underline !important;
+}

@@ -70,6 +70,11 @@ const usersAPI = api.injectEndpoints({
       query: () => "/user/me",
       providesTags: ["Me"],
     }),
+
+    getPublicUserProfile: builder.query({
+      query: (userId) => `/user/public/${userId}`,
+      providesTags: (result, error, userId) => [{ type: "Users", id: userId }],
+    }),
   }),
 });
 
@@ -126,4 +131,5 @@ export const {
   useGetMeQuery,
   useLazyGetMeQuery,
   useUpdateMeMutation,
+  useGetPublicUserProfileQuery,
 } = usersAPI;
