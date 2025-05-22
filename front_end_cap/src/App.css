@@ -137,59 +137,6 @@ button {
   cursor: pointer;
 }
 
-h2.nba-heading {
-  text-align: center; /* Center the heading */
-  font-size: 2.5rem; /* Set font size */
-  font-weight: bold; /* Set font weight */
-  color: #003366; /* Set text color */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
-  margin-top: 2rem; /* Space above the heading */
-  margin-bottom: 1rem; /* Space below the heading */
-}
-
-.team-grid {
-  display: grid; /* Use CSS Grid for layout */
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
-  gap: 1.5rem; /* Space between grid items */
-  padding: 1.5rem; /* Padding around the grid */
-  margin: 0 auto; /* Center the grid */
-}
-
-.team-card {
-  background: transparent; /* Transparent background */
-  padding: 1rem; /* Padding inside the card */
-  text-align: center; /* Center text */
-  box-shadow: none; /* No shadow */
-  transition: transform 0.3s ease-in-out; /* Animation on hover */
-  cursor: pointer; /* Pointer cursor */
-}
-
-.team-logo {
-  width: 100px; /* Set width for logo */
-  height: auto; /* Maintain aspect ratio */
-  object-fit: contain; /* Contain the logo within the box */
-  margin-bottom: 0.75rem; /* Space below the logo */
-}
-
-.team-card:hover {
-  transform: scale(1.05); /* Scale effect on hover */
-  box-shadow: 0 0 20px rgba(0, 123, 255, 0.6); /* Blue shadow on hover */
-}
-
-.team-card img {
-  max-width: 100px; /* Set max width for image */
-  height: auto; /* Maintain aspect ratio */
-  display: block; /* Block display */
-  margin: 0 auto 0.75rem auto; /* Center image with margin */
-}
-
-.team-card h5 {
-  font-size: 1.25rem; /* Font size for name */
-  margin: 0.5rem 0; /* Margin around name */
-  font-family: "Trebuchet MS", sans-serif; /* Font family */
-  color: #333; /* Text color */
-}
-
 .team-details-container {
   position: relative; /* Position relative for absolute children */
   padding: 1rem; /* Padding around the details container */
