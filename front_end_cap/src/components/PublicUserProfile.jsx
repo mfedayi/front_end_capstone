@@ -2,20 +2,18 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGetPublicUserProfileQuery } from '../apiSlices/userSlice';
 import { useGetUserPublicFavoritesQuery } from '../apiSlices/favoritesSlice';
-import '../styles/profile-theme.css'; // You can reuse or create new styles
-
+import '../styles/profile-theme.css'; 
 const PublicUserProfile = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
 
   const { data: user, isLoading: userLoading, error: userError } = useGetPublicUserProfileQuery(userId);
   const { data: favorites, isLoading: favLoading, error: favError } = useGetUserPublicFavoritesQuery(userId, {
-    skip: !user, // Don't fetch favorites if user data hasn't loaded or failed
+    skip: !user, 
   });
 
   if (userLoading || favLoading) return <p className="text-center mt-5">Loading profile...</p>;
   if (userError) return <p className="text-center mt-5 text-danger">Error loading user: {userError.data?.error || userError.status}</p>;
-  // Not treating favError as a page-breaking error, as a user might just have no favorites or there could be a temporary issue.
 
   if (!user) return <p className="text-center mt-5">User not found.</p>;
 
