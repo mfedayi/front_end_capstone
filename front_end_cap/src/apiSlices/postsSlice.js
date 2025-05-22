@@ -70,6 +70,22 @@ const postsAPI = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, { replyId }) => [{ type: "Replies", id: replyId }, "Posts", "Replies"], 
     }),
+    votePost: builder.mutation({
+      query: ({ postId, voteType }) => ({
+        url: `/posts/${postId}/vote`,
+        method: "POST",
+        body: { voteType }, 
+      }),
+      invalidatesTags: (result, error, { postId }) => [{ type: "Posts", id: postId }, "Posts"],
+    }),
+    voteReply: builder.mutation({
+      query: ({ replyId, voteType }) => ({
+        url: `/replies/${replyId}/vote`,
+        method: "POST",
+        body: { voteType }, 
+      }),
+      invalidatesTags: ["Posts", "Replies"],
+    }),
   }),
 });
 
@@ -83,4 +99,6 @@ export const {
   useAdminDeleteReplyMutation,
   useUpdatePostMutation,
   useUpdateReplyMutation,
+  useVotePostMutation,
+  useVoteReplyMutation,
 } = postsAPI;

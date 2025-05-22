@@ -5,7 +5,8 @@ import {
   useCreateReplyMutation,
   useSoftDeleteOwnReplyMutation,
   useAdminDeleteReplyMutation,
-  useUpdateReplyMutation, 
+  useUpdateReplyMutation,
+  useVoteReplyMutation, // For voting on replies
 } from "../apiSlices/postsSlice";
 import { Link } from "react-router-dom";
 
@@ -30,6 +31,8 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
     useAdminDeleteReplyMutation();
   const [updateReply, { isLoading: isUpdatingReply, error: updateReplyError }] =
     useUpdateReplyMutation();
+  const [voteReply, { isLoading: isVotingReply, error: voteReplyError }] =
+    useVoteReplyMutation();
 
   const handleNestedReplySubmit = async (e) => {
     e.preventDefault();
@@ -122,6 +125,22 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
       );
     }
   };
+
+  const handleVoteReply = async (replyId, voteType) => {
+    if (!isLoggedIn) {
+      alert("Please login to vote.");
+      navigate("/login");
+      return;
+    }
+    try {
+      await voteReply({ replyId, voteType }).unwrap();
+    } catch (err) {
+      console.error("Failed to vote on reply:", err);
+      alert(
+        `Failed to vote: ${err.data?.error || "Please try again."}`
+      );
+    }
+  };
   const softDeletedReplyContent = "[reply has been deleted by the user]"; 
   const displayContent =
     reply.content === softDeletedReplyContent
@@ -187,6 +206,27 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
           <small className="text-muted">
             {new Date(reply.createdAt).toLocaleString()}
           </small>
+          {/* Like/Dislike buttons for Reply */}
+          {isLoggedIn && !isSoftDeleted && editingReplyId !== reply.id && (
+            <div className="mt-1">
+              <button
+                className={`btn btn-link btn-sm p-0 me-2 ${reply.userVote === 'LIKE' ? 'text-success' : 'text-secondary'}`}
+                onClick={() => handleVoteReply(reply.id, "LIKE")}
+                disabled={isVotingReply}
+                style={{ textDecoration: 'none' }}
+              >
+                <i className="bi bi-hand-thumbs-up"></i> ({reply.likeCount || 0})
+              </button>
+              <button
+                className={`btn btn-link btn-sm p-0 ${reply.userVote === 'DISLIKE' ? 'text-danger' : 'text-secondary'}`}
+                onClick={() => handleVoteReply(reply.id, "DISLIKE")}
+                disabled={isVotingReply}
+                style={{ textDecoration: 'none' }}
+              >
+                <i className="bi bi-hand-thumbs-down"></i> ({reply.dislikeCount || 0})
+              </button>
+            </div>
+          )}
           {isLoggedIn && !isSoftDeleted && (
             <button
               className="btn btn-link btn-sm p-0 ms-2"
@@ -284,6 +324,11 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
           ))}
            {updateReplyError && !editingReplyId && ( 
             <p className="text-danger mt-1 small">Error updating reply: {updateReplyError.data?.error || "Please try again."}</p>
+          )}
+          {voteReplyError && (
+            <p className="text-danger mt-1 small">
+              Vote Error: {voteReplyError.data?.error || "Could not process vote."}
+            </p>
           )}
 
         </div>
