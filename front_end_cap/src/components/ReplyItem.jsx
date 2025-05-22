@@ -10,14 +10,22 @@ import {
 } from "../apiSlices/postsSlice";
 import { Link } from "react-router-dom";
 
-const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLoggedIn, navigate }) => { 
+const ReplyItem = ({
+  reply,
+  postId,
+  level = 0,
+  loggedInUserId,
+  isAdmin,
+  isLoggedIn,
+  navigate,
+}) => {
   if (!reply || !reply.user) {
     return null;
   }
 
   const [isReplying, setIsReplying] = useState(false);
   const [newReplyContent, setNewReplyContent] = useState("");
-  const [areChildrenExpanded, setAreChildrenExpanded] = useState(false); 
+  const [areChildrenExpanded, setAreChildrenExpanded] = useState(false);
   const [editingReplyId, setEditingReplyId] = useState(null);
   const [editingReplyContent, setEditingReplyContent] = useState("");
 
@@ -51,7 +59,7 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
       }).unwrap();
       setNewReplyContent("");
       setIsReplying(false);
-      setAreChildrenExpanded(true); 
+      setAreChildrenExpanded(true);
     } catch (err) {
       console.error("Failed to submit nested reply:", err);
       alert(
@@ -115,7 +123,10 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
       return;
     }
     try {
-      await updateReply({ replyId: currentReplyId, content: editingReplyContent }).unwrap();
+      await updateReply({
+        replyId: currentReplyId,
+        content: editingReplyContent,
+      }).unwrap();
       setEditingReplyId(null);
       setEditingReplyContent("");
     } catch (err) {
@@ -136,12 +147,10 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
       await voteReply({ replyId, voteType }).unwrap();
     } catch (err) {
       console.error("Failed to vote on reply:", err);
-      alert(
-        `Failed to vote: ${err.data?.error || "Please try again."}`
-      );
+      alert(`Failed to vote: ${err.data?.error || "Please try again."}`);
     }
   };
-  const softDeletedReplyContent = "[reply has been deleted by the user]"; 
+  const softDeletedReplyContent = "[reply has been deleted by the user]";
   const displayContent =
     reply.content === softDeletedReplyContent
       ? softDeletedReplyContent
@@ -150,10 +159,10 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
 
   return (
     <div
-      className={`reply mb-2 p-2 bg-light rounded`}
+      className={`reply mb-2 p-2 rounded`}
       style={{
         marginLeft: `${level * 25}px`,
-        borderLeft: level > 0 ? "2px solid #eee" : "none",
+        borderLeft: level > 0 ? "2px solid rgba(255,255,255,0.1)" : "none", // Adjusted border color for dark theme
         paddingLeft: level > 0 ? "15px" : "0",
       }}
     >
@@ -161,34 +170,44 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
         <div>
           <strong>
             {reply.user?.id ? (
-              <Link to={`/profile/${reply.user.id}`} className="text-decoration-none text-dark username-link">{reply.user.username}</Link>
-            ) : (reply.user?.username || "Anonymous")}
-          :</strong>{" "}
+              <Link
+                to={`/profile/${reply.user.id}`}
+                className="text-decoration-none text-dark username-link"
+              >
+                {reply.user.username}
+              </Link>
+            ) : (
+              reply.user?.username || "Anonymous"
+            )}
+            :
+          </strong>{" "}
           {editingReplyId === reply.id ? (
             <div className="mt-1">
               <textarea
-                className="form-control form-control-sm mb-1"
+                className="form-control form-control-sm mb-1 chat-reply-input"
                 rows="2"
                 value={editingReplyContent}
                 onChange={(e) => setEditingReplyContent(e.target.value)}
                 disabled={isUpdatingReply}
               />
               <button
-                className="btn btn-success btn-sm me-1 py-0 px-1"
+                className="btn btn-outline-success btn-sm me-1 py-0 px-1"
                 onClick={() => handleSaveReplyUpdate(reply.id)}
                 disabled={isUpdatingReply}
               >
                 {isUpdatingReply ? "Saving..." : "Save"}
               </button>
               <button
-                className="btn btn-secondary btn-sm py-0 px-1"
+                className="btn btn-outline-secondary btn-sm py-0 px-1"
                 onClick={handleCancelEditReply}
                 disabled={isUpdatingReply}
               >
                 Cancel
               </button>
               {updateReplyError && editingReplyId === reply.id && (
-                <p className="text-danger mt-1 small">Error: {updateReplyError.data?.error || "Could not update."}</p>
+                <p className="text-danger mt-1 small">
+                  Error: {updateReplyError.data?.error || "Could not update."}
+                </p>
               )}
             </div>
           ) : (
@@ -197,7 +216,7 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
                 whiteSpace: "pre-wrap",
                 margin: "5px 0 0 0",
                 fontStyle: isSoftDeleted ? "italic" : "normal",
-                color: isSoftDeleted ? "#6c757d" : "inherit",
+                color: isSoftDeleted ? "#6c757d" : "inherit", // Will be overridden by .reply p
               }}
             >
               {displayContent}
@@ -210,44 +229,55 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
           {isLoggedIn && !isSoftDeleted && editingReplyId !== reply.id && (
             <div className="mt-1">
               <button
-                className={`btn btn-link btn-sm p-0 me-2 ${reply.userVote === 'LIKE' ? 'text-success' : 'text-secondary'}`}
+                className={`btn btn-link btn-sm p-0 me-2 ${
+                  reply.userVote === "LIKE" ? "text-success" : "text-secondary"
+                }`}
                 onClick={() => handleVoteReply(reply.id, "LIKE")}
                 disabled={isVotingReply}
-                style={{ textDecoration: 'none' }}
+                style={{ textDecoration: "none" }}
               >
-                <i className="bi bi-hand-thumbs-up"></i> ({reply.likeCount || 0})
+                <i className="bi bi-hand-thumbs-up"></i> ({reply.likeCount || 0}
+                )
               </button>
               <button
-                className={`btn btn-link btn-sm p-0 ${reply.userVote === 'DISLIKE' ? 'text-danger' : 'text-secondary'}`}
+                className={`btn btn-link btn-sm p-0 ${
+                  reply.userVote === "DISLIKE"
+                    ? "text-danger"
+                    : "text-secondary"
+                }`}
                 onClick={() => handleVoteReply(reply.id, "DISLIKE")}
                 disabled={isVotingReply}
-                style={{ textDecoration: 'none' }}
+                style={{ textDecoration: "none" }}
               >
-                <i className="bi bi-hand-thumbs-down"></i> ({reply.dislikeCount || 0})
+                <i className="bi bi-hand-thumbs-down"></i> (
+                {reply.dislikeCount || 0})
               </button>
             </div>
           )}
           {isLoggedIn && !isSoftDeleted && (
             <button
-              className="btn btn-link btn-sm p-0 ms-2"
+            className="btn chat-toggle-button btn-sm mt-1" 
               onClick={() => setIsReplying(!isReplying)}
               style={{ textDecoration: "none" }}
             >
               {isReplying ? "Cancel" : "Reply"}
             </button>
           )}
-          {isLoggedIn && loggedInUserId === reply.userId && !isSoftDeleted && editingReplyId !== reply.id && (
-            <button
-              className="btn btn-link btn-sm p-0 ms-2"
-              onClick={() => handleEditReplyClick(reply)}
-              style={{ textDecoration: "none" }}
-            >
-              Edit
-            </button>
-          )}
+          {isLoggedIn &&
+            loggedInUserId === reply.userId &&
+            !isSoftDeleted &&
+            editingReplyId !== reply.id && (
+              <button
+            className="btn chat-toggle-button btn-sm mt-1" 
+                onClick={() => handleEditReplyClick(reply)}
+                style={{ textDecoration: "none" }}
+              >
+                Edit
+              </button>
+            )}
           {reply.childReplies && reply.childReplies.length > 0 && (
             <button
-              className="btn btn-link btn-sm p-0 ms-2"
+            className="btn chat-toggle-button btn-sm mt-1" 
               onClick={toggleChildReplies}
               style={{ textDecoration: "none" }}
             >
@@ -283,7 +313,7 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
         <form onSubmit={handleNestedReplySubmit} className="mt-2 ms-3">
           <div className="form-group">
             <textarea
-              className="form-control form-control-sm"
+              className="form-control form-control-sm chat-reply-input"
               rows="2"
               placeholder={`Replying to ${
                 reply.user?.username || "Anonymous"
@@ -295,7 +325,7 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
           </div>
           <button
             type="submit"
-            className="btn btn-info btn-sm mt-1"
+            className="btn chat-action-button btn-sm mt-1" // Changed to use chat-action-button
             disabled={isCreatingNestedReply}
           >
             {isCreatingNestedReply ? "Submitting..." : "Submit Reply"}
@@ -308,31 +338,36 @@ const ReplyItem = ({ reply, postId, level = 0, loggedInUserId, isAdmin, isLogged
         </form>
       )}
 
-      {areChildrenExpanded && reply.childReplies && reply.childReplies.length > 0 && (
-        <div className="nested-replies mt-2">
-          {reply.childReplies.map((childReply) => (
-            <ReplyItem
-              key={childReply.id}
-              reply={childReply}
-              postId={postId}
-              level={level + 1}
-              loggedInUserId={loggedInUserId} 
-              isAdmin={isAdmin}             
-              isLoggedIn={isLoggedIn}         
-              navigate={navigate}           
-            />
-          ))}
-           {updateReplyError && !editingReplyId && ( 
-            <p className="text-danger mt-1 small">Error updating reply: {updateReplyError.data?.error || "Please try again."}</p>
-          )}
-          {voteReplyError && (
-            <p className="text-danger mt-1 small">
-              Vote Error: {voteReplyError.data?.error || "Could not process vote."}
-            </p>
-          )}
-
-        </div>
-      )}
+      {areChildrenExpanded &&
+        reply.childReplies &&
+        reply.childReplies.length > 0 && (
+          <div className="nested-replies mt-2">
+            {reply.childReplies.map((childReply) => (
+              <ReplyItem
+                key={childReply.id}
+                reply={childReply}
+                postId={postId}
+                level={level + 1}
+                loggedInUserId={loggedInUserId}
+                isAdmin={isAdmin}
+                isLoggedIn={isLoggedIn}
+                navigate={navigate}
+              />
+            ))}
+            {updateReplyError && !editingReplyId && (
+              <p className="text-danger mt-1 small">
+                Error updating reply:{" "}
+                {updateReplyError.data?.error || "Please try again."}
+              </p>
+            )}
+            {voteReplyError && (
+              <p className="text-danger mt-1 small">
+                Vote Error:{" "}
+                {voteReplyError.data?.error || "Could not process vote."}
+              </p>
+            )}
+          </div>
+        )}
     </div>
   );
 };

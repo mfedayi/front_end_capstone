@@ -187,9 +187,7 @@ const ChatPage = () => {
       await votePost({ postId, voteType }).unwrap();
     } catch (err) {
       console.error("Failed to vote on post:", err);
-      alert(
-        `Failed to vote: ${err.data?.error || "Please try again."}`
-      );
+      alert(`Failed to vote: ${err.data?.error || "Please try again."}`);
     }
   };
 
@@ -204,14 +202,11 @@ const ChatPage = () => {
 
   return (
     <div className="container mt-4">
-      <h1 className="text-center mb-4">Talk Sports</h1>
+      <h1 className="chat-page-title">Talk Sports</h1>
 
       {isLoggedIn ? (
-        <form
-          onSubmit={handlePostSubmit}
-          className="mb-5 p-3 border rounded bg-light"
-        >
-          <h4>Have something to say?</h4>
+        <form onSubmit={handlePostSubmit} className="chat-form-container">
+          <h4>Share Your Thoughts</h4>
           <div className="form-group">
             <textarea
               id="newPostContent"
@@ -225,7 +220,7 @@ const ChatPage = () => {
           </div>
           <button
             type="submit"
-            className="btn btn-primary mt-2"
+            className="btn chat-action-button mt-2" 
             disabled={isCreatingPost}
           >
             {isCreatingPost ? "Posting..." : "Post"}
@@ -248,8 +243,8 @@ const ChatPage = () => {
 
       <div className="posts-list">
         {posts.map((post) => (
-          <div key={post.id} className="card mb-3">
-            <div className="card-header bg-white d-flex justify-content-between align-items-center">
+          <div key={post.id} className="card chat-post-card">
+            <div className="card-header d-flex justify-content-between align-items-center">
               <div>
                 <strong>
                   {post.user?.id ? (
@@ -257,7 +252,7 @@ const ChatPage = () => {
                       to={`/profile/${post.user.id}`}
                       className="text-decoration-none text-dark username-link"
                     >
-                      {post.user.username}
+                      {post.user.username}{" "}
                     </Link>
                   ) : (
                     post.user?.username || "Anonymous"
@@ -340,31 +335,39 @@ const ChatPage = () => {
                 </p>
               )}
 
-              {/* Like/Dislike buttons for Post */}
               {isLoggedIn && post.content !== "[deleted by user]" && (
                 <div className="mt-2">
                   <button
-                    className={`btn btn-sm me-2 ${post.userVote === 'LIKE' ? 'btn-success' : 'btn-outline-success'}`}
+                    className={`btn btn-sm me-2 ${
+                      post.userVote === "LIKE"
+                        ? "btn-success"
+                        : "btn-outline-success"
+                    }`}
                     onClick={() => handleVotePost(post.id, "LIKE")}
                     disabled={isVotingPost}
                   >
-                    <i className="bi bi-hand-thumbs-up"></i> Like ({post.likeCount || 0})
+                    <i className="bi bi-hand-thumbs-up"></i> Like (
+                    {post.likeCount || 0})
                   </button>
                   <button
-                    className={`btn btn-sm ${post.userVote === 'DISLIKE' ? 'btn-danger' : 'btn-outline-danger'}`}
+                    className={`btn btn-sm ${
+                      post.userVote === "DISLIKE"
+                        ? "btn-danger"
+                        : "btn-outline-danger"
+                    }`}
                     onClick={() => handleVotePost(post.id, "DISLIKE")}
                     disabled={isVotingPost}
                   >
-                    <i className="bi bi-hand-thumbs-down"></i> Dislike ({post.dislikeCount || 0})
+                    <i className="bi bi-hand-thumbs-down"></i> Dislike (
+                    {post.dislikeCount || 0})
                   </button>
                 </div>
               )}
 
-              {/* Separator before replies/reply form */}
-              {(post.replies && post.replies.length > 0 || isLoggedIn) && (
-                 <hr className="my-3" />
+              {}
+              {((post.replies && post.replies.length > 0) || isLoggedIn) && (
+                <hr className="my-3" />
               )}
-
 
               {post.replies && post.replies.length > 0 && (
                 <button
@@ -400,7 +403,7 @@ const ChatPage = () => {
                   <div className="form-group">
                     <input
                       type="text"
-                      className="form-control form-control-sm"
+                      className="form-control form-control-sm chat-reply-input"
                       placeholder="Reply to this post..."
                       value={replyContents[post.id] || ""}
                       onChange={(e) =>
@@ -411,7 +414,7 @@ const ChatPage = () => {
                   </div>
                   <button
                     type="submit"
-                    className="btn btn-info btn-sm mt-1"
+                    className="btn chat-action-button btn-sm mt-1" // Changed to use chat-action-button
                     disabled={isCreatingReply}
                   >
                     {isCreatingReply ? "Replying..." : "Reply to post"}
@@ -437,7 +440,7 @@ const ChatPage = () => {
           {updatePostError.data?.error || "Please try again."}
         </p>
       )}
-      {votePostError && !editingPostId && ( // General vote error if not specific to an editing post
+      {votePostError && !editingPostId && (
         <p className="text-danger mt-1 small">
           Error voting on post:{" "}
           {votePostError.data?.error || "Please try again."}
