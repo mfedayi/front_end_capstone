@@ -29,7 +29,6 @@ const PublicUserProfile = () => {
           <p className="label">Member Since</p>
           <p className="value">{new Date(user.createdAt).toLocaleDateString()}</p>
         </div>
-        {/* Add other public info here if available */}
       </section>
 
       <section>
@@ -56,7 +55,6 @@ const PublicUserProfile = () => {
           </div>
         )}
       </section>
-      {/* Future: Embed videos or other content here */}
     </div>
   );
 };
