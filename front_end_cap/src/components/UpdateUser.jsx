@@ -74,7 +74,7 @@ const UpdateUser = () => {
 
   return (
     <div className="page-wrapper update-user-bg">
-      <div className="update-form-card">
+      <div className="signInContainer" style={{ margin: '60px auto' }}>
         <h2>Update User: {user?.username || userId}</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -83,7 +83,7 @@ const UpdateUser = () => {
               type="text"
               className="form-control"
               name="firstname"
-              value={formData.firstname}
+              value={formData.firstname}signInContainer
               onChange={handleChange}
               required
             />
