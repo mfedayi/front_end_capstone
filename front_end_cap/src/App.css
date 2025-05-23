@@ -237,12 +237,18 @@ button {
 
 /* Chat Page Specific Styles */
 .chat-page-title {
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif; /* Matching body/general heading font */
-  color: #003366; /* Matching the .nba-heading color */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Adjusted shadow for the new color */
-  margin-bottom: 1.5rem;
-  text-align: center;
+  margin-top: 0rem;
+    font-family: 'Anton', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #f9a825;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(249, 168, 37, 0.8);
+    display: flex
+;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
 }
 
 .chat-form-container {
