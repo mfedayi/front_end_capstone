@@ -4,22 +4,26 @@ import { logout } from "../apiSlices/userSlice";
 import "../styles/ball-theme.css";
 import { useState } from 'react'; // Import useState
 
-export default function Navigations() {
+// Navigations component for the application's main navigation bar.
+export default function Navigations(props) {
+  const { isNavCollapsed, setIsNavCollapsed } = props;
   const location = useLocation();
   const dispatch = useDispatch();
   const { isLoggedIn, profile } = useSelector((state) => state.userAuth);
   const userId = profile?.id;
   const isAdmin = profile?.isAdmin;
-  const [isNavCollapsed, setIsNavCollapsed] = useState(true); // State for toggler visibility
 
+  // Checks if a given path is the current active path.
   const isActive = (path) => location.pathname === path;
 
+  // Toggles the collapsed state of the navbar.
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
-  const closeNav = () => setIsNavCollapsed(true); // Function to close the nav, e.g., on link click
-
+  // Closes the navbar (sets collapsed state to true).
+  const closeNav = () => setIsNavCollapsed(true);
+  // Handles user logout.
   const handleLogout = () => {
     dispatch(logout());
-    closeNav(); // Close the navbar after logout
+    closeNav();
   };
 
   return (
@@ -40,7 +44,7 @@ export default function Navigations() {
         </button>
 
         <div className={`collapse navbar-collapse ${!isNavCollapsed ? 'show' : ''}`} id="navbarNav">
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0"> {/* ms-auto pushes items to the right */}
+          <ul className="navbar-nav mx-auto mb-2 mb-lg-0"> {/* Changed ms-auto to mx-auto to center items */}
             <li className="nav-item">
               <Link
                 className={`nav-link ${

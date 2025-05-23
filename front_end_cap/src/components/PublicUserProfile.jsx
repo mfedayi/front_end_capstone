@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useGetPublicUserProfileQuery } from '../apiSlices/userSlice';
 import { useGetUserPublicFavoritesQuery } from '../apiSlices/favoritesSlice';
 import '../styles/profile-theme.css'; 
+
+// PublicUserProfile component displays a non-editable view of a user's profile and their favorite teams.
 const PublicUserProfile = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -10,7 +12,7 @@ const PublicUserProfile = () => {
   const { data: user, isLoading: userLoading, error: userError } = useGetPublicUserProfileQuery(userId);
   const { data: favorites, isLoading: favLoading, error: favError } = useGetUserPublicFavoritesQuery(userId, {
     skip: !user, 
-  });
+  }); // Skip fetching favorites if user data hasn't loaded yet.
 
   if (userLoading || favLoading) return <p className="text-center mt-5">Loading profile...</p>;
   if (userError) return <p className="text-center mt-5 text-danger">Error loading user: {userError.data?.error || userError.status}</p>;
@@ -20,7 +22,7 @@ const PublicUserProfile = () => {
   return (
     <div className="container mt-4">
       <h2 className="profile-summary-header">{user.username}'s Profile</h2>
-      <section className="user-info" style={{ maxWidth: '600px', margin: '1.5rem auto 2rem auto' }}>
+      <section className="user-info" style={{ maxWidth: '600px', margin: '1.5rem auto 2rem auto' }}> {/* Inline style for centering and max-width of this section */}
         <div className="user-info-item">
           <p className="label">Username</p>
           <p className="value">{user.username}</p>
@@ -32,7 +34,7 @@ const PublicUserProfile = () => {
       </section>
 
       <section>
-        <h3 className="favorites-header" style={{ fontSize: '1.5rem' }}>Favorite Teams</h3>
+        <h3 className="favorites-header" style={{ fontSize: '1.5rem' }}>Favorite Teams</h3> {/* Inline style for custom font size */}
         {favError && <p className="text-center text-warning small">Could not load favorite teams.</p>}
         {!favError && favorites?.length === 0 && (
           <p className="text-center">This user has no favorite teams yet.</p>

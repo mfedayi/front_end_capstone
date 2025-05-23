@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../App.css";
 
-const Home = () => {
+// Home component displaying a list of NBA teams and a search bar.
+const Home = (props) => {
   const navigate = useNavigate();
   const { data: teams, isLoading, isError, error } = useGetAllTeamsQuery();
   const [searchTerm, setSearchTerm] = useState(""); 
-
+  const { isNavbarExpanded } = props;
 
   if (isLoading) {
     return <h1>is loading...</h1>;
@@ -27,7 +28,7 @@ const Home = () => {
   return (
   <div className="home-bg">
     <div className="container mt-4" style={{ position: "relative" }}> 
-      <div className="nba-heading sticky-top">
+      <div className={`nba-heading sticky-top ${isNavbarExpanded ? 'navbar-expanded-transparent-bg' : ''}`}>
         NBA Teams
         <input
           type="text"
