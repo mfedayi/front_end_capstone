@@ -238,17 +238,16 @@ button {
 /* Chat Page Specific Styles */
 .chat-page-title {
   margin-top: 0rem;
-    font-family: 'Anton', sans-serif;
-    font-size: 2.4rem;
-    font-weight: 700;
-    color: #f9a825;
-    text-align: center;
-    text-shadow: 0 0 10px rgba(249, 168, 37, 0.8);
-    display: flex
-;
-    justify-content: center;
-    gap: 1rem;
-    align-items: center;
+  font-family: "Anton", sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #f9a825;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(249, 168, 37, 0.8);
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
 }
 
 .chat-form-container {
@@ -292,7 +291,7 @@ button {
 }
 
 .chat-post-card .card-header {
-  background-color: #ffa500; /* Slightly darker header for contrast */
+  background-color: #a26d0a; /* Slightly darker header for contrast */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -374,7 +373,7 @@ button {
 }
 
 .chat-action-button:hover {
-  background-color: #f8f9fa !important; /* Light background on hover */
+  background-color: #f8f9fa; /* Light background on hover */
   box-shadow: 0 4px 8px rgba(198, 96, 23, 0.891) !important; /* Darker shadow on hover */
   color: #e97a13 !important; /* Change text color on hover */
   border-color: #e97a13 !important;
@@ -387,15 +386,17 @@ button {
   border: 0.5px solid rgba(236, 160, 106, 0.931) !important; /* Matching border */
   border-radius: 6px !important; /* Slightly smaller radius */
   padding: 0.25rem 0.6rem !important; /* Reduced padding for smaller size */
-  font-weight: normal !important; /* Normal font weight */
+  font-weight: bold !important; /* Normal font weight */
   box-shadow: 0 2px 4px rgba(184, 122, 63, 0.3) !important; /* Softer shadow */
   transition: background-color 0.25s ease, box-shadow 0.25s ease,
     color 0.25s ease, border-color 0.25s ease !important;
 }
 
 .chat-toggle-button:hover {
-  background-color: #5a5e63 !important; /* Slightly lighter dark on hover */
-  box-shadow: 0 3px 6px rgba(198, 96, 23, 0.6) !important;
+  background-color: #f8f9fa; /* Change background color on hover */
+  box-shadow: 0 4px 8px rgba(198, 96, 23, 0.891) !important; /* Darker shadow on hover */
+  color: #e97a13 !important; /* Change text color on hover */
+  border-color: #e97a13 !important;
 }
 
 .chat-post-card .btn-outline-success,
@@ -448,19 +449,20 @@ button {
 .reply .btn-outline-warning:hover {
   color: rgb(255, 255, 255) !important;
   background-color: #212529 !important;
-  border-color: rgb(176, 42, 55) !important;
+  border-color: rgb(255, 0, 25) !important;
 }
 
 .chat-post-card .btn-outline-secondary,
 .reply .btn-outline-secondary {
-  color: #adb5bd !important;
+  color: rgb(255, 255, 255) !important;
+  background-color: #212529 !important;
   border-color: #adb5bd !important;
 }
 .chat-post-card .btn-outline-secondary:hover,
 .reply .btn-outline-secondary:hover {
-  color: #fff !important;
-  background-color: #6c757d !important;
-  border-color: #6c757d !important;
+  color: rgb(255, 255, 255) !important;
+  background-color: #212529 !important;
+  border-color: rgb(255, 179, 66) !important;
 }
 
 .chat-post-card .btn-link,
@@ -528,4 +530,15 @@ button {
   color: #fff !important;
   background-color: #dc3545 !important;
   border-color: #dc3545 !important;
+}
+
+.btn.btn-danger.btn-sm.py-0.px-1 {
+  color: rgb(255, 255, 255) !important;
+  border-color: rgb(220, 53, 69) !important;
+  background-color: rgb(33, 37, 41) !important;
+}
+.btn.btn-danger.btn-sm.py-0.px-1:hover {
+  color: rgb(255, 255, 255) !important;
+  background-color: #212529 !important;
+  border-color: rgb(255, 0, 25) !important;
 }
