@@ -549,3 +549,13 @@ button {
   background-color: #212529 !important;
   border-color: rgb(255, 0, 25) !important;
 }
+
+.account-card {
+  background: transparent; /* Transparent background */
+  padding: 1rem; /* Padding inside the card */
+  text-align: center; /* Center text */
+  box-shadow: none; /* No shadow */
+  transition: transform 0.3s ease-in-out; /* Animation on hover */
+  cursor: pointer; /* Pointer cursor */
+  color: white;
+}
