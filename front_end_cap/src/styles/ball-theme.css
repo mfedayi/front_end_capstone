@@ -16,7 +16,6 @@ body {
   min-height: 100vh; /* Ensure the background covers the entire viewport by default */
 }
 
-
 .home-bg::before { 
   /* This pseudo-element creates a dark overlay on top of the background image */
   /* It helps to make the text more readable */
@@ -47,9 +46,22 @@ body {
 }
 
 .profile-bg {
-  background: url('../assets/bg-locker.jpg') no-repeat center center fixed;
+  background: url('../assets/Basketball.png') no-repeat center center fixed;
   background-size: cover;
+  position: relative; /* Ensure the background covers the entire viewport by default */
+  background-repeat: no-repeat; /* Prevent background repeat */
+  min-height: 100vh; /* Ensure the background covers the entire viewport by default */
 }
+
+.profile-bg::before {
+  content: ""; /* This pseudo-element creates a light overlay on top of the background image */
+  position: fixed; /* Position the overlay fixed to the viewport */
+  inset: 0; /* Cover the entire viewport */
+  background: rgba(255, 255, 255, 0.3); /* Light overlay */
+  backdrop-filter: blur(2px); /* Blur effect */
+  z-index: -1; /* Ensure the overlay is behind the content */
+}
+
 
 /* Buttons */
 .btn-primary {
