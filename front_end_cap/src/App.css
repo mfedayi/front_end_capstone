@@ -99,13 +99,13 @@ button {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
 }
 
- .basketball-button {
+.basketball-button {
   position: absolute; /* Position the button */
   top: 1.5rem; /* Space from the top */
   left: 1.5rem; /* Space from the left */
   background-color: rgb(49, 47, 47) !important; /* Background color */
   font-weight: bold; /* Font weight of 550 makes it semi-bold */
-  border: 0.5px solid;  
+  border: 0.5px solid;
   border-radius: 8px; /* Round the corners */
   padding: 0.6rem 1.2rem; /* Padding inside the button */
   display: flex; /* Use flexbox for layout */
@@ -116,13 +116,14 @@ button {
   cursor: pointer; /* Pointer cursor */
   font-size: 1rem; /* Font size */
   color: rgba(236, 160, 106, 0.931); /* Text color (basketball) */
-  transition: background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, border-color 0.25s ease; /* Animation on hover */
+  transition: background-color 0.25s ease, box-shadow 0.25s ease,
+    color 0.25s ease, border-color 0.25s ease; /* Animation on hover */
 }
 
 .basketball-button.liked {
-  color: #cb8a54;  
+  color: #cb8a54;
   font-weight: bold;
-  border: 1.8px solid;  
+  border: 1.8px solid;
 }
 
 .basketball-button:hover {
@@ -212,7 +213,7 @@ button {
   text-align: center; /* Center the text */
 }
 
-.team-info-details strong { 
+.team-info-details strong {
   display: block; /* Block display for strong elements */
   font-weight: bold; /* Bold text for strong elements */
 }
@@ -236,9 +237,10 @@ button {
 
 /* Chat Page Specific Styles */
 .chat-page-title {
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif; /* Matching body/general heading font */
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif; /* Matching body/general heading font */
   color: #003366; /* Matching the .nba-heading color */
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Adjusted shadow for the new color */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Adjusted shadow for the new color */
   margin-bottom: 1.5rem;
   text-align: center;
 }
@@ -270,12 +272,17 @@ button {
 }
 
 .chat-post-card {
-  background-color: rgba(40, 44, 52, 0.85); /* Darker, slightly transparent card */
+  background-color: rgba(
+    40,
+    44,
+    52,
+    0.85
+  ); /* Darker, slightly transparent card */
   color: #f8f9fa; /* Light text for cards */
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 0.375rem; /* Bootstrap's default card border-radius */
   margin-bottom: 1.5rem;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .chat-post-card .card-header {
@@ -311,7 +318,11 @@ button {
 .chat-post-card .btn-outline-secondary, /* Edit Post (before edit), View/Hide Replies */
 .reply .btn-outline-success, /* Save */
 .reply .btn-outline-secondary /* Cancel */ {
-  background-color: rgb(49, 47, 47) !important; /* Dark background, same as chat-action-button */
+  background-color: rgb(
+    49,
+    47,
+    47
+  ) !important; /* Dark background, same as chat-action-button */
 }
 
 /* Styling for usernames and timestamps in chat */
@@ -327,12 +338,18 @@ button {
 
 /* Dark theme for reply items */
 .reply {
-  background-color: rgba(40, 44, 52, 0.80); /* Slightly different alpha or color if needed for distinction */
+  background-color: rgba(
+    40,
+    44,
+    52,
+    0.8
+  ); /* Slightly different alpha or color if needed for distinction */
   color: #f8f9fa; /* Light text for replies */
   border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
 }
 
-.reply p { /* Ensure paragraph text within replies is also light */
+.reply p {
+  /* Ensure paragraph text within replies is also light */
   color: #e9ecef;
 }
 
@@ -346,7 +363,8 @@ button {
   padding: 0.6rem 1.2rem !important; /* Padding */
   font-weight: bold !important; /* Bold text */
   box-shadow: 0 3px 6px rgba(184, 122, 63, 0.4) !important; /* Shadow */
-  transition: background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, border-color 0.25s ease !important; /* Animation */
+  transition: background-color 0.25s ease, box-shadow 0.25s ease,
+    color 0.25s ease, border-color 0.25s ease !important; /* Animation */
 }
 
 .chat-action-button:hover {
@@ -365,59 +383,71 @@ button {
   padding: 0.25rem 0.6rem !important; /* Reduced padding for smaller size */
   font-weight: normal !important; /* Normal font weight */
   box-shadow: 0 2px 4px rgba(184, 122, 63, 0.3) !important; /* Softer shadow */
-  transition: background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, border-color 0.25s ease !important;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease,
+    color 0.25s ease, border-color 0.25s ease !important;
 }
 
 .chat-toggle-button:hover {
   background-color: #5a5e63 !important; /* Slightly lighter dark on hover */
-  box-shadow: 0 3px 6px rgba(198, 96, 23, 0.6) !important; 
+  box-shadow: 0 3px 6px rgba(198, 96, 23, 0.6) !important;
 }
 
 .chat-post-card .btn-outline-success,
 .reply .btn-outline-success {
-    color: #28a745 !important; 
-    border-color: #28a745 !important;
-    background-color: rgba(40, 44, 52, 0.80) !important; /* Slightly different alpha or color if needed for distinction */
-
+  color: #28a745 !important;
+  border-color: #28a745 !important;
+  background-color: rgba(
+    40,
+    44,
+    52,
+    0.8
+  ) !important; /* Slightly different alpha or color if needed for distinction */
 }
 .chat-post-card .btn-outline-success:hover,
 .reply .btn-outline-success:hover {
-    color: #fff !important;
-    background-color: #28a745 !important;
-    border-color: #28a745 !important;
+  color: #fff !important;
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
 }
 
 .chat-post-card .btn-outline-danger,
 .reply .btn-outline-danger {
-    color: #dc3545 !important; 
-    border-color: #dc3545 !important;
-    background-color: rgba(40, 44, 52, 0.80) !important; /* Slightly different alpha or color if needed for distinction */
-
+  color: #dc3545 !important;
+  border-color: #dc3545 !important;
+  background-color: rgba(
+    40,
+    44,
+    52,
+    0.8
+  ) !important; /* Slightly different alpha or color if needed for distinction */
 }
 .chat-post-card .btn-outline-danger:hover,
 .reply .btn-outline-danger:hover {
-    color: #fff !important;
-    background-color: #dc3545 !important;
-    border-color: #dc3545 !important;
+  color: #fff !important;
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
 }
 
 .chat-post-card .btn-outline-warning,
 .reply .btn-outline-warning {
-    color: rgb(255, 255, 255) !important; 
-    border-color: rgb(220, 53, 69)!important;
-    background-color: rgb(33, 37, 41) !important; /* Slightly different alpha or color if needed for distinction */
-
+  color: rgb(255, 255, 255) !important;
+  border-color: rgb(220, 53, 69) !important;
+  background-color: rgb(
+    33,
+    37,
+    41
+  ) !important; /* Slightly different alpha or color if needed for distinction */
 }
 .chat-post-card .btn-outline-warning:hover,
 .reply .btn-outline-warning:hover {
-    color: rgb(255, 255, 255) !important; 
-    background-color: #212529 !important;
-    border-color: rgb(176, 42, 55) !important;
+  color: rgb(255, 255, 255) !important;
+  background-color: #212529 !important;
+  border-color: rgb(176, 42, 55) !important;
 }
 
 .chat-post-card .btn-outline-secondary,
 .reply .btn-outline-secondary {
-  color: #adb5bd !important; 
+  color: #adb5bd !important;
   border-color: #adb5bd !important;
 }
 .chat-post-card .btn-outline-secondary:hover,
@@ -429,34 +459,67 @@ button {
 
 .chat-post-card .btn-link,
 .reply .btn-link {
-    color: #ced4da !important; 
+  color: #ced4da !important;
 }
 .chat-post-card .btn-link:hover,
 .reply .btn-link:hover {
-    color: #f8f9fa !important; 
+  color: #f8f9fa !important;
 }
 
 .chat-post-card .btn-link.text-success,
 .reply .btn-link.text-success {
-    color: #28a745 !important; 
+  color: #28a745 !important;
 }
 .chat-post-card .btn-link.text-danger,
 .reply .btn-link.text-danger {
-    color: #dc3545 !important; 
+  color: #dc3545 !important;
 }
 .chat-post-card .btn-link.text-secondary,
 .reply .btn-link.text-secondary {
-     color: #ced4da !important; 
+  color: #ced4da !important;
 }
 
 /* Hover effects for colored link buttons */
 .chat-post-card .btn-link.text-success:hover,
 .reply .btn-link.text-success:hover {
-    color: #1e7e34 !important; /* Darker green on hover */
+  color: #1e7e34 !important; /* Darker green on hover */
 }
 
 .chat-post-card .btn-link.text-danger:hover,
 .reply .btn-link.text-danger:hover {
-    color: #b21f2d !important; /* Darker red on hover */
+  color: #b21f2d !important; /* Darker red on hover */
 }
 
+.btn.btn-link.btn-sm.p-0.me-2.text-secondary {
+  color: #28a745 !important;
+  border-color: #28a745 !important;
+  background-color: rgba(
+    40,
+    44,
+    52,
+    0.8
+  ) !important; /* Slightly different alpha or color if needed for distinction */
+}
+
+.btn.btn-link.btn-sm.p-0.me-2.text-secondary:hover {
+  color: #fff !important;
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+}
+
+.btn.btn-link.btn-sm.p-0.text-secondary {
+  color: #dc3545 !important;
+  border-color: #dc3545 !important;
+  background-color: rgba(
+    40,
+    44,
+    52,
+    0.8
+  ) !important; /* Slightly different alpha or color if needed for distinction */
+}
+
+.btn.btn-link.btn-sm.p-0.text-secondary:hover {
+  color: #fff !important;
+  background-color: #dc3545 !important;
+  border-color: #dc3545 !important;
+}
