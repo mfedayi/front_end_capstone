@@ -19,6 +19,13 @@
     "Lucida Sans", Arial, sans-serif;
 }
 
+.sticky-top {
+  position: sticky;
+  top: 145px;
+  
+  z-index: 100; /* Ensure it stays on top of other content */
+}
+
 .form-control {
   margin-top: 5px;
   margin-bottom: 5px;

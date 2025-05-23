@@ -26,8 +26,8 @@ const Home = () => {
 
   return (
   <div className="home-bg">
-    <div className="container mt-4" style={{ position: "relative" }}> {/* Background image styling */}
-      <div className="nba-heading">
+    <div className="container mt-4" style={{ position: "relative" }}> 
+      <div className="nba-heading sticky-top">
         NBA Teams
         <input
           type="text"
