@@ -1,4 +1,4 @@
-import "./apiSlices/userSlice"; 
+import "./apiSlices/userSlice";
 import { useEffect, useState } from "react";
 import Login from "./components/Login";
 import Home from "./components/Home";
@@ -12,17 +12,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import { useDispatch, useSelector } from "react-redux";
 import UserProfile from "./components/UserProfile";
-import PublicUserProfile from "./components/PublicUserProfile"; 
+import PublicUserProfile from "./components/PublicUserProfile";
 import { useGetMeQuery } from "./apiSlices/userSlice";
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
 import { useLocation } from "react-router-dom";
 import "./styles/ball-theme.css";
-
 
 function App() {
   const { isLoading } = useGetMeQuery();
   const location = useLocation();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { isLoggedIn, profile } = useSelector((state) => state.userAuth);
 
   if (!profile && isLoading) return null;
@@ -32,9 +31,6 @@ function App() {
     if (location.pathname.includes("/user")) return "profile-bg";
     return "home-bg";
   };
-
-
-
 
   return (
     <div className={getBackgroundClass()}>
@@ -50,7 +46,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/profile/:userId" element={<PublicUserProfile />} /> 
+        <Route path="/profile/:userId" element={<PublicUserProfile />} />
         <Route path="/teams/:teamName" element={<TeamDetailsPage />} />
         <Route path="/update-user/:userId" element={<UpdateUser />} />
         <Route

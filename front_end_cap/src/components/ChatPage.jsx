@@ -10,6 +10,7 @@ import {
   useSoftDeleteOwnReplyMutation, // For user to soft-delete their reply
   useAdminDeleteReplyMutation, // For admin to delete any reply
   useUpdatePostMutation, // For user to update their post
+  useVotePostMutation, // For voting on posts
 } from "../apiSlices/postsSlice"; // Make sure this path is correct
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
@@ -27,8 +28,10 @@ const ChatPage = () => {
     useCreatePostMutation();
   const [createReply, { isLoading: isCreatingReply, error: createReplyError }] =
     useCreateReplyMutation();
-  const [softDeleteOwnPost, { isLoading: isSoftDeletingPost, error: softDeletePostError }] = 
-    useSoftDeleteOwnPostMutation(); 
+  const [
+    softDeleteOwnPost,
+    { isLoading: isSoftDeletingPost, error: softDeletePostError },
+  ] = useSoftDeleteOwnPostMutation();
   const [
     adminDeletePost,
     { isLoading: isAdminDeletingPost, error: adminDeletePostError },
@@ -36,11 +39,15 @@ const ChatPage = () => {
   const [
     softDeleteOwnReply,
     { isLoading: isSoftDeletingOwnReply, error: softDeleteOwnReplyError },
-  ] = useSoftDeleteOwnReplyMutation(); 
-  const [adminDeleteReply, { isLoading: isAdminDeletingReply, error: adminDeleteReplyError }] = 
-    useAdminDeleteReplyMutation(); 
-  const [updatePost, { isLoading: isUpdatingPost, error: updatePostError }] = 
+  ] = useSoftDeleteOwnReplyMutation();
+  const [
+    adminDeleteReply,
+    { isLoading: isAdminDeletingReply, error: adminDeleteReplyError },
+  ] = useAdminDeleteReplyMutation();
+  const [updatePost, { isLoading: isUpdatingPost, error: updatePostError }] =
     useUpdatePostMutation();
+  const [votePost, { isLoading: isVotingPost, error: votePostError }] =
+    useVotePostMutation();
 
   const isLoggedIn = useSelector((state) => state.userAuth.isLoggedIn);
   const loggedInUser = useSelector((state) => state.userAuth.profile);
@@ -52,7 +59,7 @@ const ChatPage = () => {
   const [newPostContent, setNewPostContent] = useState("");
   const [replyContents, setReplyContents] = useState({});
   const [expandedReplies, setExpandedReplies] = useState({});
-  const [editingPostId, setEditingPostId] = useState(null); 
+  const [editingPostId, setEditingPostId] = useState(null);
   const [editingPostContent, setEditingPostContent] = useState("");
 
   const handlePostSubmit = async (e) => {
@@ -136,40 +143,6 @@ const ChatPage = () => {
     }
   };
 
-  const handleSoftDeleteOwnReplyClick = async (replyId) => {
-    if (!isLoggedIn) return;
-    if (window.confirm("Are you sure you want to delete this reply?")) {
-      try {
-        await softDeleteOwnReply(replyId).unwrap();
-      } catch (err) {
-        console.error("Failed to delete own reply:", err?.data?.error || err);
-        alert(
-          `Failed to delete reply: ${err.data?.error || "Please try again."}`
-        );
-      }
-    }
-  };
-
-  const handleAdminDeleteReplyClick = async (replyId) => {
-    if (!isAdmin) return;
-    if (
-      window.confirm(
-        "ADMIN: Are you sure you want to permanently delete this reply?"
-      )
-    ) {
-      try {
-        await adminDeleteReply(replyId).unwrap();
-      } catch (err) {
-        console.error("Failed to admin delete reply:", err?.data?.error || err);
-        alert(
-          `Failed to admin delete reply: ${
-            err.data?.error || "Please try again."
-          }`
-        );
-      }
-    }
-  };
-
   const toggleReplies = (postId) => {
     setExpandedReplies((prev) => ({ ...prev, [postId]: !prev[postId] }));
   };
@@ -179,7 +152,7 @@ const ChatPage = () => {
   };
 
   const handleEditPostClick = (post) => {
-    if (post.content === "[deleted by user]") return; 
+    if (post.content === "[deleted by user]") return;
     setEditingPostId(post.id);
     setEditingPostContent(post.content);
   };
@@ -200,12 +173,23 @@ const ChatPage = () => {
       setEditingPostContent("");
     } catch (err) {
       console.error("Failed to update post:", err);
-      alert(
-        `Failed to update post: ${err.data?.error || "Please try again."}`
-      );
+      alert(`Failed to update post: ${err.data?.error || "Please try again."}`);
     }
   };
 
+  const handleVotePost = async (postId, voteType) => {
+    if (!isLoggedIn) {
+      alert("Please login to vote.");
+      navigate("/login");
+      return;
+    }
+    try {
+      await votePost({ postId, voteType }).unwrap();
+    } catch (err) {
+      console.error("Failed to vote on post:", err);
+      alert(`Failed to vote: ${err.data?.error || "Please try again."}`);
+    }
+  };
 
   if (isLoading) return <p className="text-center mt-5">Loading posts...</p>;
   if (isError)
@@ -218,14 +202,11 @@ const ChatPage = () => {
 
   return (
     <div className="container mt-4">
-      <h1 className="text-center mb-4">Talk Sports</h1>
+      <h1 className="chat-page-title">Talk Sports</h1>
 
       {isLoggedIn ? (
-        <form
-          onSubmit={handlePostSubmit}
-          className="mb-5 p-3 border rounded bg-light"
-        >
-          <h4>Have something to say?</h4>
+        <form onSubmit={handlePostSubmit} className="chat-form-container">
+          <h4>Share Your Thoughts</h4>
           <div className="form-group">
             <textarea
               id="newPostContent"
@@ -239,7 +220,7 @@ const ChatPage = () => {
           </div>
           <button
             type="submit"
-            className="btn btn-primary mt-2"
+            className="btn chat-action-button mt-2" 
             disabled={isCreatingPost}
           >
             {isCreatingPost ? "Posting..." : "Post"}
@@ -262,14 +243,22 @@ const ChatPage = () => {
 
       <div className="posts-list">
         {posts.map((post) => (
-          <div key={post.id} className="card mb-3">
-            <div className="card-header bg-white d-flex justify-content-between align-items-center">
+          <div key={post.id} className="card chat-post-card">
+            <div className="card-header d-flex justify-content-between align-items-center">
               <div>
                 <strong>
                   {post.user?.id ? (
-                    <Link to={`/profile/${post.user.id}`} className="text-decoration-none text-dark username-link">{post.user.username}</Link>
-                  ) : (post.user?.username || "Anonymous")}
-                </strong> -{" "}
+                    <Link
+                      to={`/profile/${post.user.id}`}
+                      className="text-decoration-none text-dark username-link"
+                    >
+                      {post.user.username}{" "}
+                    </Link>
+                  ) : (
+                    post.user?.username || "Anonymous"
+                  )}
+                </strong>{" "}
+                -{" "}
                 <small className="text-muted">
                   {new Date(post.createdAt).toLocaleString()}
                 </small>
@@ -277,12 +266,12 @@ const ChatPage = () => {
               <div>
                 {isLoggedIn &&
                   loggedInUserId === post.userId &&
-                  post.content !== "[deleted by user]" && 
-                  editingPostId !== post.id && ( 
+                  post.content !== "[deleted by user]" &&
+                  editingPostId !== post.id && (
                     <button
                       className="btn btn-outline-secondary btn-sm py-0 px-1 me-2"
                       onClick={() => handleEditPostClick(post)}
-                      disabled={isUpdatingPost} 
+                      disabled={isUpdatingPost}
                     >
                       Edit Post
                     </button>
@@ -334,15 +323,50 @@ const ChatPage = () => {
                     Cancel
                   </button>
                   {updatePostError && editingPostId === post.id && (
-                     <p className="text-danger mt-1 small">
-                       Error: {updatePostError.data?.error || "Could not update post."}
-                     </p>
+                    <p className="text-danger mt-1 small">
+                      Error:{" "}
+                      {updatePostError.data?.error || "Could not update post."}
+                    </p>
                   )}
                 </div>
               ) : (
                 <p className="card-text" style={{ whiteSpace: "pre-wrap" }}>
                   {post.content}
                 </p>
+              )}
+
+              {isLoggedIn && post.content !== "[deleted by user]" && (
+                <div className="mt-2">
+                  <button
+                    className={`btn btn-sm me-2 ${
+                      post.userVote === "LIKE"
+                        ? "btn-success"
+                        : "btn-outline-success"
+                    }`}
+                    onClick={() => handleVotePost(post.id, "LIKE")}
+                    disabled={isVotingPost}
+                  >
+                    <i className="bi bi-hand-thumbs-up"></i> Like (
+                    {post.likeCount || 0})
+                  </button>
+                  <button
+                    className={`btn btn-sm ${
+                      post.userVote === "DISLIKE"
+                        ? "btn-danger"
+                        : "btn-outline-danger"
+                    }`}
+                    onClick={() => handleVotePost(post.id, "DISLIKE")}
+                    disabled={isVotingPost}
+                  >
+                    <i className="bi bi-hand-thumbs-down"></i> Dislike (
+                    {post.dislikeCount || 0})
+                  </button>
+                </div>
+              )}
+
+              {}
+              {((post.replies && post.replies.length > 0) || isLoggedIn) && (
+                <hr className="my-3" />
               )}
 
               {post.replies && post.replies.length > 0 && (
@@ -356,19 +380,18 @@ const ChatPage = () => {
               )}
               {expandedReplies[post.id] && post.replies && (
                 <div className="replies-section ml-4 pl-3 border-left">
-                  {post.replies.map((reply) => ( 
-                    <ReplyItem 
-                        key={reply.id} 
-                        reply={reply} 
-                        postId={post.id} 
-                        level={0}
-                        loggedInUserId={loggedInUserId}
-                        isAdmin={isAdmin}
-                        isLoggedIn={isLoggedIn}
-                        navigate={navigate}
+                  {post.replies.map((reply) => (
+                    <ReplyItem
+                      key={reply.id}
+                      reply={reply}
+                      postId={post.id}
+                      level={0}
+                      loggedInUserId={loggedInUserId}
+                      isAdmin={isAdmin}
+                      isLoggedIn={isLoggedIn}
+                      navigate={navigate}
                     />
-                        
-                        ))}
+                  ))}
                 </div>
               )}
 
@@ -380,7 +403,7 @@ const ChatPage = () => {
                   <div className="form-group">
                     <input
                       type="text"
-                      className="form-control form-control-sm"
+                      className="form-control form-control-sm chat-reply-input"
                       placeholder="Reply to this post..."
                       value={replyContents[post.id] || ""}
                       onChange={(e) =>
@@ -391,7 +414,7 @@ const ChatPage = () => {
                   </div>
                   <button
                     type="submit"
-                    className="btn btn-info btn-sm mt-1"
+                    className="btn chat-action-button btn-sm mt-1" // Changed to use chat-action-button
                     disabled={isCreatingReply}
                   >
                     {isCreatingReply ? "Replying..." : "Reply to post"}
@@ -413,7 +436,14 @@ const ChatPage = () => {
       </div>
       {updatePostError && !editingPostId && (
         <p className="text-danger mt-1 small">
-          Error updating post: {updatePostError.data?.error || "Please try again."}
+          Error updating post:{" "}
+          {updatePostError.data?.error || "Please try again."}
+        </p>
+      )}
+      {votePostError && !editingPostId && (
+        <p className="text-danger mt-1 small">
+          Error voting on post:{" "}
+          {votePostError.data?.error || "Please try again."}
         </p>
       )}
       {softDeletePostError && (

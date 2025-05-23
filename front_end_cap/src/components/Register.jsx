@@ -62,11 +62,12 @@ export default function Register() {
         password,
       }).unwrap();
 
-      setSuccessMessage(`Registration Successfull ${result.message}`); 
+      // Backend returns { token }, not a message. Auth state is handled by Redux.
+      // setSuccessMessage(`Registration Successful! Welcome ${username}.`);
       navigate("/"); 
     } catch (err) {
       console.error("Failed to register", err);
-      setErrors({ api: "Registration failed" });
+      setErrors({ api: err.data?.errors?.join(", ") || err.data?.error || "Registration failed. Please try again." });
     }
   }
 
@@ -168,7 +169,7 @@ export default function Register() {
             </button>
           </form>
         </div>
-        {error && Object.keys(error).length === 0 && submitting && (
+        {!error?.api && successMessage && submitting && (
           <span className="text-success">Successfully submitted ✓</span>
         )}
       </div>

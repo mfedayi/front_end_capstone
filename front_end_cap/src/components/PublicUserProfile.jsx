@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useGetPublicUserProfileQuery } from '../apiSlices/userSlice';
 import { useGetUserPublicFavoritesQuery } from '../apiSlices/favoritesSlice';
 import '../styles/profile-theme.css'; 
-
 const PublicUserProfile = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
