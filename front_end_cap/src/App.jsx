@@ -28,7 +28,10 @@ function App() {
 
   const getBackgroundClass = () => {
     if (location.pathname.includes("/chat")) return "chat-bg";
-    if (location.pathname.includes("/user")) return "profile-bg";
+    if (
+      location.pathname.includes("/user") || 
+      location.pathname.includes("/profile")
+    ) return "profile-bg";
     return "home-bg";
   };
 

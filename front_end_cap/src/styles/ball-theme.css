@@ -1,12 +1,19 @@
 /* General Styles */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@400;700&family=Nunito+Sans:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap');
 
+html, body {
+  height: auto; /* Ensure the body takes up the full height */
+  min-height: 100vh; /* Ensure the body takes up the full height */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  background: transparent; /* Fallback color */
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
   margin: 0;
   padding: 0;
-  background: #000; /* Fallback color */
-  color: white; /* Fallback color */
+  background: transparent; /* Fallback color */
 }
 
 .home-bg {
@@ -48,11 +55,13 @@ body {
 }
 
 .profile-bg {
-  background: url('../assets/Basketball.png') no-repeat center center fixed;
+  background: url('../assets/Locker-Room.jpg') no-repeat center center fixed;
   background-size: cover;
+  background-position: center; /* Center the background image */
+  background-attachment: fixed; /* Fix the background image */
   position: relative; /* Ensure the background covers the entire viewport by default */
-  background-repeat: no-repeat; /* Prevent background repeat */
   min-height: 100vh; /* Ensure the background covers the entire viewport by default */
+  height: auto; /* Allow the height to adjust based on content */
 }
 
 .profile-bg::before {
@@ -62,6 +71,15 @@ body {
   background: rgba(255, 255, 255, 0.3); /* Light overlay */
   backdrop-filter: blur(2px); /* Blur effect */
   z-index: -1; /* Ensure the overlay is behind the content */
+}
+
+.profile-bg::after {
+  content: ""; /* This pseudo-element creates a light overlay on top of the background image */
+  position: fixed; /* Position the overlay fixed to the viewport */
+  inset: 0; /* Cover the entire viewport */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%); /* Gradient overlay so it is not too dark */
+  z-index: -1; /* Ensure the overlay is behind the content */
+  pointer-events: none; /* Allow clicks to pass through the overlay */
 }
 
 
