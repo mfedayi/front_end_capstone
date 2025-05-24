@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const API_URL = `http://localhost:3000/api`;
+const API_URL = `https://backend-capstone-dt11.onrender.com/api`;
 
 // Base API configuration using RTK Query.
 const api = createApi({
