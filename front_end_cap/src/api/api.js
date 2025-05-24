@@ -1,8 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const API_URL = `https://backend-capstone-dt11.onrender.com/api`;
+const API_URL = `http://localhost:3000/api`;
 
-// Base API configuration using RTK Query.
 const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -15,7 +14,6 @@ const api = createApi({
       return headers;
     },
   }),
-  // Defines tag types for caching and invalidation.
   tagTypes: ["Users", "Favorites", "Posts", "Teams", "Me", "Replies", "News"],
   endpoints: () => ({}),
 });
