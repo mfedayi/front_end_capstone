@@ -2,15 +2,15 @@ import { configureStore } from "@reduxjs/toolkit";
 import api from "../api/api"
 import userAuthReducer from "../apiSlices/userSlice";
 
-
-const store = configureStore({ // create the store so we can use the api slice
-  reducer: { // add the api slice to the store
-    [api.reducerPath]: api.reducer, // Include the api slice for caching and invalidation
-    userAuth: userAuthReducer, // include the userAuth slice for user authentication so we can use the user data in the store
+// Configures the Redux store for the application.
+const store = configureStore({
+  reducer: {
+    [api.reducerPath]: api.reducer, // API slice for RTK Query
+    userAuth: userAuthReducer,      // Slice for user authentication state
     
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware), // add the api middleware to the store
+    getDefaultMiddleware().concat(api.middleware), // Adds RTK Query middleware
 });
 
 export default store;

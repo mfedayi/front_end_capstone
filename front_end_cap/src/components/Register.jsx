@@ -4,6 +4,7 @@ import { useRegisterMutation } from "../apiSlices/userSlice";
 
 import { useNavigate } from "react-router-dom";
 
+// Register component for new user registration.
 export default function Register() {
   const [registerUser] = useRegisterMutation();
   const [email, setEmail] = useState("");
@@ -18,6 +19,7 @@ export default function Register() {
 
   const navigate = useNavigate(); 
 
+  // Validates user registration input fields.
   const validateValues = (email, username, password, firstname, lastname) => {
     const errors = {};
     if (!email || email.length < 6) {
@@ -38,6 +40,7 @@ export default function Register() {
     return errors;
   };
 
+  // Handles form submission for user registration.
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -62,8 +65,6 @@ export default function Register() {
         password,
       }).unwrap();
 
-      // Backend returns { token }, not a message. Auth state is handled by Redux.
-      // setSuccessMessage(`Registration Successful! Welcome ${username}.`);
       navigate("/"); 
     } catch (err) {
       console.error("Failed to register", err);

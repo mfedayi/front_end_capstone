@@ -10,6 +10,7 @@ import {
 } from "../apiSlices/postsSlice";
 import { Link } from "react-router-dom";
 
+// ReplyItem component for displaying a single reply and its nested children.
 const ReplyItem = ({
   reply,
   postId,
@@ -42,6 +43,7 @@ const ReplyItem = ({
   const [voteReply, { isLoading: isVotingReply, error: voteReplyError }] =
     useVoteReplyMutation();
 
+  // Handles submission of a nested reply.
   const handleNestedReplySubmit = async (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
@@ -68,10 +70,12 @@ const ReplyItem = ({
     }
   };
 
+  // Toggles the visibility of child replies.
   const toggleChildReplies = () => {
     setAreChildrenExpanded(!areChildrenExpanded);
   };
 
+  // Handles soft deletion of the user's own reply.
   const handleSoftDeleteOwnReplyClick = async () => {
     if (
       window.confirm(
@@ -88,6 +92,7 @@ const ReplyItem = ({
     }
   };
 
+  // Handles permanent deletion of a reply by an admin.
   const handleAdminDeleteReplyClick = async () => {
     if (
       window.confirm(
@@ -106,17 +111,20 @@ const ReplyItem = ({
     }
   };
 
+  // Sets up the state for editing a reply.
   const handleEditReplyClick = (currentReply) => {
     if (currentReply.content === "[reply has been deleted by the user]") return;
     setEditingReplyId(currentReply.id);
     setEditingReplyContent(currentReply.content);
   };
 
+  // Cancels the reply editing mode.
   const handleCancelEditReply = () => {
     setEditingReplyId(null);
     setEditingReplyContent("");
   };
 
+  // Saves the updated content of a reply.
   const handleSaveReplyUpdate = async (currentReplyId) => {
     if (!editingReplyContent.trim()) {
       alert("Reply content cannot be empty.");
@@ -137,6 +145,7 @@ const ReplyItem = ({
     }
   };
 
+  // Handles voting (like/dislike) on a reply.
   const handleVoteReply = async (replyId, voteType) => {
     if (!isLoggedIn) {
       alert("Please login to vote.");

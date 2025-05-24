@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetLoginMutation } from "../apiSlices/userSlice";
 
+// Login component for user authentication.
 export default function Login() {
   const [loginUser] = useGetLoginMutation();
   const [username, setUsername] = useState("");
@@ -13,6 +14,7 @@ export default function Login() {
   const [successMessage, setSuccessMessage] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
+  // Validates username and password inputs.
   const validateValues = (username, password) => {
     const errors = {};
     if (!username || username.length < 6) {
@@ -24,6 +26,7 @@ export default function Login() {
     return errors;
   };
 
+  // Handles form submission for login.
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -39,8 +42,6 @@ export default function Login() {
         password,
       }).unwrap();
 
-      // Backend returns { token }, not a message. Auth state is handled by Redux.
-      // setSuccessMessage("Sign in Successful!"); 
       navigate("/"); 
     } catch (err) {
       console.error("Failed to login", err);

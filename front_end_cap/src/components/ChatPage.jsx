@@ -5,17 +5,18 @@ import {
   useGetPostsQuery,
   useCreatePostMutation,
   useCreateReplyMutation,
-  useSoftDeleteOwnPostMutation, // For user to delete their post
-  useAdminDeletePostMutation, // For admin to delete any post
-  useSoftDeleteOwnReplyMutation, // For user to soft-delete their reply
-  useAdminDeleteReplyMutation, // For admin to delete any reply
-  useUpdatePostMutation, // For user to update their post
-  useVotePostMutation, // For voting on posts
-} from "../apiSlices/postsSlice"; // Make sure this path is correct
+  useSoftDeleteOwnPostMutation,
+  useAdminDeletePostMutation,
+  useSoftDeleteOwnReplyMutation,
+  useAdminDeleteReplyMutation,
+  useUpdatePostMutation,
+  useVotePostMutation,
+} from "../apiSlices/postsSlice";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import ReplyItem from "./ReplyItem";
 
+// ChatPage component for displaying and interacting with forum posts and replies.
 const ChatPage = () => {
   const navigate = useNavigate();
   const {
@@ -62,6 +63,7 @@ const ChatPage = () => {
   const [editingPostId, setEditingPostId] = useState(null);
   const [editingPostContent, setEditingPostContent] = useState("");
 
+  // Handles submission of a new post.
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
@@ -84,6 +86,7 @@ const ChatPage = () => {
     }
   };
 
+  // Handles submission of a new reply to a post.
   const handleReplySubmit = async (e, postId) => {
     e.preventDefault();
     if (!isLoggedIn) {
@@ -105,6 +108,7 @@ const ChatPage = () => {
     }
   };
 
+  // Handles soft deletion of a user's own post.
   const handleSoftDeletePostClick = async (postId) => {
     if (!isLoggedIn) return;
     if (
@@ -123,6 +127,7 @@ const ChatPage = () => {
     }
   };
 
+  // Handles permanent deletion of a post by an admin.
   const handleAdminHardDeletePostClick = async (postId) => {
     if (!isAdmin) return;
     if (
@@ -143,25 +148,30 @@ const ChatPage = () => {
     }
   };
 
+  // Toggles the visibility of replies for a post.
   const toggleReplies = (postId) => {
     setExpandedReplies((prev) => ({ ...prev, [postId]: !prev[postId] }));
   };
 
+  // Updates the content of a reply being typed.
   const handleReplyChange = (postId, value) => {
     setReplyContents((prev) => ({ ...prev, [postId]: value }));
   };
 
+  // Sets up the state for editing a post.
   const handleEditPostClick = (post) => {
     if (post.content === "[deleted by user]") return;
     setEditingPostId(post.id);
     setEditingPostContent(post.content);
   };
 
+  // Cancels the post editing mode.
   const handleCancelEditPost = () => {
     setEditingPostId(null);
     setEditingPostContent("");
   };
 
+  // Saves the updated content of a post.
   const handleSavePostUpdate = async (postId) => {
     if (!editingPostContent.trim()) {
       alert("Post content cannot be empty.");
@@ -177,6 +187,7 @@ const ChatPage = () => {
     }
   };
 
+  // Handles voting (like/dislike) on a post.
   const handleVotePost = async (postId, voteType) => {
     if (!isLoggedIn) {
       alert("Please login to vote.");
