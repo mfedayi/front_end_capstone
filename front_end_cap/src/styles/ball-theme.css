@@ -1,16 +1,45 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Open+Sans&display=swap');
+/* General Styles */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@400;700&family=Nunito+Sans:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap');
 
 body {
   font-family: 'Open Sans', sans-serif;
   margin: 0;
   padding: 0;
+  background: #000; /* Fallback color */
+  color: white; /* Fallback color */
 }
 
-
 .home-bg {
-  background: url('../assets/bg-court.jpg') no-repeat center center fixed;
+  background: url('../assets/BG-Court.png') no-repeat center center fixed;
   background-size: cover;
+  background-position: center; /* Center the background image */
+  background-attachment: fixed; /* Fix the background image */
+  position: relative; /* Ensure the background covers the entire viewport by default */
+  min-height: 100vh; /* Ensure the background covers the entire viewport by default */
+}
+
+.home-bg::before { 
+  /* This pseudo-element creates a dark overlay on top of the background image */
+  /* It helps to make the text more readable */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  z-index: -1; /* Ensure the overlay is behind the content */
+  pointer-events: none; /* Allow clicks to pass through the overlay */
+  /* This ensures that the overlay does not interfere with any interactive elements */
+}
+
+/* Main container for the app */
+.container {
+  max-width: 1200px; 
+  margin: 0 auto; /* Center the container */
+  padding: 0.5rem 1rem 2rem; /* Add padding for spacing */
+  position: relative; /* Ensure the container is positioned correctly */
+  z-index: 1; /* Ensure the container is above the background */
 }
 
 .chat-bg {
@@ -19,9 +48,22 @@ body {
 }
 
 .profile-bg {
-  background: url('../assets/bg-locker.jpg') no-repeat center center fixed;
+  background: url('../assets/Basketball.png') no-repeat center center fixed;
   background-size: cover;
+  position: relative; /* Ensure the background covers the entire viewport by default */
+  background-repeat: no-repeat; /* Prevent background repeat */
+  min-height: 100vh; /* Ensure the background covers the entire viewport by default */
 }
+
+.profile-bg::before {
+  content: ""; /* This pseudo-element creates a light overlay on top of the background image */
+  position: fixed; /* Position the overlay fixed to the viewport */
+  inset: 0; /* Cover the entire viewport */
+  background: rgba(255, 255, 255, 0.3); /* Light overlay */
+  backdrop-filter: blur(2px); /* Blur effect */
+  z-index: -1; /* Ensure the overlay is behind the content */
+}
+
 
 /* Buttons */
 .btn-primary {
@@ -36,56 +78,54 @@ body {
   color: white;
 }
 
-/* NavBar */
-.navbar {
-  background: rgba(0, 0, 0, 0.85);
-  border-bottom: 3px solid orange;
-}
-
-.nav-link {
-  color: white !important;
-  font-weight: bold;
-}
-
-.nav-link:hover {
-  color: orange !important;
-}
+/* Sixth Man Header and NavBar */
 .app-header {
-  padding: 1rem 2rem;
-  background: rgba(0, 0, 0, 0.8);
+  background: #111; /* Solid black background to prevent transparency issues */
   border-bottom: 3px solid orange;
   text-align: center;
   position: sticky;
-  top: 0;
-  z-index: 1000;
+  top: 0rem; /* Position it at the top of the viewport */
+  z-index: 1100; /* Ensure the header is above other content */
+  height: 5rem; /* Set a fixed height for the header */
+  display: flex;
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
 }
 
 .app-title {
-  font-family: 'Anton', sans-serif;
-  font-size: 2.5rem;
+  margin: 2rem 0; /* Add margin for spacing */
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.6rem;
   color: white;
   letter-spacing: 2px;
   text-shadow: 1px 1px 5px rgba(255, 165, 0, 0.7);
 }
 
-.club-name {
-  color: orange;
-}
 .custom-navbar {
-  background-color: rgba(0, 0, 0, 0.95);
+  background-color: #111; /* Solid black background to prevent transparency issues */
   border-bottom: 3px solid orange;
-  padding: 1rem 2rem;
-  font-family: 'Anton', sans-serif;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  padding: 0.3rem 2rem 0.6rem; /* Add padding for spacing, 0.3rem top,2rem left/right, 0.6rem bottom */
+  margin-bottom: 0; /* Add space below the navbar */
+  font-family: 'Lato', 'Nunito Sans', sans-serif;
+  font-weight: 700; /* Make the font bold */
+  letter-spacing: 0.05em; /* Add letter spacing */
+  font-size: 1rem; /* Set a font size */
+  position: sticky; /* Make the navbar sticky so it stays at the top */
+  top: 5rem; /* Position it below the header */
+  z-index: 1000; /* Ensure the navbar is below the header */
+  display: flex;
+  justify-content: space-between; /* Space between logo and links */
+  align-items: center; /* Center items vertically */
 }
 
 .nav-link {
-  font-weight: bold;
+  font-weight: 700;
+  font-family: 'Lato', 'Nunito Sans', sans-serif; /* Use the same font as the navbar */
+  letter-spacing: 0.05em; /* Add letter spacing */
   text-transform: uppercase;
   color: white !important;
   transition: color 0.3s ease, text-shadow 0.3s ease;
+  margin-left: 1.5rem; /* Add space between links */
 }
 
 .nav-link:hover {
@@ -97,4 +137,84 @@ body {
   text-shadow: 0 0 10px orange;
 }
 
+/* Home Page components */
+.nba-heading {
+  margin-top: 0rem; /* Add margin for spacing */
+  font-family: 'Anton', sans-serif;
+  font-size: 2.4rem; /* Increase the font size */
+  font-weight: 700; /* Make the heading bold */
+  color: #f9a825;
+  text-align: center; /* Center the heading */
+  text-shadow: 0 0 10px rgba(249, 168, 37, 0.8); /* Add a glowing effect */
+  display: flex; /* Use flexbox for alignment */
+  justify-content: center; /* Center the heading */
+  gap: 1rem; /* Add space between the heading and the icon */
+  align-items: center; /* Center the icon vertically */
+}
 
+/* Search Bar */
+.search-input {
+  width: 280px; /* Set a fixed width for the input */
+  padding: 0.4rem 1rem; /* Add padding for spacing */
+  border-radius: 20px;
+  border: none;
+  font-size: 0.9rem; /* Set a font size */
+  font-family: 'Open Sans', sans-serif; /* Use the same font as the body */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  transition: box-shadow 0.3s ease; /* Smooth transition for the shadow */
+}
+
+/* Add focus styles so the input is highlighted when clicked */
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 12px #f9a825; /* Glowing effect */
+}
+
+/* Team Grid */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Responsive grid */
+  gap: 1.5rem; /* Space between items */
+  padding: 2rem 2rem; /* Add padding for spacing */
+  max-width: 75rem; /* Limit the width of the grid */
+  margin: 0 auto; /* Center the grid */
+}
+
+.team-card {
+  background: rgba(0, 0, 0, 0.299); /* Semi-transparent background */
+  border-radius: 15px; /* Rounded corners */
+  padding: 0.5rem; /* Padding inside the card */
+  box-shadow: 0 0 12px rgba(249, 168, 37, 0); /* Subtle shadow */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+  display: flex; /* Use flexbox for alignment */
+  flex-direction: column; /* Stack items vertically */
+  min-height: 9rem; /* Minimum height for the card */
+  gap: 0rem; /* Space between items */
+}
+
+.team-card:hover {
+  transform: scale(1.05); /* Slightly enlarge the card on hover */
+  box-shadow: 0 0 20px rgba(249, 168, 37, 1); /* Glowing effect */
+}
+
+.team-logo {
+  padding: 0.2rem; /* Padding around the logo */
+  filter: drop-shadow(0 0 5px rgba(100, 81, 50, 0.961)); /* Drop shadow effect */
+  margin: 0 auto; /* Center the logo */
+}
+
+.team-card h5 {
+  font-family: 'Open Sans', sans-serif; /* Use the Anton font for team names */
+  font-weight: 700; /* Make the text bold */
+  font-size: 0.9rem; /* Set a font size */
+  color: #f9a825; /* Set a color */
+  margin: 0; /* Remove default margin */
+  user-select: none; /* Prevent text selection */
+  line-height: 1.3; /* Set line height */
+  min-height: 3rem; /* Minimum height for the text */
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center the text vertically */
+  justify-content: center; /* Center the text horizontally */
+  text-align: center; /* Center the text */
+}

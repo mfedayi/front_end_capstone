@@ -17,8 +17,8 @@ const UserProfile = () => {
   if (!user) return <p>User Not Found</p>;
 
   return (
-    <div>
-      <h2 className="profile-summary-header">Profile Summary</h2>
+    <div className="profile-page-container">
+      <h2 className="profile-summary-header header-glass">Profile Summary</h2>
       <section className="user-info">
         {user.length === 0 ? (
           <p>No personal data yet.</p>
@@ -56,7 +56,7 @@ const UserProfile = () => {
 
       {isSelf && (
         <section>
-          <h2 className="favorites-header">Your Favorite Teams</h2>
+          <h2 className="favorites-header header-glass">Your Favorite Teams</h2>
           {favorites?.length === 0 ? (
             <p>No favorite teams yet.</p>
           ) : (
