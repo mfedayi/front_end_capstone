@@ -10,12 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@babel/runtime": "^7.27.1",
     "@reduxjs/toolkit": "^2.7.0",
     "axios": "^1.9.0",
     "bootstrap": "^5.3.5",
     "bootstrap-icons": "^1.13.1",
     "dotenv": "^16.5.0",
     "react": "^19.0.0",
+    "react-avatar": "^5.0.3",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.5.3"
