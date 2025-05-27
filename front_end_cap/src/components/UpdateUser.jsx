@@ -8,6 +8,7 @@ import {
 } from "../apiSlices/userSlice";
 import { useSelector } from "react-redux";
 
+// UpdateUser component for updating user profile information.
 const UpdateUser = () => {
   const { userId } = useParams();
   const {  profile } = useSelector((state) => state.userAuth);
@@ -33,6 +34,7 @@ const UpdateUser = () => {
   });
 
   useEffect(() => {
+    // Populates form data when user data is fetched.
     if (user) {
       setFormData({
         firstname: user.firstname || "",
@@ -43,10 +45,13 @@ const UpdateUser = () => {
     }
   }, [user]);
 
+  // Handles changes in form input fields.
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const isSelfUpdate = profile?.id === userId;
+  
+  // Handles form submission to update user data.
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -74,7 +79,7 @@ const UpdateUser = () => {
 
   return (
     <div className="page-wrapper update-user-bg">
-      <div className="update-form-card">
+      <div className="signInContainer" style={{ margin: '60px auto' }}>
         <h2>Update User: {user?.username || userId}</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -83,7 +88,7 @@ const UpdateUser = () => {
               type="text"
               className="form-control"
               name="firstname"
-              value={formData.firstname}
+              value={formData.firstname}signInContainer
               onChange={handleChange}
               required
             />

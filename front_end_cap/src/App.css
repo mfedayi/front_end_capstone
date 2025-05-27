@@ -19,6 +19,18 @@
     "Lucida Sans", Arial, sans-serif;
 }
 
+.sticky-top {
+  position: sticky;
+  top: 138px;
+  background-color: #000000; /* Semi-transparent white */
+  z-index: 100; /* Ensure it stays on top of other content */
+}
+
+/* New rule to make the sticky header transparent when navbar is expanded */
+.sticky-top.navbar-expanded-transparent-bg {
+  background-color: transparent !important;
+}
+
 .form-control {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -87,16 +99,55 @@ button {
   margin-top: 10px;
   cursor: pointer;
 }
+/* Styles for the Team Details Page */
+.team-details-page {
+  display: flex;
+  flex-direction: row; /* Default to side-by-side for wider screens */
+  align-items: flex-start; /* Align items to the top */
+  gap: 2rem; /* Space between team info and news sections */
+  padding: .5rem; /* Padding around the page content */
+  max-width: 1500px; /* Adjusted max-width for more space */
+  margin: 0 auto; /* Center the page content if max-width is set */
+}
+
+.team-details-main {
+  flex: 1; /* Team details and news sidebar will now be equal width */
+}
+.team-news-sidebar {
+  flex: 1.5; /* Adjusted: News sidebar now takes up more space (1.5 parts vs 1 part for details) */
+}
 
 .team-details-container {
   position: relative; /* Position relative for absolute children */
   padding: 1rem; /* Padding around the details container */
-  margin: 4rem; /* Add margin to the details container */
-  margin-top: 1rem; /* Remove top margin */
   background-color: rgba(17, 17, 15, 0.823);
   border-radius: 10px; /* Round the corners */
   border: 2px solid darkgrey; /* Add a border */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+  width: 100%; /* Ensure it takes full width of its flex parent */
+}
+
+/* Media query for thinner screens (e.g., less than 768px) */
+@media (max-width: 768px) {
+  .team-details-page {
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally when stacked */
+  }
+
+  .team-details-main,
+  .team-news-sidebar {
+    flex: none; /* Reset flex property */
+    max-width: 100%; /* Make them take full width when stacked */
+  }
+}
+.team-news-sidebar {
+  position: relative; /* Position relative for absolute children */
+  padding: 1rem; /* Padding around the details container */
+  background-color: rgba(17, 17, 15, 0.823);
+  border-radius: 10px; /* Round the corners */
+  border: 2px solid darkgrey; /* Add a border */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+  width: 100%; /* Ensure it takes full width of its flex parent */
 }
 
 .basketball-button {
@@ -140,6 +191,25 @@ button {
 .basketball-button i {
   font-size: 1.4rem; /* Font size for icon */
   transition: color 0.25s ease, text-shadow 0.25s ease; /* Animation on hover */
+}
+
+/* Responsive adjustments for the basketball button */
+@media (max-width: 768px) {
+  .basketball-button {
+    padding: 0.4rem 0.8rem; /* Reduced padding */
+    font-size: 0.8rem;    /* Reduced font size for button text */
+    top: 1rem;            /* Slightly adjust top position */
+    left: 1rem;           /* Slightly adjust left position */
+  }
+
+  .basketball-button i {
+    font-size: 1rem;      /* Reduced font size for the icon */
+  }
+}
+
+.team-header {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack items vertically */
 }
 
 .basketball-button.liked i {
@@ -237,12 +307,17 @@ button {
 
 /* Chat Page Specific Styles */
 .chat-page-title {
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif; /* Matching body/general heading font */
-  color: #003366; /* Matching the .nba-heading color */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Adjusted shadow for the new color */
-  margin-bottom: 1.5rem;
+  margin-top: 0rem;
+  font-family: "Anton", sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #f9a825;
   text-align: center;
+  text-shadow: 0 0 10px rgba(249, 168, 37, 0.8);
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
 }
 
 .chat-form-container {
@@ -286,7 +361,7 @@ button {
 }
 
 .chat-post-card .card-header {
-  background-color: #ffa500; /* Slightly darker header for contrast */
+  background-color: #a26d0a; /* Slightly darker header for contrast */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -368,7 +443,7 @@ button {
 }
 
 .chat-action-button:hover {
-  background-color: #f8f9fa !important; /* Light background on hover */
+  background-color: #f8f9fa; /* Light background on hover */
   box-shadow: 0 4px 8px rgba(198, 96, 23, 0.891) !important; /* Darker shadow on hover */
   color: #e97a13 !important; /* Change text color on hover */
   border-color: #e97a13 !important;
@@ -381,15 +456,17 @@ button {
   border: 0.5px solid rgba(236, 160, 106, 0.931) !important; /* Matching border */
   border-radius: 6px !important; /* Slightly smaller radius */
   padding: 0.25rem 0.6rem !important; /* Reduced padding for smaller size */
-  font-weight: normal !important; /* Normal font weight */
+  font-weight: bold !important; /* Normal font weight */
   box-shadow: 0 2px 4px rgba(184, 122, 63, 0.3) !important; /* Softer shadow */
   transition: background-color 0.25s ease, box-shadow 0.25s ease,
     color 0.25s ease, border-color 0.25s ease !important;
 }
 
 .chat-toggle-button:hover {
-  background-color: #5a5e63 !important; /* Slightly lighter dark on hover */
-  box-shadow: 0 3px 6px rgba(198, 96, 23, 0.6) !important;
+  background-color: #f8f9fa; /* Change background color on hover */
+  box-shadow: 0 4px 8px rgba(198, 96, 23, 0.891) !important; /* Darker shadow on hover */
+  color: #e97a13 !important; /* Change text color on hover */
+  border-color: #e97a13 !important;
 }
 
 .chat-post-card .btn-outline-success,
@@ -442,19 +519,20 @@ button {
 .reply .btn-outline-warning:hover {
   color: rgb(255, 255, 255) !important;
   background-color: #212529 !important;
-  border-color: rgb(176, 42, 55) !important;
+  border-color: rgb(255, 0, 25) !important;
 }
 
 .chat-post-card .btn-outline-secondary,
 .reply .btn-outline-secondary {
-  color: #adb5bd !important;
+  color: rgb(255, 255, 255) !important;
+  background-color: #212529 !important;
   border-color: #adb5bd !important;
 }
 .chat-post-card .btn-outline-secondary:hover,
 .reply .btn-outline-secondary:hover {
-  color: #fff !important;
-  background-color: #6c757d !important;
-  border-color: #6c757d !important;
+  color: rgb(255, 255, 255) !important;
+  background-color: #212529 !important;
+  border-color: rgb(255, 179, 66) !important;
 }
 
 .chat-post-card .btn-link,
@@ -522,4 +600,87 @@ button {
   color: #fff !important;
   background-color: #dc3545 !important;
   border-color: #dc3545 !important;
+}
+
+.btn.btn-danger.btn-sm.py-0.px-1 {
+  color: rgb(255, 255, 255) !important;
+  border-color: rgb(220, 53, 69) !important;
+  background-color: rgb(33, 37, 41) !important;
+}
+.btn.btn-danger.btn-sm.py-0.px-1:hover {
+  color: rgb(255, 255, 255) !important;
+  background-color: #212529 !important;
+  border-color: rgb(255, 0, 25) !important;
+}
+
+.search-input {
+  padding: 0.5rem 1rem; /* Add some padding to the input */
+  border-radius: 0.25rem; /* Slightly rounded corners */
+  border: 1px solid #ced4da; /* Standard border */
+}
+
+.search-bar-container { /* New style for the container of the search input */
+  display: flex; /* Enable flexbox */
+  justify-content: center; /* Center the input horizontally */
+  margin-bottom: 1.5rem; /* Add some space below the search bar */
+}
+
+/* Admin Account User Grid and Card Styles */
+.admin-user-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* Space between cards */
+}
+
+.admin-user-card {
+  background-color: rgba(87, 76, 64, 0.8);
+  color: #ec9c5b;
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Ensure a positioning context for children */
+  /* Removed justify-content: space-between; We'll rely on margin-top: auto on the button */
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  min-width: 270px; /* Adjust as needed, allows for ~3-4 cards on medium screens */
+  max-width: 350px; /* Allows cards to grow and fill space in a row */
+}
+
+.team-grid {
+  max-width: 1200px;
+}
+.admin-user-card-content {
+  margin-bottom: 1rem; /* Space between user details and the button */
+  flex-grow: 1; /* Allow content to take up available space, pushing button down */
+}
+
+.admin-user-card-content p {
+  margin: 0.4rem 0; /* Vertical spacing between info lines */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5; /* Adjust for readability */
+}
+
+.admin-user-card-content p strong {
+  /* You can add specific styling for the "Label:" part if needed */
+}
+
+.admin-user-card .update-button {
+  /* Reset global button margins that might interfere */
+  margin-top: 0; 
+  align-self: flex-start; /* Aligns button to the left; use 'center' or 'stretch' if preferred */
+  margin-bottom: 0.25rem; /* Small space at the very bottom of the card */
+  /* margin-top: 1rem; Adjust as needed for visual spacing */
+  position: static; /* Ensure it's in the normal flow, not absolutely positioned by mistake */
+  opacity: 0; /* Initially hide the button */
+  pointer-events: none; /* Not clickable unless visible */
+  transition: opacity 0.3s ease; /* Keep existing transition */
+}
+
+.admin-user-card:hover .update-button {
+  opacity: 1; /* Show on hover */
+  pointer-events: auto; /* Make clickable */
+  transition: opacity 0.3s ease;
 }

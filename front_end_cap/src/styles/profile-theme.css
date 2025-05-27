@@ -209,3 +209,30 @@
   font-size: 1rem;
   color: #333;
 }
+
+.update-button {
+  position: absolute; /* Position the button */
+  bottom: 1rem;
+  left: 1.5rem; /* Space from the left */
+  background-color: rgb(49, 47, 47) !important; /* Background color */
+  font-weight: bold; /* Font weight of 550 makes it semi-bold */
+  border: 0.5px solid;  
+  border-radius: 8px; /* Round the corners */
+  padding: 0.6rem 1.2rem; /* Padding inside the button */
+  display: flex; /* Use flexbox for layout */
+  align-items: baseline; /* Center items vertically */
+  justify-content: stretch; /* Center items horizontally */
+  gap: 0.5rem; /* Space between items */
+  box-shadow: 0 3px 6px rgba(184, 122, 63, 0.4); /* Add shadow */
+  cursor: pointer; /* Pointer cursor */
+  font-size: 1rem; /* Font size */
+  color: rgba(236, 160, 106, 0.931); /* Text color (basketball) */
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, color 0.25 ease, border-color 0.25s ease; /* Animation on hover */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.team-card:hover .update-button {
+  opacity: 1;
+  pointer-events: auto;
+}

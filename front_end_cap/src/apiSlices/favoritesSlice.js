@@ -1,11 +1,10 @@
 import api from "../api/api";
-// This slice is used to manage the favorites of the user
-// It allows the user to add, delete and get their favorite teams
 
-// add a favorite team by id
+// API slice for managing user favorite teams.
 const favoritesAPI = api.injectEndpoints({ 
   endpoints: (builder) => ({
     addFavorites: builder.mutation({ 
+      // Adds a team to the user's favorites.
       query: ({ teamId, teamName, teamLogo }) => ({
         url: `/favorites/${teamId}`,
         method: "POST",
@@ -17,27 +16,27 @@ const favoritesAPI = api.injectEndpoints({
       }),
       invalidatesTags: ["Favorites"], 
     }),
-    // delete a favorite team by id
     removeFavorites: builder.mutation({
+      // Removes a team from the user's favorites.
       query: ({ teamId }) => ({
         url: `/favorites/${teamId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Favorites"],
     }),
-    // get all favorite teams
     getFavorites: builder.query({
+      // Gets the current user's favorite teams.
       query: () => "/favorites",
       providesTags: ["Favorites"],
     }),
-    // get public favorites for a specific user
     getUserPublicFavorites: builder.query({
+      // Gets the public list of favorite teams for a specific user.
       query: (userId) => `/favorites/public/${userId}`,
       providesTags: (result, error, userId) => [{ type: "Favorites", id: `public-${userId}` }], // Unique tag for public favorites
     }),
   }),
 });
 
-export const {useAddFavoritesMutation, useRemoveFavoritesMutation, useGetFavoritesQuery, useGetUserPublicFavoritesQuery} = favoritesAPI; // export the hooks for the endpoints
+export const {useAddFavoritesMutation, useRemoveFavoritesMutation, useGetFavoritesQuery, useGetUserPublicFavoritesQuery} = favoritesAPI;
 
-export default favoritesAPI; // export the api slice
+export default favoritesAPI;

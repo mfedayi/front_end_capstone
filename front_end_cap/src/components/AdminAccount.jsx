@@ -1,15 +1,15 @@
 import {
   useGetAllUsersQuery,
   useDeleteUserMutation,
-  // useUpdateUserMutation, 
-  // useGetSingleUserQuery, 
 } from "../apiSlices/userSlice";
-import { useState} from "react";
-import {  useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/profile-theme.css";
 
+// AdminAccount component for managing user accounts.
 const AdminAccount = () => {
   const { data: users, error, isLoading } = useGetAllUsersQuery();
-  const [deleteUser] = useDeleteUserMutation(); 
+  const [deleteUser] = useDeleteUserMutation();
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
@@ -24,41 +24,46 @@ const AdminAccount = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="nba-heading">NBA Teams</h2>
+      <h2 className="nba-heading">Admin User Management</h2>
       <div className="search-bar-container">
         <input
           type="text"
           placeholder="Search for a user..."
           className="search-input"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <div className="team-grid">
-        {" "}
-        {/* Grid container */}
+      <div
+        className="admin-user-grid"
+      >
         {filteredUsers?.map((user) => (
-          <ul>
-            {
-              <li key={user.id}>
-                <p>Email: {user.email}</p>
-                <p>Username: {user.username}</p>
-                <p>
-                  {" "}
-                  Name: {user.firstname} {user.lastname}
-                </p>
-                <p>
-                  Member since: {new Date(user.createdAt).toLocaleDateString()}
-                </p>
-                <button
-                  className="btn btn-primary mt-2"
-                  onClick={() => navigate(`/update-user/${user.id}`)}
-                >
-                  Update User
-                </button>
-              </li>
-            }
-          </ul>
+          <div
+            className="admin-user-card" // Changed class name
+            key={user.id} // Key moved to the outer card element
+          >
+            <div className="admin-user-card-content"> {/* Wrapper for user details */}
+              <p title={user.email}> {/* User details */}
+                <strong>Email:</strong> {user.email}
+              </p>
+              <p title={user.username}>
+                <strong>Username:</strong> {user.username}
+              </p>
+              <p>
+                <strong>Name:</strong> {user.firstname} {user.lastname}
+              </p>
+              <p title={user.createdAt}>
+                <strong>Member since:</strong>{" "}
+                {new Date(user.createdAt).toLocaleDateString()}
+              </p>
+            </div>
+            <button
+              className="update-button"
+              onClick={() => navigate(`/update-user/${user.id}`)}
+            >
+              Update User
+            </button>
+          </div>
         ))}
       </div>
     </div>

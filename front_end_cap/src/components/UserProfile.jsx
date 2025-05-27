@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../styles/profile-theme.css";
 
+// UserProfile component for displaying the logged-in user's profile and favorite teams.
 const UserProfile = () => {
   const { userId } = useParams();
   const { profile } = useSelector((state) => state.userAuth);
