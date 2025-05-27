@@ -766,3 +766,56 @@ button {
   font-size: 0.8rem;
   color: #a0a0a0; /* Muted color for author/source */
 }
+
+/* In src/styles/profile-theme.css */
+.user-activity-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Separator line */
+}
+
+.user-activity-header {
+  font-size: 1.4rem;
+  color: #f0f0f0b7;
+  margin-bottom: 1rem;
+  text-align: left; /* Align header to the left */
+  padding-left: 1rem; /* Indent header slightly if inside a card */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.activity-subbox {
+  background-color: rgb(62, 60, 58, 0.9);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.user-activity-item {
+  background-color: rgba(189, 189, 189, 0.229);
+  border-radius: 6px;
+  border-bottom: none;
+  padding: 0.75rem 0.5rem;
+  color: #c0c0c0; /* Text color for activity content */
+  margin-bottom: 0.5rem; /* Add some space between items */
+}
+
+.user-activity-item:last-child {
+  margin-bottom: 0;
+}
+
+.activity-content {
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+  white-space: pre-wrap; /* Respect line breaks in content */
+  color: #f0f0f0b7; /* Match news-article-title color */
+}
+
+.activity-timestamp {
+  font-size: 0.8rem;
+  color: #a0a0a0; /* Match news-article-item small color */
+}
+
+.list-group-flush > .list-group-item {
+  border-width: 0 0 1px; /* Bootstrap override for flush items if needed */
+}

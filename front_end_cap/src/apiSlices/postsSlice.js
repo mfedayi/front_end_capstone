@@ -23,7 +23,7 @@ const postsAPI = api.injectEndpoints({
     }),
     createReply: builder.mutation({
       // Creates a new reply to a post.
-      query: ({ postId, content , parentId }) => ({
+      query: ({ postId, content, parentId }) => ({
         url: `/replies/posts/${postId}/replies`,
         method: "POST",
         body: { content, parentId },
@@ -69,7 +69,10 @@ const postsAPI = api.injectEndpoints({
         method: "PATCH",
         body: { content },
       }),
-      invalidatesTags: (result, error, { postId }) => [{ type: "Posts", id: postId }, "Posts"],
+      invalidatesTags: (result, error, { postId }) => [
+        { type: "Posts", id: postId },
+        "Posts",
+      ],
     }),
     updateReply: builder.mutation({
       // Allows a user to update their own reply.
@@ -78,25 +81,46 @@ const postsAPI = api.injectEndpoints({
         method: "PATCH",
         body: { content },
       }),
-      invalidatesTags: (result, error, { replyId }) => [{ type: "Replies", id: replyId }, "Posts", "Replies"], 
+      invalidatesTags: (result, error, { replyId }) => [
+        { type: "Replies", id: replyId },
+        "Posts",
+        "Replies",
+      ],
     }),
     votePost: builder.mutation({
       // Handles voting (like/dislike) on a post.
       query: ({ postId, voteType }) => ({
         url: `/posts/${postId}/vote`,
         method: "POST",
-        body: { voteType }, 
+        body: { voteType },
       }),
-      invalidatesTags: (result, error, { postId }) => [{ type: "Posts", id: postId }, "Posts"],
+      invalidatesTags: (result, error, { postId }) => [
+        { type: "Posts", id: postId },
+        "Posts",
+      ],
     }),
     voteReply: builder.mutation({
       // Handles voting (like/dislike) on a reply.
       query: ({ replyId, voteType }) => ({
         url: `/replies/${replyId}/vote`,
         method: "POST",
-        body: { voteType }, 
+        body: { voteType },
       }),
       invalidatesTags: ["Posts", "Replies"],
+    }),
+    getUserPosts: builder.query({
+      // Fetches all posts made by a specific user.
+      query: (userId) => `/posts/user/${userId}`,
+      providesTags: (result, error, userId) => [
+        { type: "Posts", id: `user-${userId}` },
+      ],
+    }),
+    getUserReplies: builder.query({
+      // Fetches all replies made by a specific user.
+      query: (userId) => `/replies/user/${userId}`,
+      providesTags: (result, error, userId) => [
+        { type: "Replies", id: `user-${userId}` },
+      ],
     }),
   }),
 });
@@ -113,4 +137,6 @@ export const {
   useUpdateReplyMutation,
   useVotePostMutation,
   useVoteReplyMutation,
+  useGetUserPostsQuery, // Added export
+  useGetUserRepliesQuery, // Added export
 } = postsAPI;

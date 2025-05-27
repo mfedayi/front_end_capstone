@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGetPublicUserProfileQuery } from '../apiSlices/userSlice';
 import { useGetUserPublicFavoritesQuery } from '../apiSlices/favoritesSlice';
+import { useGetUserPostsQuery, useGetUserRepliesQuery } from '../apiSlices/postsSlice'; // Import new hooks
 import '../styles/profile-theme.css'; 
 
 // PublicUserProfile component displays a non-editable view of a user's profile and their favorite teams.
@@ -12,9 +13,15 @@ const PublicUserProfile = () => {
   const { data: user, isLoading: userLoading, error: userError } = useGetPublicUserProfileQuery(userId);
   const { data: favorites, isLoading: favLoading, error: favError } = useGetUserPublicFavoritesQuery(userId, {
     skip: !user, 
-  }); // Skip fetching favorites if user data hasn't loaded yet.
+  });
+  const { data: userPosts, isLoading: postsLoading, error: postsError } = useGetUserPostsQuery(userId, {
+    skip: !user,
+  });
+  const { data: userReplies, isLoading: repliesLoading, error: repliesError } = useGetUserRepliesQuery(userId, {
+    skip: !user,
+  });
 
-  if (userLoading || favLoading) return <p className="text-center mt-5">Loading profile...</p>;
+  if (userLoading || favLoading || postsLoading || repliesLoading) return <p className="text-center mt-5">Loading profile...</p>;
   if (userError) return <p className="text-center mt-5 text-danger">Error loading user: {userError.data?.error || userError.status}</p>;
 
   if (!user) return <p className="text-center mt-5">User not found.</p>;
@@ -73,6 +80,54 @@ const PublicUserProfile = () => {
                     </div>
                   ))}
                 </div>
+              )}
+            </div>
+          </div>
+           {/* User's Posts Section */}
+          <div className="user-activity-section">
+            <h2 className="user-activity-header">Recent Posts</h2>
+            <div className="activity-subbox">
+              {postsError && <p className="text-center text-warning small">Could not load posts.</p>}
+              {!postsError && userPosts?.length === 0 && (
+                <p className="text-center">This user has no posts yet.</p>
+              )}
+              {!postsError && userPosts && userPosts.length > 0 && (
+                <ul className="list-group list-group-flush">
+                  {userPosts.slice(0, 5).map((post) => ( // Show latest 5 posts
+                    <li key={post.id} className="list-group-item user-activity-item">
+                      <p className="activity-content">{post.content.length > 100 ? `${post.content.substring(0, 97)}...` : post.content}</p>
+                      <small className="text-muted activity-timestamp">Posted on: {new Date(post.createdAt).toLocaleDateString()}</small>
+                      {/* Future: Link to post: onClick={() => navigate(`/chat#post-${post.id}`)} */}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+
+          {/* User's Replies Section */}
+          <div className="user-activity-section">
+            <h2 className="user-activity-header">Recent Replies</h2>
+            <div className="activity-subbox">
+              {repliesError && <p className="text-center text-warning small">Could not load replies.</p>}
+              {!repliesError && userReplies?.length === 0 && (
+                <p className="text-center">This user has no replies yet.</p>
+              )}
+              {!repliesError && userReplies && userReplies.length > 0 && (
+                <ul className="list-group list-group-flush">
+                  {userReplies.slice(0, 5).map((reply) => ( // Show latest 5 replies
+                    <li key={reply.id} className="list-group-item user-activity-item">
+                      <p className="activity-content">{reply.content.length > 100 ? `${reply.content.substring(0, 97)}...` : reply.content}</p>
+                      {reply.post && (
+                        <small className="text-muted d-block">
+                          Replied to post: "{reply.post.content.substring(0,30)}..."
+                          {/* Future: Link to post: onClick={() => navigate(`/chat#post-${reply.postId}`)} */}
+                        </small>
+                      )}
+                      <small className="text-muted activity-timestamp">Replied on: {new Date(reply.createdAt).toLocaleDateString()}</small>
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
           </div>
