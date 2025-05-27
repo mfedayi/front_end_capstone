@@ -20,43 +20,64 @@ const PublicUserProfile = () => {
   if (!user) return <p className="text-center mt-5">User not found.</p>;
 
   return (
-    <div className="container mt-4">
-      <h2 className="profile-summary-header">{user.username}'s Profile</h2>
-      <section className="user-info" style={{ maxWidth: '600px', margin: '1.5rem auto 2rem auto' }}> {/* Inline style for centering and max-width of this section */}
-        <div className="user-info-item">
-          <p className="label">Username</p>
-          <p className="value">{user.username}</p>
-        </div>
-        <div className="user-info-item">
-          <p className="label">Member Since</p>
-          <p className="value">{new Date(user.createdAt).toLocaleDateString()}</p>
-        </div>
-      </section>
+    <div className="profile-bg">
+      <div className="profile-page-container">
+        <div className="profile-card">
+          <h2 className="profile-summary-header">{user.username}'s Profile</h2>
 
-      <section>
-        <h3 className="favorites-header" style={{ fontSize: '1.5rem' }}>Favorite Teams</h3> {/* Inline style for custom font size */}
-        {favError && <p className="text-center text-warning small">Could not load favorite teams.</p>}
-        {!favError && favorites?.length === 0 && (
-          <p className="text-center">This user has no favorite teams yet.</p>
-        )}
-        {!favError && favorites && favorites.length > 0 && (
-          <div className="favorites-container">
-            {favorites.map((team) => (
-              <div
-                key={team.teamId}
-                className="favorite-team-card"
-                role="button"
-                tabIndex={0}
-                onClick={() => navigate(`/teams/${team.teamName}`)}
-                title={`View details for ${team.teamName}`}
-              >
-                <img src={team.teamLogo} alt={team.teamName} onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/100?text=No+Logo'; }} />
-                <p>{team.teamName}</p>
-              </div>
-            ))}
+          <div className="profile-avatar-card">
+            <div className="avatar-circle">
+              {/* Display first letter of firstname if available, otherwise 'U' or a generic icon */}
+              {user.firstname?.[0]?.toUpperCase() || (
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Basketball.png" // Fallback icon
+                  alt="User Avatar"
+                  className="avatar-icon" // Add class if you have specific styles for icon vs letter
+                />
+              )}
+            </div>
+            <p className="avatar-name">{user.username}</p>
           </div>
-        )}
-      </section>
+
+          <div className="user-info-grid">
+            <div className="user-info-item">
+              <p className="label">Username</p>
+              <p className="value">{user.username}</p>
+            </div>
+            <div className="user-info-item">
+              <p className="label">Member Since</p>
+              <p className="value">{new Date(user.createdAt).toLocaleDateString()}</p>
+            </div>
+          </div>
+
+          <div className="favorites-section">
+            <h2 className="favorites-summary-header">Favorite Teams</h2>
+            <div className="favorites-subbox">
+              {favError && <p className="text-center text-warning small">Could not load favorite teams.</p>}
+              {!favError && favorites?.length === 0 && (
+                <p className="text-center">This user has no favorite teams yet.</p>
+              )}
+              {!favError && favorites && favorites.length > 0 && (
+                <div className="favorites-container">
+                  {favorites.map((team) => (
+                    <div
+                      key={team.teamId}
+                      className="favorite-team-card"
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => navigate(`/teams/${team.teamName}`)}
+                      title={`View details for ${team.teamName}`}
+                    >
+                      <img src={team.teamLogo} alt={team.teamName} onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/100?text=No+Logo'; }} />
+                      <p>{team.teamName}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
