@@ -1,102 +1,142 @@
+/* General Styles */
+.profile-card {
+  background: rgb(62, 60, 58, 0.9); /* Light background for the profile card */
+  backdrop-filter: blur(4px); /* Blur effect for the background */
+  border-radius: 12px; /* Rounded corners */
+  padding: 1rem; /* Add padding for spacing */
+  margin: 1rem auto; /* Center the profile card */
+  max-width: 800px; /* Set a maximum width for the profile card */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add a subtle shadow */
+  border: 4px solid rgba(249, 168, 37, 0.35); /* Light border for the profile card */
+}
+
+.user-info-grid {
+  display: flex; /* Use flexbox for layout */
+  flex-wrap: wrap; /* Allow items to wrap so they fit in the container */
+  justify-content: space-around; /* Space items evenly */
+  gap: 1rem; /* Space between items */
+  margin-top: 1rem; /* Space above the grid */
+  text-align: center; /* Center the text */
+}
+
 /* Page Container */
 .profile-container {
-  padding: 2rem; /* Add padding for spacing */
   background-color: rgba(255, 255, 255, 0.9); /* Light background for the profile container */
   border-radius: 12px; /* Rounded corners */
   max-width: 900px; /* Set a maximum width for the profile container */
-  margin: 3rem auto; /* Center the profile container */
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.25); /* Add a subtle shadow */
 }
 
 /* Header Titles */
-.header-glass {
-  background: rgba(0, 0, 0, 0.6); /* Light background for the header */
-  padding: 0.5rem; /* Add padding for spacing */
-  border: 1px solid #f9a825; /* Light border for the header */
-  border-radius: 12px; /* Rounded corners */
-  display: flex; /* Inline block for the header */
-  justify-content: center; /* Center the header */
-  align-items: center; /* Center the header vertically */
-  margin: 1rem auto; /* Center the header and add space below */
-  max-width: 400px; /* Set a maximum width for the header */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-}
 
-.profile-summary-header,
-.favorites-header {
+.profile-summary-header, .favorites-summary-header {
   font-family: 'Anton', sans-serif; /* Use the same font as the heading */
   font-size: 1.6rem; /* Increase the font size */
-  font-weight: 600; /* Make the header bold */
-  color: #f9a825; /* Use the same color as the heading */
+  font-weight: bold; /* Make the header bold */
+  color: #d1d0d0; /* Light color for the header */
   text-align: center; /* Center the header */
-  margin-bottom: 0.6rem; /* Add space below the header */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  margin-bottom: 1rem; /* Add space below the header */
+}
+
+/* Profile Picture */
+.profile-avatar-card {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center the items */
+  margin-bottom: 0rem; /* Space below the avatar card */
+}
+
+.avatar-circle {
+  width: 6rem; /* Fixed width for the avatar */
+  height: 6rem; /* Fixed height for the avatar */
+  background: #f9a825; /* Light background for the avatar */
+  color: #111; /* Dark color for the avatar */
+  border-radius: 50%; /* Circular shape */
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center the avatar */
+  justify-content: center; /* Center the avatar */
+  font-weight: 600; /* Bold font for the avatar */
+  font-size: 1.5rem; /* Font size for the avatar */
+  overflow: hidden; /* Hide overflow */
+  border: 1px solid #333; /* Dark border for the avatar */
+  box-shadow: 0 0 10px rgba(249, 168, 37, 0.4); /* Add a subtle shadow */
+  margin: 0 auto; /* Center the avatar */
+}
+
+/* For public user profile */
+.avatar-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.avatar-name {
+  margin-top: 0.2rem; /* Space above the name */
+  font-size: 1rem; /* Font size for the name */
+  color: #d1d0d0; /* Light color for the name */
+  font-weight: 600; /* Bold font for the name */
+  text-align: center; /* Center the name */
 }
 
 /* User Info Section */
-.user-info {
-  background: rgba(0, 0, 0, 0.3); /* Light background for the user info section */
-  padding: 1rem; /* Add padding for spacing */
-  border: 2px solid #f9a825; /* Light border for the user info section */
-  border-radius: 12px; /* Rounded corners */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-  max-width: 80rem; /* Set a maximum width for the user info section */
-  margin: 0 auto 1.8rem; /* Center the user info section and add space below */
-}
-
-.user-info-row {
+.user-info-grid {
+  background: rgba(239, 234, 219, 0.919); /* Light background for the user info section */
+  border: 1px solid #f9a825; /* Light border for the user info section */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); /* Add a subtle shadow */
   display: flex; /* Use flexbox for layout */
-  flex-wrap: wrap; /* Allow items to wrap */
-  justify-content: space-between; /* Space between items */
-  gap: 1rem; /* Add space between items */
+  justify-content: space-around; /* Space items evenly */
+  align-items: center; /* Center the items */
   text-align: center; /* Center the text */
+  padding: 0.1rem 2rem; /* Add padding for spacing */
+  max-width: 80rem; /* Set a maximum width for the user info section */
+  margin: 0 auto; /* Center the user info section */
+  color: #eee; /* Light color for the text */
 }
 
 .user-info-item {
-  flex: 1 1 180px; /* Flex-grow, flex-shrink, and base width */
-  background: #fff5e6e3; /* Light background for items */
-  padding: 1rem; /* Add padding for spacing */
-  border-radius: 10px; /* Rounded corners */
-  border: 1px solid #ffcc99; /* Light border for items */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  flex: 1; /* Allow the items to grow */
+  padding: 0.5rem; /* Add padding for spacing so the text doesn't touch the edges */
 }
 
 .label {
-  font-weight: 600; /* Bold label */
-  color: #333; /* Dark color for the label */
-  text-transform: uppercase; /* Uppercase label */
-  margin-bottom: 0.5rem; /* Space below the label */
-  letter-spacing: 1px; /* Letter spacing for the label */
+  font-weight: bold; /* Bold font for the label */
+  font-size: 1rem; /* Font size for the label */
+  color: #f6a015; /* Darker color for the label */
+  text-transform: uppercase; /* Uppercase letters for the label */
+  letter-spacing: 0.05em; /* Add letter spacing */
 }
 
 .value {
-  font-size: 1rem; /* Font size for the value */
-  color: #444; /* Darker color for the value */
+  font-size: 0.9rem; /* Font size for the value */
+  font-weight: 500; /* Regular font weight for the value */
+  color: #444; /* Dark color for the value */
 }
 
 /* Update Button */
 .update-button-wrapper {
-  text-align: center; /* Center the button */
-  margin-top: 1.5rem; /* Space above the button */
+  text-align: top-left; /* Align the button to the left */
+  margin-top: 0rem; /* Space above the button */
 }
 
 .btn-update {
-  background-color: #faa113ae; /* Button background color */
-  color: white; /* Button text color */
-  padding: 0.6rem 2rem; /* Button padding */
-  border: 1px solid white; /* No border */
-  border-radius: 8px; /* Rounded corners */
-  font-size: 1rem; /* Font size for the button */
-  font-weight: 600; /* Bold button text */
+  background-color: #fab342; /* Button background color */
+  color: #222; /* Button text color */
+  padding: 0.6rem 1rem; /* Button padding */
+  margin: 0rem, 0rem; /* No margin */
+  border: 1px solid #111; /* Dark border for the button */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 0.75rem; /* Font size for the button */
+  font-weight: 700; /* Bold button text */
   cursor: pointer; /* Pointer cursor on hover */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  box-shadow: 0 0 10px rgba(249, 168, 37, 0.4); /* Add a subtle shadow */
+  transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effect */
 }
 
 .btn-update:hover {
   background-color: #e68a00; /* Darker shade on hover */
-  transform: translateY(-1px); /* Slight lift effect on hover */
-  box-shadow: 0 0 20px rgba(229, 143, 5, 0.355); /* Glowing effect */
+  box-shadow: 0 0 20px rgba(229, 143, 5, 1); /* Glowing effect on hover */
+  transform: translateY(-1px) scale(1.05); /* Slightly enlarge on hover */
 }
 
 /* Favorites Section */
@@ -109,19 +149,31 @@
   flex-wrap: wrap; /* Allow items to wrap */
   justify-content: center; /* Center the items */
   gap: 2rem; /* Space between items */
-  margin-top: 1rem; /* Space above the items */
+  margin-top: 0rem; /* Space above the items */
+}
+
+.favorites-subbox {
+  background: rgba(233, 230, 221, 0.919); /* Light background for the favorites subbox */
+  border: 1px solid #f9a825; /* Light border for the favorites subbox */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); /* Add a subtle shadow */
+  padding: 1rem; /* Add padding for spacing */
+  margin-bottom: 1.5rem; /* Space below the subbox */
 }
 
 .favorite-team-card {
-  background: #fff5e6bc; /* Light background for the team card */
-  padding: 0.5rem 0.5rem 0rem; /* Add padding for spacing */
-  border: 3px solid #f9a825; /* Light border for the team card */
+  margin-top: 1rem; /* Space above the team card */
+  justify-content: center; /* Center the team card */
+  background: rgba(249, 168, 37, 0.1); /* Light background for the team card */
+  padding: 0.5rem 0.5rem 0; /* Add padding for spacing */
+  border: 2px solid #f9a825; /* Light border for the team card */
   border-radius: 12px; /* Rounded corners */
   width: 140px; /* Fixed width for the team card */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
   text-align: center; /* Center the text */
   min-height: 140px; /* Minimum height for the team card */
+  color: #fff; /* Light color for the text */
 }
 
 .favorite-team-card:hover {
@@ -140,7 +192,7 @@
 .favorite-team-card p {
   font-weight: 600; /* Bold team name */
   font-size: 1rem; /* Font size for the team name */
-  color: black; /* Light color for the team name */
+  color: #444; /* Light color for the team name */
   line-height: 1.3; /* Line height for the team name */
   min-height: 3rem; /* Minimum height for the text */
 }
