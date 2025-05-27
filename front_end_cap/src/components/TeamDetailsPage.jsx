@@ -13,6 +13,7 @@ import "../styles/TeamDetailsPage.css";
 
 import { useGetTeamNewsQuery } from "../apiSlices/newsSlice";
 
+// TeamDetailsPage component for displaying detailed information about a specific NBA team.
 const TeamDetailsPage = () => {
   const { teamName } = useParams();
   const { profile } = useSelector((state) => state.userAuth);
@@ -34,8 +35,8 @@ const TeamDetailsPage = () => {
 
   console.log(`Team Name: ${teamName}`);
 
-  // Check if the team is already a favorite when page loads
   useEffect(() => {
+    // Checks if the current team is in the user's favorites and updates state.
     if (profile && team && favorites) {
       const isInFavorites = favorites.find(
         (fav) => fav.teamId === team?.teamId
@@ -43,8 +44,9 @@ const TeamDetailsPage = () => {
       setIsFavorite(isInFavorites);
     }
   }, [profile, team, favorites]); // Run this effect when profile, team, or favorites change
-
+  
   const handleFavoriteClick = async () => {
+    // Toggles the favorite status of the team for the logged-in user.
     if (isFavorite) {
       try {
         await removeFavoriteTeam({ teamId: team?.teamId });
@@ -65,9 +67,6 @@ const TeamDetailsPage = () => {
       }
     }
   };
-
-  // if (isLoading || articleLoading) return <p>Loading...</p>;
-  // if (error || articleError) return <p>Error loading team details</p>;
 
   return (
     <>

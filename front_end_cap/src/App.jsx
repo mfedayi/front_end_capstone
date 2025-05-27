@@ -18,14 +18,16 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { useLocation } from "react-router-dom";
 import "./styles/ball-theme.css";
 
+// Main App component, sets up routing and global layout.
 function App() {
   const { isLoading } = useGetMeQuery();
   const location = useLocation();
-  // const dispatch = useDispatch();
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
   const { isLoggedIn, profile } = useSelector((state) => state.userAuth);
 
   if (!profile && isLoading) return null;
 
+  // Determines the background class based on the current route.
   const getBackgroundClass = () => {
     if (location.pathname.includes("/chat")) return "chat-bg";
     if (location.pathname.includes("/user")) return "profile-bg";
@@ -40,10 +42,10 @@ function App() {
         </h1>
       </header>
 
-      <Navigations isLoggedIn={isLoggedIn} />
+      <Navigations isLoggedIn={isLoggedIn} isNavCollapsed={isNavCollapsed} setIsNavCollapsed={setIsNavCollapsed} />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home isNavbarExpanded={!isNavCollapsed} />} />
+        <Route path="/home" element={<Home isNavbarExpanded={!isNavCollapsed} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile/:userId" element={<PublicUserProfile />} />
