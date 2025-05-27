@@ -105,7 +105,7 @@ button {
   flex-direction: row; /* Default to side-by-side for wider screens */
   align-items: flex-start; /* Align items to the top */
   gap: 2rem; /* Space between team info and news sections */
-  padding: .5rem; /* Padding around the page content */
+  padding: 0.5rem; /* Padding around the page content */
   max-width: 1500px; /* Adjusted max-width for more space */
   margin: 0 auto; /* Center the page content if max-width is set */
 }
@@ -197,13 +197,13 @@ button {
 @media (max-width: 768px) {
   .basketball-button {
     padding: 0.4rem 0.8rem; /* Reduced padding */
-    font-size: 0.8rem;    /* Reduced font size for button text */
-    top: 1rem;            /* Slightly adjust top position */
-    left: 1rem;           /* Slightly adjust left position */
+    font-size: 0.8rem; /* Reduced font size for button text */
+    top: 1rem; /* Slightly adjust top position */
+    left: 1rem; /* Slightly adjust left position */
   }
 
   .basketball-button i {
-    font-size: 1rem;      /* Reduced font size for the icon */
+    font-size: 1rem; /* Reduced font size for the icon */
   }
 }
 
@@ -619,7 +619,8 @@ button {
   border: 1px solid #ced4da; /* Standard border */
 }
 
-.search-bar-container { /* New style for the container of the search input */
+.search-bar-container {
+  /* New style for the container of the search input */
   display: flex; /* Enable flexbox */
   justify-content: center; /* Center the input horizontally */
   margin-bottom: 1.5rem; /* Add some space below the search bar */
@@ -669,7 +670,7 @@ button {
 
 .admin-user-card .update-button {
   /* Reset global button margins that might interfere */
-  margin-top: 0; 
+  margin-top: 0;
   align-self: flex-start; /* Aligns button to the left; use 'center' or 'stretch' if preferred */
   margin-bottom: 0.25rem; /* Small space at the very bottom of the card */
   /* margin-top: 1rem; Adjust as needed for visual spacing */
@@ -683,4 +684,85 @@ button {
   opacity: 1; /* Show on hover */
   pointer-events: auto; /* Make clickable */
   transition: opacity 0.3s ease;
+}
+
+/* Styles for Personalized News Section in UserProfile.jsx */
+.personalized-news-section {
+  /* Add any specific container styles if needed */
+  margin-top: 2rem; /* Add some top margin */
+}
+
+.personalized-news-header {
+  /* Styles for the main header of the news section */
+  /* This might already be covered by .profile-summary-header if that's a global style */
+  margin-bottom: 1rem;
+  font-size: 1.5rem; /* Example size, adjust as needed */
+  color: #383131; /* Light color for dark theme */
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+}
+
+.team-news-feed {
+  /* Container for news of a single team */
+  padding: 1rem;
+  background-color: rgb(
+    62,
+    60,
+    58,
+    0.9
+  ); /* Subtle background for each team's news */
+  border-radius: 8px;
+  margin-bottom: 1.5rem; /* Space between news feeds of different teams */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a little shadow */
+}
+
+.team-news-feed-header {
+  /* Header for each team's news list (e.g., "Team Name - Latest News") */
+  font-size: 1.2rem;
+  color: #f0f0f0b7; /* Lighter text color for headers */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.news-article-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out;
+  background-color: rgba(
+    189,
+    189,
+    189,
+    0.229
+  ); /* Slightly different background for items */
+}
+
+.news-article-item:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Hover effect */
+}
+
+.news-article-image {
+  width: 60px; /* Fixed width */
+  height: 60px; /* Fixed height */
+  object-fit: cover; /* Ensure image covers the area, might crop */
+  border-radius: 4px;
+  flex-shrink: 0; /* Prevent image from shrinking */
+  margin-right: 0.75rem; /* Space between image and text */
+}
+
+.news-article-content {
+  flex-grow: 1; /* Allow text content to take remaining space */
+}
+
+.news-article-title {
+  font-size: 0.95rem;
+  color: #f0f0f0b7; /* Main text color for titles */
+  margin-bottom: 0.25rem;
+}
+
+.news-article-item small {
+  font-size: 0.8rem;
+  color: #a0a0a0; /* Muted color for author/source */
 }
