@@ -1,0 +1,10 @@
+# Netlify configuration file
+
+[build]
+  publish = "dist" # This should match your Vite build output directory
+  command = "npm run build" # Or your specific build command
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
