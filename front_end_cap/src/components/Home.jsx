@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 import { useGetAllTeamsQuery } from "../api/nbaAPI";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,6 +10,11 @@ const Home = (props) => {
   const { data: teams, isLoading, isError, error } = useGetAllTeamsQuery();
   const [searchTerm, setSearchTerm] = useState(""); 
   const { isNavbarExpanded } = props;
+
+  useEffect(() => {
+    // Scroll to the top of the page when the component mounts
+    window.scrollTo(0, 0);
+  }, [searchTerm]);
 
   if (isLoading) {
     return <h1>is loading...</h1>;
@@ -29,14 +34,25 @@ const Home = (props) => {
   <div className="home-bg">
     <div className="container mt-4" style={{ position: "relative" }}> 
       <div className={`nba-heading sticky-top ${isNavbarExpanded ? 'navbar-expanded-transparent-bg' : ''}`}>
-        NBA Teams
-        <input
-          type="text"
-          placeholder="Search by team name..."
-          className="search-input"
-          value={searchTerm}
-          onChange={ (e) => setSearchTerm(e.target.value)} 
-        />
+       <span className="nba-teams-title">NBA Teams</span>
+        <div className="search-input-container">
+          <input
+            type="text"
+            placeholder="Search by team name..."
+            className="search-input"
+            value={searchTerm}
+            onChange={ (e) => setSearchTerm(e.target.value)} 
+          />
+          {searchTerm && (
+            <button 
+              className="clear-search-button" 
+              onClick={() => setSearchTerm("")}
+              aria-label="Clear search"
+            >
+              &times; {/* This is the 'X' character */}
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="team-grid"> 

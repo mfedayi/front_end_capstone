@@ -41,6 +41,10 @@ const TeamNewsFeed = ({ teamName }) => {
                   src={article.urlToImage}
                   alt={article.title}
                   className="news-article-image me-2"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://via.placeholder.com/60?text=News";
+                  }}
                 />
               )}
               <div className="news-article-content">

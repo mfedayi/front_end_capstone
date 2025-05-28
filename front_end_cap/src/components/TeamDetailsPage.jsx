@@ -44,7 +44,7 @@ const TeamDetailsPage = () => {
       setIsFavorite(isInFavorites);
     }
   }, [profile, team, favorites]); // Run this effect when profile, team, or favorites change
-  
+
   const handleFavoriteClick = async () => {
     // Toggles the favorite status of the team for the logged-in user.
     if (isFavorite) {
@@ -194,7 +194,15 @@ const TeamDetailsPage = () => {
                   onClick={() => window.open(article.url, "_blank")}
                 >
                   {article.urlToImage && (
-                    <img src={article.urlToImage} alt={article.title} />
+                    <img
+                      src={article.urlToImage}
+                      alt={article.title}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src =
+                          "https://via.placeholder.com/50?text=News";
+                      }} 
+                    />
                   )}
                   <div>
                     <h6>

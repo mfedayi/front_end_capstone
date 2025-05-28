@@ -26,6 +26,13 @@
   z-index: 100; /* Ensure it stays on top of other content */
 }
 
+@media (max-width: 991.98px) {
+  .sticky-top {
+    /* Adjust this value based on the combined height of your app-header and the collapsed Navigations bar */
+    top: 145px; /* Example: A potentially smaller top value for "thin" screens */
+  }
+}
+
 /* New rule to make the sticky header transparent when navbar is expanded */
 .sticky-top.navbar-expanded-transparent-bg {
   background-color: transparent !important;
@@ -128,7 +135,7 @@ button {
 }
 
 /* Media query for thinner screens (e.g., less than 768px) */
-@media (max-width: 768px) {
+@media (max-width: 991.98px) {
   .team-details-page {
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center children horizontally when stacked */
@@ -194,7 +201,7 @@ button {
 }
 
 /* Responsive adjustments for the basketball button */
-@media (max-width: 768px) {
+@media (max-width: 0) {
   .basketball-button {
     padding: 0.4rem 0.8rem; /* Reduced padding */
     font-size: 0.8rem; /* Reduced font size for button text */
@@ -765,4 +772,129 @@ button {
 .news-article-item small {
   font-size: 0.8rem;
   color: #a0a0a0; /* Muted color for author/source */
+}
+
+/* In src/styles/profile-theme.css */
+.user-activity-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Separator line */
+}
+
+.user-activity-header {
+  font-size: 1.4rem;
+  color: #f0f0f0b7;
+  margin-bottom: 1rem;
+  text-align: left; /* Align header to the left */
+  padding-left: 1rem; /* Indent header slightly if inside a card */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.activity-subbox {
+  background-color: rgb(62, 60, 58, 0.9);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.user-activity-item {
+  background-color: rgba(189, 189, 189, 0.229);
+  border-radius: 6px;
+  border-bottom: none;
+  padding: 0.75rem 0.5rem;
+  color: #c0c0c0; /* Text color for activity content */
+  margin-bottom: 0.5rem; /* Add some space between items */
+}
+
+.user-activity-item:last-child {
+  margin-bottom: 0;
+}
+
+.activity-content {
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+  white-space: pre-wrap; /* Respect line breaks in content */
+  color: #f0f0f0b7; /* Match news-article-title color */
+}
+
+.activity-timestamp {
+  font-size: 0.8rem;
+  color: #a0a0a0; /* Match news-article-item small color */
+}
+
+.list-group-flush > .list-group-item {
+  border-width: 0 0 1px; /* Bootstrap override for flush items if needed */
+}
+
+.nba-heading {
+  display: flex; /* Use flexbox to align title and search bar */
+  justify-content: space-between; /* Space them out */
+  align-items: center; /* Vertically align items */
+  padding-bottom: 10px; /* Add some padding below */
+  /* ... your existing sticky-top styles ... */
+}
+
+.nba-teams-title {
+  /* Styles for the "NBA Teams" text if needed */
+  /* For example, if you want to adjust its size or margin */
+  margin-right: 15px; /* Add some space between title and search bar */
+}
+
+.search-input-container {
+  position: relative; /* For positioning the clear button absolutely */
+  display: inline-block; /* Or 'flex' if you prefer */
+}
+
+.search-input {
+  /* Your existing search-input styles */
+  padding-right: 30px; /* Add padding to make space for the 'X' button */
+}
+
+.clear-search-button {
+  position: absolute;
+  right: 5px; /* Adjust as needed for horizontal position */
+  top: 45%;
+  transform: translateY(-50%);
+  background: none !important; /* Remove default button background */
+  border: none !important; /* Remove default button border */
+  outline: none !important; /* Remove focus outline */
+  font-size: 1.5rem; /* Make the 'X' a bit larger */
+  color: #aaa; /* Light grey color for the 'X' */
+  cursor: pointer;
+  padding: 0 5px; /* Add some padding for easier clicking */
+  line-height: 1; /* Ensure 'X' is centered well */
+  box-shadow: none !important; /* Remove any box shadow */
+}
+
+.clear-search-button:hover {
+  color: #333; /* Darker color on hover */
+}
+
+
+/* Styles for Voted/Clicked Like/Dislike Buttons */
+/* For a button that IS the user's current 'LIKE' vote */
+.btn-user-voted-like {
+  background-color: rgb(47, 49, 47) !important; /* Consistent dark button background */
+  color: #5cb85c !important; /* "Lit" green text/icon */
+  border: 1px solid #4cae4c !important; /* Green border */
+  box-shadow: 0 0 7px rgba(92, 184, 92, 0.6) !important; /* Green glow */
+}
+.btn-user-voted-like:hover {
+  background-color: rgb(60, 58, 58) !important; /* Slightly lighter dark bg on hover */
+  color: #6cd86c !important; /* Brighter green on hover */
+  border-color: #5cb85c !important;
+}
+
+/* For a button that IS the user's current 'DISLIKE' vote */
+.btn-user-voted-dislike {
+  background-color: rgb(49, 47, 47) !important; /* Consistent dark button background */
+  color: #d9534f !important; /* "Lit" red text/icon */
+  border: 1px solid #d43f3a !important; /* Red border */
+  box-shadow: 0 0 7px rgba(217, 83, 79, 0.6) !important; /* Red glow */
+}
+.btn-user-voted-dislike:hover {
+  background-color: rgb(60, 58, 58) !important; /* Slightly lighter dark bg on hover */
+  color: #e9635f !important; /* Brighter red on hover */
+  border-color: #d9534f !important;
 }
