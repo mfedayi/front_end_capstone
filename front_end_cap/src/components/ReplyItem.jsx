@@ -238,25 +238,25 @@ const ReplyItem = ({
           {isLoggedIn && !isSoftDeleted && editingReplyId !== reply.id && (
             <div className="mt-1">
               <button
-                className={`btn btn-link btn-sm p-0 me-2 ${
-                  reply.userVote === "LIKE" ? "text-success" : "text-secondary"
+                className={`btn btn-sm me-2 ${
+                  reply.userVote === "LIKE"
+                    ? "btn-user-voted-like"
+                    : "btn-outline-success"
                 }`}
                 onClick={() => handleVoteReply(reply.id, "LIKE")}
                 disabled={isVotingReply}
-                style={{ textDecoration: "none" }}
               >
                 <i className="bi bi-hand-thumbs-up"></i> ({reply.likeCount || 0}
                 )
               </button>
               <button
-                className={`btn btn-link btn-sm p-0 ${
+                className={`btn btn-sm ${
                   reply.userVote === "DISLIKE"
-                    ? "text-danger"
-                    : "text-secondary"
+                    ? "btn-user-voted-dislike"
+                    : "btn-outline-danger"
                 }`}
                 onClick={() => handleVoteReply(reply.id, "DISLIKE")}
                 disabled={isVotingReply}
-                style={{ textDecoration: "none" }}
               >
                 <i className="bi bi-hand-thumbs-down"></i> (
                 {reply.dislikeCount || 0})
@@ -265,7 +265,7 @@ const ReplyItem = ({
           )}
           {isLoggedIn && !isSoftDeleted && (
             <button
-            className="btn chat-toggle-button btn-sm mt-1" 
+              className="btn chat-toggle-button btn-sm mt-1"
               onClick={() => setIsReplying(!isReplying)}
               style={{ textDecoration: "none" }}
             >
@@ -277,7 +277,7 @@ const ReplyItem = ({
             !isSoftDeleted &&
             editingReplyId !== reply.id && (
               <button
-            className="btn chat-toggle-button btn-sm mt-1" 
+                className="btn chat-toggle-button btn-sm mt-1"
                 onClick={() => handleEditReplyClick(reply)}
                 style={{ textDecoration: "none" }}
               >
@@ -286,7 +286,7 @@ const ReplyItem = ({
             )}
           {reply.childReplies && reply.childReplies.length > 0 && (
             <button
-            className="btn chat-toggle-button btn-sm mt-1" 
+              className="btn chat-toggle-button btn-sm mt-1"
               onClick={toggleChildReplies}
               style={{ textDecoration: "none" }}
             >

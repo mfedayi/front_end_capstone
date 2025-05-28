@@ -349,9 +349,9 @@ const ChatPage = () => {
               {isLoggedIn && post.content !== "[deleted by user]" && (
                 <div className="mt-2">
                   <button
-                    className={`btn btn-sm me-2 ${
+                    className={`btn btn-sm me-2 ${ // Apply new class if user voted LIKE, else standard outline
                       post.userVote === "LIKE"
-                        ? "btn-success"
+                        ? "btn-user-voted-like"
                         : "btn-outline-success"
                     }`}
                     onClick={() => handleVotePost(post.id, "LIKE")}
@@ -361,9 +361,9 @@ const ChatPage = () => {
                     {post.likeCount || 0})
                   </button>
                   <button
-                    className={`btn btn-sm ${
+                    className={`btn btn-sm ${ // Apply new class if user voted DISLIKE, else standard outline
                       post.userVote === "DISLIKE"
-                        ? "btn-danger"
+                        ? "btn-user-voted-dislike"
                         : "btn-outline-danger"
                     }`}
                     onClick={() => handleVotePost(post.id, "DISLIKE")}
