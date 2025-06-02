@@ -1,2 +1,3 @@
 # front_end_capstone
 front end capstone 
+In my most recent project, I built a full-stack web application using React for the frontend and Express with Prisma on the backend. The app includes features like user authentication, profile management, and dynamic UI rendering based on user roles (e.g., admin vs. regular users). I used Redux Toolkit with RTK Query for efficient state management and API communication. As part of the frontend, I implemented conditional routing, responsive components, and protected views to personalize the user experience. While the app doesn't include an AI model, it emphasizes clean architecture, secure access control, and interactive user flows.
